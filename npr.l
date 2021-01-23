@@ -60,10 +60,8 @@ int getToken( int tk ) {
 	return tk;
 }
 
-void casa( int esperado ) {
-	if(token == 0)
-		return; 
-	else if( token == esperado)
+void casa( int esperado ) { 
+	if( token == esperado)
 	{	if(token != ';')
 		{
 			token = yylex();
@@ -93,8 +91,8 @@ void A() {
 			casa( _PRINT );
 			E();
 			switch(token){
-				case 0: printf("%s # ", temp.c_str()); break;
-				default: printf("%s #", temp.c_str()); } }
+				case 0: printf("%s #", temp.c_str()); break;
+				default: printf("%s # ", temp.c_str()); } }
 		break;
 	}
 	casa(';');
