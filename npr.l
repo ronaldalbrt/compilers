@@ -82,16 +82,15 @@ void A() {
 			printf("%s ", temp.c_str());
 			casa('='); 
 			E();
-			printf("=\n"); }
+			printf("= "); }
 		break;
 		case _PRINT:{
 			string temp = lexema;
 			casa( _PRINT );
 			E();
-			printf("%s #", temp.c_str());}
+			printf("%s # ", temp.c_str());}
 		break;
 	}
-	casa(';');
 }
 
 void E() {
