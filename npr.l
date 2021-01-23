@@ -61,12 +61,18 @@ int getToken( int tk ) {
 }
 
 void casa( int esperado ) {
-	if( token == esperado)
+	if(token == 0)
+		return; 
+	else if( token == esperado)
 	{	if(token != ';')
 		{
 			token = yylex();
 		}
 	}
+	else {
+		printf( "Esperado %d, encontrado: %d\n", esperado, token );
+   		exit( 1 );
+ 	}
 }
 
 void A() {
@@ -79,16 +85,16 @@ void A() {
 			casa('='); 
 			E();
 			switch(token){
-			case 0: printf("="); break;
-			default: printf("= "); } }
+				case 0: printf("="); break;
+				default: printf("= "); } }
 		break;
 		case _PRINT:{
 			string temp = lexema;
 			casa( _PRINT );
 			E();
 			switch(token){
-			case 0: printf("%s # ", temp.c_str()); break;
-			default: printf("%s #", temp.c_str()); } }
+				case 0: printf("%s # ", temp.c_str()); break;
+				default: printf("%s #", temp.c_str()); } }
 		break;
 	}
 	casa(';');
