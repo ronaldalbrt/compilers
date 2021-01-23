@@ -1657,10 +1657,6 @@ void casa( int esperado ) {
 			token = yylex();
 		}
 	}
-	else {
-		printf( "Esperado %d, encontrado: %d\n", esperado, token );
-   		exit( 1 );
- 	}
 }
 
 void A() {
@@ -1672,15 +1668,20 @@ void A() {
 			printf("%s ", temp.c_str());
 			casa('='); 
 			E();
-			printf("= "); }
+			switch(token){
+			case 0: printf("="); break;
+			default: printf("= "); } }
 		break;
 		case _PRINT:{
 			string temp = lexema;
 			casa( _PRINT );
 			E();
-			printf("%s # ", temp.c_str());}
+			switch(token){
+			case 0: printf("%s # ", temp.c_str()); break;
+			default: printf("%s #", temp.c_str()); } }
 		break;
 	}
+	casa(';');
 }
 
 void E() {
