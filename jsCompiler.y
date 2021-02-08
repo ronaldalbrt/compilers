@@ -35,8 +35,8 @@ int coluna = 1;
 %%
 
 CMDs : A { Print( $1.v + "^"); } ';' CMDs 
-  | A { Print($1.v + "^"); } ';'
-  ;
+     | 
+     ;
 
 L_VALUE_PROP: ID '[' E ']' { $$.v = $1.v + "@ " + $3.v; }
 	    | ID '.' ID {$$.v = $1.v + "@ " + $3.v; }
@@ -108,6 +108,8 @@ int retorna( int tk ) {
 }
 
 void yyerror( const char* msg ) {
+  cout << endl << "Erro: " << msg << endl
+       << "Perto de : '" << yylval.v << "'" <<endl;
   exit( 0 );
 }
 
