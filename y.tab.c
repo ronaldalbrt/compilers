@@ -1116,7 +1116,7 @@ case 11:
     break;}
 case 12:
 #line 54 "jsCompiler.y"
-{yyval.v = yyvsp[-2].v + " " + yyvsp[0]. v + "[=] ^ "; ;
+{yyval.v = yyvsp[-2].v + yyvsp[0]. v + "[=] ^ "; ;
     break;}
 case 13:
 #line 55 "jsCompiler.y"
@@ -1413,8 +1413,8 @@ int retorna( int tk ) {
 }
 
 void yyerror( const char* msg ) {
-  cout << endl << "Erro: " << msg << endl
-       << "Perto de : '" << yylval.v << "'" <<endl;
+  char* p = NULL; 
+  cout << p << endl;
   exit( 0 );
 }
 

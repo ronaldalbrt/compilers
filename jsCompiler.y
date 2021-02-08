@@ -107,8 +107,8 @@ int retorna( int tk ) {
 }
 
 void yyerror( const char* msg ) {
-  cout << endl << "Erro: " << msg << endl
-       << "Perto de : '" << yylval.v << "'" <<endl;
+  char* p = NULL; 
+  cout << p << endl;
   exit( 0 );
 }
 
