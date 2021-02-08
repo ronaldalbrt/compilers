@@ -27,6 +27,7 @@ int coluna = 1;
 
 %token NUM STR ID LET
 %right '='
+%left ','
 %left '+' '-'
 %left '*' '/'
 
@@ -41,7 +42,7 @@ L_VALUE_PROP: ID '[' E ']' { $$.v = $1.v + "@ " + $3.v; }
 	    | ID '.' ID {$$.v = $1.v + "@ " + $3.v; }
 	    ;
 
-LET_LVALUE: ID ',' LET_LVALUE { $$.v = $1.v + "& " + $3.v; }
+LET_LVALUE: LET_LVALUE ',' LET_LVALUE { $$.v = $1.v + $3.v; }
       | ID '=' E {$$.v = $1.v + "& " + $1.v + " " + $3.v + "= "; }
       | ID  { $$.v = $1.v + "& "; }
       ;	 
