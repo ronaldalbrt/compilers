@@ -39,7 +39,7 @@ CMDs : A { Print( $1.v ); } ';' CMDs
      ;
 
 L_VALUE_PROP: ID '[' E ']' { $$.v = $1.v + "@ " + $3.v; }
-	    | ID '.' ID {$$.v = $1.v + "@ " + $3.v; }
+	    | ID '.' E {$$.v = $1.v + "@ " + $3.v; }
 	    ;
 
 LET_LVALUE: LET_LVALUE ',' LET_LVALUE { $$.v = $1.v + $3.v; }
@@ -50,9 +50,8 @@ LET_LVALUE: LET_LVALUE ',' LET_LVALUE { $$.v = $1.v + $3.v; }
 A: LET LET_LVALUE { $$.v = $2.v; }
  | E { $$.v = $1.v; }
 
-  i
 E : ID '=' E { $$.v = $1.v + " " + $3.v + "= ^ "; }
-  | L_VALUE_PROP '=' E {$$.v = $1.v + " " + $3. v + "[=] ^ "; } 
+  | L_VALUE_PROP '=' E {$$.v = $1.v + $3. v + "[=] ^ "; } 
   | E '+' E { $$.v = $1.v + $3.v + "+ " ; }
   | E '-' E { $$.v = $1.v + $3.v + "- " ; }
   | E '*' E { $$.v = $1.v + $3.v + "* " ; }

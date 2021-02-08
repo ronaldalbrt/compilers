@@ -497,7 +497,7 @@ static const short yyprhs[] = {     0,
 
 static const short yyrhs[] = {    -1,
     25,    22,    13,    21,     0,     0,     5,    14,    26,    15,
-     0,     5,    16,     5,     0,    24,     8,    24,     0,     5,
+     0,     5,    16,    26,     0,    24,     8,    24,     0,     5,
      7,    26,     0,     5,     0,     6,    24,     0,    26,     0,
      5,     7,    26,     0,    23,     7,    26,     0,    26,     9,
     26,     0,    26,    10,    26,     0,    26,    11,    26,     0,
@@ -512,8 +512,8 @@ static const short yyrhs[] = {    -1,
 #if (YY_parse_DEBUG != 0) || defined(YY_parse_ERROR_VERBOSE) 
 static const short yyrline[] = { 0,
     37,    37,    38,    41,    42,    45,    46,    47,    50,    51,
-    54,    55,    56,    57,    58,    59,    60,    63,    64,    65,
-    66,    67,    68,    69,    70,    73,    74,    77,    78
+    53,    54,    55,    56,    57,    58,    59,    62,    63,    64,
+    65,    66,    67,    68,    69,    72,    73,    76,    77
 };
 
 static const char * const yytname[] = {   "$","error","$illegal.","NUM","STR",
@@ -549,11 +549,11 @@ static const short yydefgoto[] = {    47,
 };
 
 static const short yypact[] = {     7,
--32768,-32768,    18,    -4,    -1,    25,    13,     9,-32768,    46,
--32768,    25,    25,    26,    25,    29,    30,-32768,    36,-32768,
-    25,    27,    25,    25,    25,    25,    46,    -7,-32768,    41,
-    23,-32768,    25,    -4,-32768,    46,     7,    11,    11,-32768,
--32768,-32768,    25,-32768,    46,-32768,-32768,-32768,    43,    59,
+-32768,-32768,    18,     9,     1,    25,    13,    24,-32768,    47,
+-32768,    25,    25,    25,    25,    29,    30,-32768,    36,-32768,
+    25,    27,    25,    25,    25,    25,    47,    40,    47,    -7,
+    23,-32768,    25,     9,-32768,    47,     7,    11,    11,-32768,
+-32768,-32768,    25,-32768,    47,-32768,-32768,-32768,    43,    53,
 -32768
 };
 
@@ -566,22 +566,22 @@ static const short yypgoto[] = {    60,
 
 
 static const short yytable[] = {    19,
-    16,    23,    24,    25,    26,    27,    28,    42,    30,     1,
-     2,     3,     4,    18,    36,    21,    38,    39,    40,    41,
+    43,    23,    24,    25,    26,    27,    28,    29,    30,     1,
+     2,     3,     4,    16,    36,    18,    38,    39,    40,    41,
      5,    25,    26,     6,    12,     7,    45,     1,     2,     3,
-    29,    13,    20,    14,    15,    33,    30,    34,     5,    37,
-    44,     6,    50,     7,    23,    24,    25,    26,    43,    23,
-    24,    25,    26,    35,    23,    24,    25,    26,    51,    49,
+    21,    13,    20,    14,    15,    33,    30,    34,     5,    37,
+    44,     6,    50,     7,    23,    24,    25,    26,    23,    24,
+    25,    26,    51,    35,    42,    23,    24,    25,    26,    49,
      0,    46,    48
 };
 
 static const short yycheck[] = {     6,
-     5,     9,    10,    11,    12,    12,    13,    15,    15,     3,
-     4,     5,     6,    15,    21,     7,    23,    24,    25,    26,
+     8,     9,    10,    11,    12,    12,    13,    14,    15,     3,
+     4,     5,     6,     5,    21,    15,    23,    24,    25,    26,
     14,    11,    12,    17,     7,    19,    33,     3,     4,     5,
-     5,    14,    20,    16,    17,     7,    43,     8,    14,    13,
-    18,    17,     0,    19,     9,    10,    11,    12,     8,     9,
-    10,    11,    12,    18,     9,    10,    11,    12,     0,     0,
+     7,    14,    20,    16,    17,     7,    43,     8,    14,    13,
+    18,    17,     0,    19,     9,    10,    11,    12,     9,    10,
+    11,    12,     0,    18,    15,     9,    10,    11,    12,     0,
     -1,    34,    43
 };
 
@@ -1080,7 +1080,7 @@ YYLABEL(yyreduce)
 
 case 1:
 #line 37 "jsCompiler.y"
-{ Print( yyvsp[0].v + "^"); ;
+{ Print( yyvsp[0].v ); ;
     break;}
 case 4:
 #line 41 "jsCompiler.y"
@@ -1096,7 +1096,7 @@ case 6:
     break;}
 case 7:
 #line 46 "jsCompiler.y"
-{yyval.v = yyvsp[-2].v + "& " + yyvsp[-2].v + " " + yyvsp[0].v + "= "; ;
+{yyval.v = yyvsp[-2].v + "& " + yyvsp[-2].v + " " + yyvsp[0].v + "= ^ "; ;
     break;}
 case 8:
 #line 47 "jsCompiler.y"
@@ -1111,71 +1111,71 @@ case 10:
 { yyval.v = yyvsp[0].v; ;
     break;}
 case 11:
-#line 54 "jsCompiler.y"
-{ yyval.v = yyvsp[-2].v + " " + yyvsp[0].v + "= "; ;
+#line 53 "jsCompiler.y"
+{ yyval.v = yyvsp[-2].v + " " + yyvsp[0].v + "= ^ "; ;
     break;}
 case 12:
-#line 55 "jsCompiler.y"
-{yyval.v = yyvsp[-2].v + " " + yyvsp[0]. v + "[=] "; ;
+#line 54 "jsCompiler.y"
+{yyval.v = yyvsp[-2].v + " " + yyvsp[0]. v + "[=] ^ "; ;
     break;}
 case 13:
-#line 56 "jsCompiler.y"
+#line 55 "jsCompiler.y"
 { yyval.v = yyvsp[-2].v + yyvsp[0].v + "+ " ; ;
     break;}
 case 14:
-#line 57 "jsCompiler.y"
+#line 56 "jsCompiler.y"
 { yyval.v = yyvsp[-2].v + yyvsp[0].v + "- " ; ;
     break;}
 case 15:
-#line 58 "jsCompiler.y"
+#line 57 "jsCompiler.y"
 { yyval.v = yyvsp[-2].v + yyvsp[0].v + "* " ; ;
     break;}
 case 16:
-#line 59 "jsCompiler.y"
+#line 58 "jsCompiler.y"
 { yyval.v = yyvsp[-2].v + yyvsp[0].v + "/ " ; ;
     break;}
 case 18:
-#line 63 "jsCompiler.y"
+#line 62 "jsCompiler.y"
 { yyval.v = yyvsp[0].v + "@ "; ;
     break;}
 case 19:
-#line 64 "jsCompiler.y"
+#line 63 "jsCompiler.y"
 { yyval.v = yyvsp[0].v + "[@] "; ;
     break;}
 case 20:
-#line 65 "jsCompiler.y"
+#line 64 "jsCompiler.y"
 { yyval.v = yyvsp[0].v + " "; ;
     break;}
 case 21:
-#line 66 "jsCompiler.y"
+#line 65 "jsCompiler.y"
 { yyval.v = yyvsp[0].v + " "; ;
     break;}
 case 22:
-#line 67 "jsCompiler.y"
+#line 66 "jsCompiler.y"
 {yyval.v = yyvsp[-1].v; ;
     break;}
 case 23:
-#line 68 "jsCompiler.y"
+#line 67 "jsCompiler.y"
 { yyval.v = yyvsp[-1].v + yyvsp[-3].v + "# "; ;
     break;}
 case 24:
-#line 69 "jsCompiler.y"
+#line 68 "jsCompiler.y"
 { yyval.v = "{} "; ;
     break;}
 case 25:
-#line 70 "jsCompiler.y"
+#line 69 "jsCompiler.y"
 { yyval.v = "[] "; ;
     break;}
 case 26:
-#line 73 "jsCompiler.y"
+#line 72 "jsCompiler.y"
 { yyval.v = yyvsp[0].v; ;
     break;}
 case 28:
-#line 77 "jsCompiler.y"
+#line 76 "jsCompiler.y"
 { yyval.v = yyvsp[-2].v + yyvsp[0].v; ;
     break;}
 case 29:
-#line 78 "jsCompiler.y"
+#line 77 "jsCompiler.y"
 { yyval.v = yyvsp[0].v; ;
     break;}
 }
@@ -1382,7 +1382,7 @@ YYLABEL(yyerrhandle)
 /* END */
 
  #line 1038 "/usr/share/bison++/bison.cc"
-#line 81 "jsCompiler.y"
+#line 80 "jsCompiler.y"
 
 
 #include "lex.yy.c"
