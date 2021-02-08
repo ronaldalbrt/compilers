@@ -1117,11 +1117,11 @@ case 11:
     break;}
 case 12:
 #line 54 "jsCompiler.y"
-{yyval.v = yyvsp[-2].v + " " + yyvsp[0].v + "= ";
+{ yyval.v = yyvsp[-2].v + " " + yyvsp[0].v + "= "; ;
     break;}
 case 13:
 #line 55 "jsCompiler.y"
-{yyval.v = yyvsp[-2].v + " " + yyvsp[0]. v + "[=] ";
+{yyval.v = yyvsp[-2].v + " " + yyvsp[0]. v + "[=] "; ;
     break;}
 case 14:
 #line 56 "jsCompiler.y"
@@ -1165,23 +1165,23 @@ case 24:
     break;}
 case 25:
 #line 69 "jsCompiler.y"
-{yyval.v = "{} ";
+{ yyval.v = "{} "; ;
     break;}
 case 26:
 #line 70 "jsCompiler.y"
-{yyval.v = "[] ";
+{ yyval.v = "[] "; ;
     break;}
 case 27:
 #line 73 "jsCompiler.y"
-{ yyval.v = yyvsp[0].v ;
+{ yyval.v = yyvsp[0].v; ;
     break;}
 case 29:
 #line 77 "jsCompiler.y"
-{yyval.v = yyvsp[-2].v + yyvsp[0].v;
+{ yyval.v = yyvsp[-2].v + yyvsp[0].v; ;
     break;}
 case 30:
 #line 78 "jsCompiler.y"
-{yyval.v = yyvsp[0].v;
+{ yyval.v = yyvsp[0].v; ;
     break;}
 }
 
@@ -1418,8 +1418,6 @@ int retorna( int tk ) {
 }
 
 void yyerror( const char* msg ) {
-  cout << endl << "Erro: " << msg << endl
-       << "Perto de : '" << yylval.v << "'" <<endl;
   exit( 0 );
 }
 

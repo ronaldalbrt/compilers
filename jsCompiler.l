@@ -1,6 +1,6 @@
 DIGITO  [0-9]
 LETRA   [A-Za-z_]
-DOUBLE  {DIGITO}+("."{DIGITO}+)?
+DOUBLE  \-?{DIGITO}+("."{DIGITO}+)?
 ID      {LETRA}({LETRA}|{DIGITO})*
 STR 	(\"([^\"\n]|(\\\")|\"\")+\")|(\'([^\"\n]|(\\\")|\"\")+\')
 

@@ -51,8 +51,8 @@ A: LET LET_LVALUE { $$.v = $2.v; }
  | E { $$.v = $1.v; }
 
   
-E : ID '=' E {$$.v = $1.v + " " + $3.v + "= "}
-  | L_VALUE_PROP '=' E {$$.v = $1.v + " " + $3. v + "[=] "} 
+E : ID '=' E { $$.v = $1.v + " " + $3.v + "= "; }
+  | L_VALUE_PROP '=' E {$$.v = $1.v + " " + $3. v + "[=] "; } 
   | E '+' E { $$.v = $1.v + $3.v + "+ " ; }
   | E '-' E { $$.v = $1.v + $3.v + "- " ; }
   | E '*' E { $$.v = $1.v + $3.v + "* " ; }
@@ -66,16 +66,16 @@ F : ID { $$.v = $1.v + "@ "; }
   | STR { $$.v = $1.v + " "; }
   | '(' E ')' {$$.v = $2.v; }
   | ID '(' PARAM ')' { $$.v = $3.v + $1.v + "# "; }
-  | '{' '}' {$$.v = "{} "}
-  | '[' ']' {$$.v = "[] "}
+  | '{' '}' { $$.v = "{} "; }
+  | '[' ']' { $$.v = "[] "; }
   ;
   
-PARAM : ARGs { $$.v = $1.v }
+PARAM : ARGs { $$.v = $1.v; }
       |
       ;
   
-ARGs : E ',' ARGs {$$.v = $1.v + $3.v}
-     | E {$$.v = $1.v}
+ARGs : E ',' ARGs { $$.v = $1.v + $3.v; }
+     | E { $$.v = $1.v; }
      ;
   
 %%
@@ -108,8 +108,6 @@ int retorna( int tk ) {
 }
 
 void yyerror( const char* msg ) {
-  cout << endl << "Erro: " << msg << endl
-       << "Perto de : '" << yylval.v << "'" <<endl;
   exit( 0 );
 }
 
