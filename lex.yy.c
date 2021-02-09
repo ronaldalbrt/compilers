@@ -285,13 +285,13 @@ static void yy_fatal_error YY_PROTO(( yyconst char msg[] ));
 	*yy_cp = '\0'; \
 	yy_c_buf_p = yy_cp;
 
-#define YY_NUM_RULES 9
-#define YY_END_OF_BUFFER 10
+#define YY_NUM_RULES 8
+#define YY_END_OF_BUFFER 9
 static yyconst short int yy_accept[31] =
     {   0,
-        0,    0,   10,    8,    1,    3,    2,    8,    8,    8,
-        4,    7,    7,    0,    0,    0,    0,    0,    0,    4,
-        0,    7,    7,    5,    5,    5,    0,    4,    6,    0
+        0,    0,    9,    7,    1,    1,    7,    7,    2,    6,
+        6,    6,    0,    0,    0,    0,    0,    0,    0,    2,
+        6,    4,    6,    3,    3,    3,    0,    2,    5,    0
     } ;
 
 static yyconst int yy_ec[256] =
@@ -299,17 +299,17 @@ static yyconst int yy_ec[256] =
         1,    1,    1,    1,    1,    1,    1,    1,    2,    3,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    4,    1,    5,    1,    1,    1,    1,    6,    1,
-        1,    1,    1,    1,    7,    8,    1,    9,    9,    9,
-        9,    9,    9,    9,    9,    9,    9,    1,    1,    1,
-        1,    1,    1,    1,   10,   10,   10,   10,   10,   10,
-       10,   10,   10,   10,   10,   10,   10,   10,   10,   10,
-       10,   10,   10,   10,   10,   10,   10,   10,   10,   10,
-        1,   11,    1,    1,   10,    1,   10,   10,   10,   10,
+        1,    2,    1,    4,    1,    1,    1,    1,    5,    1,
+        1,    1,    1,    1,    1,    6,    1,    7,    7,    7,
+        7,    7,    7,    7,    7,    7,    7,    1,    1,    1,
+        1,    1,    1,    1,    8,    8,    8,    8,    8,    8,
+        8,    8,    8,    8,    8,    8,    8,    8,    8,    8,
+        8,    8,    8,    8,    8,    8,    8,    8,    8,    8,
+        1,    9,    1,    1,    8,    1,    8,    8,    8,    8,
 
-       12,   10,   10,   10,   10,   10,   10,   13,   10,   10,
-       10,   10,   10,   10,   10,   14,   10,   10,   10,   10,
-       10,   10,    1,    1,    1,    1,    1,    1,    1,    1,
+       10,   11,    8,    8,   12,    8,    8,   13,    8,    8,
+        8,    8,    8,    8,    8,   14,    8,    8,    8,    8,
+        8,    8,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
@@ -328,33 +328,33 @@ static yyconst int yy_ec[256] =
 
 static yyconst int yy_meta[15] =
     {   0,
-        1,    1,    2,    1,    1,    1,    1,    1,    3,    3,
-        1,    3,    3,    3
+        1,    1,    2,    1,    1,    1,    3,    3,    1,    3,
+        3,    3,    3,    3
     } ;
 
 static yyconst short int yy_base[34] =
     {   0,
-        0,    0,   47,   48,   48,   48,   48,   10,   11,   37,
-        9,    0,   33,   14,   39,   15,   22,   38,   37,   15,
-       31,    0,   23,   29,   24,    0,   27,   22,    0,   48,
-       35,   38,   27
+        0,    0,   47,   48,   48,   48,   11,   12,   11,    0,
+       35,   35,   15,   40,   18,   24,   39,   38,   33,   19,
+        0,    0,   23,   30,   26,    0,   28,   24,    0,   48,
+       35,   38,   20
     } ;
 
 static yyconst short int yy_def[34] =
     {   0,
-       30,    1,   30,   30,   30,   30,   30,   31,   32,   30,
-       30,   33,   33,   31,   30,   31,   32,   30,   17,   30,
-       30,   33,   33,   30,   31,   17,   17,   30,   33,    0,
+       30,    1,   30,   30,   30,   30,   31,   32,   30,   33,
+       33,   33,   31,   30,   31,   32,   30,   16,   30,   30,
+       33,   33,   33,   30,   31,   16,   16,   30,   33,    0,
        30,   30,   30
     } ;
 
 static yyconst short int yy_nxt[63] =
     {   0,
-        4,    5,    6,    7,    8,    9,   10,    4,   11,   12,
-        4,   12,   13,   12,   15,   18,   21,   20,   24,   25,
-       16,   19,   21,   20,   16,   16,   18,   26,   25,   22,
-       28,   27,   19,   14,   16,   14,   29,   14,   17,   28,
-       17,   27,   17,   14,   23,   20,   30,    3,   30,   30,
+        4,    5,    6,    7,    8,    4,    9,   10,    4,   10,
+       10,   11,   12,   10,   14,   17,   19,   20,   24,   15,
+       18,   25,   21,   15,   19,   20,   15,   17,   26,   25,
+       28,   27,   18,   13,   15,   13,   29,   13,   16,   28,
+       16,   27,   16,   13,   23,   22,   30,    3,   30,   30,
        30,   30,   30,   30,   30,   30,   30,   30,   30,   30,
        30,   30
     } ;
@@ -362,10 +362,10 @@ static yyconst short int yy_nxt[63] =
 static yyconst short int yy_chk[63] =
     {   0,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    8,    9,   11,   11,   14,   16,
-        8,    9,   20,   20,   14,   16,   17,   17,   25,   33,
-       28,   27,   17,   24,   25,   31,   23,   31,   32,   21,
-       32,   19,   18,   15,   13,   10,    3,   30,   30,   30,
+        1,    1,    1,    1,    7,    8,    9,    9,   13,    7,
+        8,   15,   33,   13,   20,   20,   15,   16,   16,   25,
+       28,   27,   16,   24,   25,   31,   23,   31,   32,   19,
+       32,   18,   17,   14,   12,   11,    3,   30,   30,   30,
        30,   30,   30,   30,   30,   30,   30,   30,   30,   30,
        30,   30
     } ;
@@ -634,49 +634,50 @@ do_action:	/* This label is used only to access EOF actions. */
 case 1:
 YY_RULE_SETUP
 #line 9 "jsCompiler.l"
-{ coluna += 4; }
+{ }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 10 "jsCompiler.l"
-{ coluna++; }
+#line 12 "jsCompiler.l"
+{ yylval.c = novo + yytext; 
+             return NUM; }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 11 "jsCompiler.l"
-{ linha++; coluna = 1; }
+#line 15 "jsCompiler.l"
+{ yylval.c = novo + yytext;
+             return STR; }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 13 "jsCompiler.l"
-{ return retorna( NUM ); }
+#line 17 "jsCompiler.l"
+{ yylval.c = novo + "erro";
+	     return IF; }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 14 "jsCompiler.l"
-{ return retorna( STR ); }
+#line 20 "jsCompiler.l"
+{ yylval.c = novo + "erro"; 
+             return LET; }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 16 "jsCompiler.l"
-{ return retorna( LET ); }
+#line 23 "jsCompiler.l"
+{ yylval.c = novo + yytext; 
+             return ID; }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 18 "jsCompiler.l"
-{ return retorna( ID ); }
+#line 26 "jsCompiler.l"
+{ yylval.c = novo + yytext;
+	     return yytext[0]; }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 20 "jsCompiler.l"
-{ return retorna( *yytext ); }
-	YY_BREAK
-case 9:
-YY_RULE_SETUP
-#line 22 "jsCompiler.l"
+#line 29 "jsCompiler.l"
 ECHO;
 	YY_BREAK
-#line 680 "lex.yy.c"
+#line 681 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1566,5 +1567,5 @@ int main()
 	return 0;
 	}
 #endif
-#line 22 "jsCompiler.l"
+#line 29 "jsCompiler.l"
 

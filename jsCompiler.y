@@ -1,145 +1,146 @@
 %{
 #include <string>
+#include <stdio.h>
+#include <stdlib.h>
 #include <iostream>
+#include <vector>
 #include <map>
-#include <cstring>
-
 using namespace std;
 
 struct Atributos {
-  string v;
+ vector<string> c;
 };
 
 #define YYSTYPE Atributos
 
-void erro( string msg );
-void Print( string st );
-
 int yylex();
-void yyerror( const char* );
-int retorna( int tk );
+int yyparse();
+void yyerror(const char *);
 
-int linha = 1;
-int coluna = 1;
+vector<string> concatena( vector<string> a, vector<string> b );
+vector<string> operator+( vector<string> a, vector<string> b );
+vector<string> operator+( vector<string> a, string b );
+string gera_label( string prefixo );
+vector<string> resolve_enderecos( vector<string> entrada );
+void imprime( vector<string> s);
+
+vector<string> novo;
 
 %}
 
-%token NUM STR ID LET
-%right '='
-%left ','
+%token NUM ID LET STR IF
 
-%start CMDs
+// Start indica o símbolo inicial da gramática
+%start S
+
 %%
-CMDs : A {Print ( $1.v );} ';' CMDs
-     | { Print("."); }
+
+S : CMDs { imprime( resolve_enderecos($1.c) ); }
+  ;
+
+CMDs : CMD ';' CMDs   { $$.c = $1.c + $3.c; }
+     | { $$.c = novo; }
      ;
 
-L_VALUE_PROP: ID '[' TA ']' { $$.v = $1.v + "@ " + $3.v; }
-	    | ID '.' TA {$$.v = $1.v + "@ " + $3.v; }            
-	    ;
-
-LET_LVALUE: LET_LVALUE ',' LET_LVALUE { $$.v = $1.v + $3.v; }
-	  | ID '=' E {$$.v = $1.v + "& " + $1.v + " " + $3.v + "= ^ "; }
-          | ID  { $$.v = $1.v + "& "; }
-          ;	 
-
-A: LET LET_LVALUE { $$.v = $2.v; }
- | E { $$.v = $1.v + "^ "; }
-
-E: ID '=' T { $$.v = $1.v + " " + $3.v + "= "; }
- | L_VALUE_PROP '=' T {$$.v = $1.v + $3.v + "[=] "; } 
- | T
- ;
-
-T:  T '+' R { $$.v = $1.v + $3.v + "+ " ; }
-  | T '-' R { $$.v = $1.v + $3.v + "- " ; }
-  | R
-  ;
-
-R:  R '*' F { $$.v = $1.v + $3.v + "* " ; }
-  | R '/' F { $$.v = $1.v + $3.v + "/ " ; }
-  | F
-  ;
-
-F : ID { $$.v = $1.v + "@ "; }
-  | L_VALUE_PROP { $$.v = $1.v + "[@] "; }
-  | NUM { $$.v = $1.v + " "; }
-  | STR { $$.v = $1.v + " "; }
-  | '(' T ')' {$$.v = $2.v; }
-  | ID '(' PARAM ')' { $$.v = $3.v + $1.v + "# "; }
-  | '{' '}' { $$.v = "{} "; }
-  | '[' ']' { $$.v = "[] "; }
-  ;
-  
-PARAM: ARGs { $$.v = $1.v; }    
-     |
-     ;
-  
-ARGs: E ',' ARGs { $$.v = $1.v + $3.v; }
-    | E { $$.v = $1.v; }
+CMD : ATR { $$.c = $1.c + "^"; }
+    | LET DECLVARs { $$ = $2; }
+    | IF '(' R ')' CMD {
+	string endif = gera_label( "end_if" );	   
+    	$$.c = $3.c + '!' + endif + "?" + $5.c + (":" + endif);
+    } 
     ;
 
-TA: TA '+' RA { $$.v = $1.v + $3.v + "+ " ; }
-  | TA '-' RA { $$.v = $1.v + $3.v + "- " ; }
-  | RA
+DECLVARs : DECLVAR ',' DECLVARs { $$.c = $1.c + $3.c; }
+	 | DECLVAR
+         ;
+
+DECLVAR : ID '=' R { $$.c = $1.c + "&" + $1.c + $3.c + "=" + "^"; }
+        | ID { $$.c = $1.c + "&"; }
+        ;
+
+ATR : ID '=' ATR { $$.c = $1.c + $3.c + "="; }
+    | R
+    ;
+
+R : E '<' E { $$.c = $1.c + $3.c + "<"; }
+  | E '>' E { $$.c = $1.c + $3.c + ">"; }
+  | E
   ;
 
-RA: RA '*' FA { $$.v = $1.v + $3.v + "* " ; }
-  | RA '/' FA { $$.v = $1.v + $3.v + "/ " ; }
-  | FA
+E : E '+' T { $$.c = $1.c + $3.c + "+"; }
+  | E '-' T { $$.c = $1.c + $3.c + "-"; }
+  | T
   ;
 
-FA: ID { $$.v = $1.v + " "; }
-  | L_VALUE_PROP { $$.v = $1.v + " "; }
-  | NUM { $$.v = $1.v + " "; }
-  | STR { $$.v = $1.v + " "; }
-  | '(' T ')' {$$.v = $2.v; }
-  | ID '(' PARAM ')' { $$.v = $3.v + $1.v + "# "; }
-  | '{' '}' { $$.v = "{} "; }
-  | '[' ']' { $$.v = "[] "; }
+T : T '*' F { $$.c = $1.c + $3.c + "*"; }
+  | T '/' F { $$.c = $1.c + $3.c + "/"; }
+  | F
+
+F : ID          { $$.c = $1.c + "@"; }
+  | NUM         { $$.c = $1.c; }
+  | STR         { $$.c = $1.c; }
+  | '(' E ')'   { $$ = $2; }
+  | '{' '}'     { $$.c = novo + "{}"; }
+  | '[' ']'     { $$.c = novo + "[]"; }
   ;
-  
+
 %%
 
 #include "lex.yy.c"
 
-map<int,string> nome_tokens = {
-  { LET, "let" },
-  { STR, "string" },
-  { ID, "nome de identificador" },
-  { NUM, "número" }
-};
+void yyerror( const char* st ) {
+   puts( st ); 
+   printf( "Proximo a: %s\n", yytext );
+   exit( 1 );
+}
 
-string nome_token( int token ) {
-  if( nome_tokens.find( token ) != nome_tokens.end() )
-    return nome_tokens[token];
-  else {
-    string r;
-    
-    r = token;
-    return r;
+void imprime( vector<string> s)
+{
+  for( int i = 0; i < s.size(); i++ )
+  {
+  	cout << s[i] << endl;
   }
+
+  cout << '.' << endl;
 }
 
-int retorna( int tk ) {  
-  yylval.v = yytext; 
-  coluna += strlen( yytext ); 
-
-  return tk;
+vector<string> concatena( vector<string> a, vector<string> b ) {
+  a.insert( a.end(), b.begin(), b.end() );
+  return a;
 }
 
-void yyerror( const char* msg ) {
-  exit( 0 );
+vector<string> operator+( vector<string> a, vector<string> b ) {
+  return concatena( a, b );
 }
 
-void Print( string st ) {
-  cout << st << " ";
+vector<string> operator+( vector<string> a, string b ) {
+  a.push_back( b );
+  return a;
 }
 
-int main() {
+string gera_label( string prefixo ) {
+  static int n = 0;
+  return prefixo + "_" + to_string( ++n ) + ":";
+}
+
+vector<string> resolve_enderecos( vector<string> entrada ) {
+  map<string,int> label;
+  vector<string> saida;
+  for( int i = 0; i < entrada.size(); i++ ) 
+    if( entrada[i][0] == ':' ) 
+        label[entrada[i].substr(1)] = saida.size();
+    else
+      saida.push_back( entrada[i] );
+  
+  for( int i = 0; i < saida.size(); i++ ) 
+    if( label.count( saida[i] ) > 0 )
+        saida[i] = to_string(label[saida[i]]);
+    
+  return saida;
+}
+
+int main( int argc, char* argv[] ) {
   yyparse();
   
-  cout << endl;
-   
   return 0;
 }

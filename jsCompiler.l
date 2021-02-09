@@ -1,22 +1,29 @@
+DELIM   [\t\n ]
 DIGITO  [0-9]
 LETRA   [A-Za-z_]
-DOUBLE  \-?{DIGITO}+("."{DIGITO}+)?
+DOUBLE  {DIGITO}+("."{DIGITO}+)?
 ID      {LETRA}({LETRA}|{DIGITO})*
 STR 	(\"([^\"\n]|(\\\")|\"\")+\")|(\'([^\"\n]|(\\\")|\"\")+\')
-
 %%
 
-"\t"       { coluna += 4; }
-" "        { coluna++; }
-"\n"	   { linha++; coluna = 1; }
+{DELIM}    { }
 
-{DOUBLE}   { return retorna( NUM ); }
-{STR}	   { return retorna( STR ); }
+             
+{DOUBLE}   { yylval.c = novo + yytext; 
+             return NUM; }
 
-"let"      { return retorna( LET ); }
+{STR}	   { yylval.c = novo + yytext;
+             return STR; }
+"if"       { yylval.c = novo + "erro";
+	     return IF; }
 
-{ID}       { return retorna( ID ); }
+"let"	   { yylval.c = novo + "erro"; 
+             return LET; }
 
-.          { return retorna( *yytext ); }
+{ID}       { yylval.c = novo + yytext; 
+             return ID; }
 
-%% 
+.          { yylval.c = novo + yytext;
+	     return yytext[0]; }
+
+%%
