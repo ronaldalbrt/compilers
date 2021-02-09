@@ -50,8 +50,8 @@ LET_LVALUE: LET_LVALUE ',' LET_LVALUE { $$.v = $1.v + $3.v; }
 A: LET LET_LVALUE { $$.v = $2.v; }
  | E { $$.v = $1.v; }
 
-E : ID '=' E { $$.v = $1.v + " " + $3.v + "= ^ "; }
-  | L_VALUE_PROP '=' E {$$.v = $1.v + $3. v + "[=] ^ "; } 
+E : ID '=' E { $$.v = $1.v + " " + $3.v + "= "; }
+  | L_VALUE_PROP '=' E {$$.v = $1.v + $3. v + "[=] "; } 
   | E '+' E { $$.v = $1.v + $3.v + "+ " ; }
   | E '-' E { $$.v = $1.v + $3.v + "- " ; }
   | E '*' E { $$.v = $1.v + $3.v + "* " ; }
@@ -107,8 +107,6 @@ int retorna( int tk ) {
 }
 
 void yyerror( const char* msg ) {
-  char* p = NULL; 
-  cout << p << endl;
   exit( 0 );
 }
 
