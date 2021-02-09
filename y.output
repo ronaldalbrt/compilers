@@ -1,84 +1,75 @@
-Conflict in state 27 between rule 11 and token '+' resolved as shift.
-Conflict in state 27 between rule 11 and token '-' resolved as shift.
-Conflict in state 27 between rule 11 and token '*' resolved as shift.
-Conflict in state 27 between rule 11 and token '/' resolved as shift.
-Conflict in state 36 between rule 12 and token '+' resolved as shift.
-Conflict in state 36 between rule 12 and token '-' resolved as shift.
-Conflict in state 36 between rule 12 and token '*' resolved as shift.
-Conflict in state 36 between rule 12 and token '/' resolved as shift.
-Conflict in state 38 between rule 13 and token '+' resolved as reduce.
-Conflict in state 38 between rule 13 and token '-' resolved as reduce.
-Conflict in state 38 between rule 13 and token '*' resolved as shift.
-Conflict in state 38 between rule 13 and token '/' resolved as shift.
-Conflict in state 39 between rule 14 and token '+' resolved as reduce.
-Conflict in state 39 between rule 14 and token '-' resolved as reduce.
-Conflict in state 39 between rule 14 and token '*' resolved as shift.
-Conflict in state 39 between rule 14 and token '/' resolved as shift.
-Conflict in state 40 between rule 15 and token '+' resolved as reduce.
-Conflict in state 40 between rule 15 and token '-' resolved as reduce.
-Conflict in state 40 between rule 15 and token '*' resolved as reduce.
-Conflict in state 40 between rule 15 and token '/' resolved as reduce.
-Conflict in state 41 between rule 16 and token '+' resolved as reduce.
-Conflict in state 41 between rule 16 and token '-' resolved as reduce.
-Conflict in state 41 between rule 16 and token '*' resolved as reduce.
-Conflict in state 41 between rule 16 and token '/' resolved as reduce.
-Conflict in state 46 between rule 6 and token ',' resolved as reduce.
-State 3 contains 1 shift/reduce conflict.
-State 8 contains 1 shift/reduce conflict.
-State 29 contains 4 shift/reduce conflicts.
+Conflict in state 67 between rule 6 and token ',' resolved as reduce.
+State 40 contains 2 shift/reduce conflicts.
+State 41 contains 2 shift/reduce conflicts.
 
 Grammar
 rule 1    @1 ->		/* empty */
 rule 2    CMDs -> A @1 ';' CMDs
 rule 3    CMDs ->		/* empty */
-rule 4    L_VALUE_PROP -> ID '[' E ']'
-rule 5    L_VALUE_PROP -> ID '.' E
+rule 4    L_VALUE_PROP -> ID '[' TA ']'
+rule 5    L_VALUE_PROP -> ID '.' TA
 rule 6    LET_LVALUE -> LET_LVALUE ',' LET_LVALUE
 rule 7    LET_LVALUE -> ID '=' E
 rule 8    LET_LVALUE -> ID
 rule 9    A -> LET LET_LVALUE
 rule 10   A -> E
-rule 11   E -> ID '=' E
-rule 12   E -> L_VALUE_PROP '=' E
-rule 13   E -> E '+' E
-rule 14   E -> E '-' E
-rule 15   E -> E '*' E
-rule 16   E -> E '/' E
-rule 17   E -> F
-rule 18   F -> ID
-rule 19   F -> L_VALUE_PROP
-rule 20   F -> NUM
-rule 21   F -> STR
-rule 22   F -> '(' E ')'
-rule 23   F -> ID '(' PARAM ')'
-rule 24   F -> '{' '}'
-rule 25   F -> '[' ']'
-rule 26   PARAM -> ARGs
-rule 27   PARAM ->		/* empty */
-rule 28   ARGs -> E ',' ARGs
-rule 29   ARGs -> E
+rule 11   E -> ID '=' T
+rule 12   E -> L_VALUE_PROP '=' T
+rule 13   E -> T
+rule 14   T -> R '+' R
+rule 15   T -> R '-' R
+rule 16   T -> R
+rule 17   R -> F '*' F
+rule 18   R -> F '/' F
+rule 19   R -> F
+rule 20   F -> ID
+rule 21   F -> L_VALUE_PROP
+rule 22   F -> NUM
+rule 23   F -> STR
+rule 24   F -> '(' T ')'
+rule 25   F -> ID '(' PARAM ')'
+rule 26   F -> '{' '}'
+rule 27   F -> '[' ']'
+rule 28   PARAM -> ARGs
+rule 29   PARAM ->		/* empty */
+rule 30   ARGs -> E ',' ARGs
+rule 31   ARGs -> E
+rule 32   TA -> RA '+' RA
+rule 33   TA -> RA '-' RA
+rule 34   TA -> RA
+rule 35   RA -> FA '*' FA
+rule 36   RA -> FA '/' FA
+rule 37   RA -> FA
+rule 38   FA -> ID
+rule 39   FA -> L_VALUE_PROP
+rule 40   FA -> NUM
+rule 41   FA -> STR
+rule 42   FA -> '(' T ')'
+rule 43   FA -> ID '(' PARAM ')'
+rule 44   FA -> '{' '}'
+rule 45   FA -> '[' ']'
 
 Terminals, with rules where they appear
 
 $ (-1)
-'(' (40) 22 23
-')' (41) 22 23
-'*' (42) 15
-'+' (43) 13
-',' (44) 6 28
-'-' (45) 14
+'(' (40) 24 25 42 43
+')' (41) 24 25 42 43
+'*' (42) 17 35
+'+' (43) 14 32
+',' (44) 6 30
+'-' (45) 15 33
 '.' (46) 5
-'/' (47) 16
+'/' (47) 18 36
 ';' (59) 2
 '=' (61) 7 11 12
-'[' (91) 4 25
-']' (93) 4 25
-'{' (123) 24
-'}' (125) 24
+'[' (91) 4 27 45
+']' (93) 4 27 45
+'{' (123) 26 44
+'}' (125) 26 44
 error (256)
-NUM (258) 20
-STR (259) 21
-ID (260) 4 5 7 8 11 18 23
+NUM (258) 22 40
+STR (259) 23 41
+ID (260) 4 5 7 8 11 20 25 38 43
 LET (261) 9
 
 Nonterminals, with rules where they appear
@@ -88,20 +79,29 @@ CMDs (21)
 @1 (22)
     on left: 1, on right: 2
 L_VALUE_PROP (23)
-    on left: 4 5, on right: 12 19
+    on left: 4 5, on right: 12 21 39
 LET_LVALUE (24)
     on left: 6 7 8, on right: 6 9
 A (25)
     on left: 9 10, on right: 2
 E (26)
-    on left: 11 12 13 14 15 16 17, on right: 4 5 7 10 11 12 13 14 15
-    16 22 28 29
-F (27)
-    on left: 18 19 20 21 22 23 24 25, on right: 17
-PARAM (28)
-    on left: 26 27, on right: 23
-ARGs (29)
-    on left: 28 29, on right: 26 28
+    on left: 11 12 13, on right: 7 10 30 31
+T (27)
+    on left: 14 15 16, on right: 11 12 13 24 42
+R (28)
+    on left: 17 18 19, on right: 14 15 16
+F (29)
+    on left: 20 21 22 23 24 25 26 27, on right: 17 18 19
+PARAM (30)
+    on left: 28 29, on right: 25 43
+ARGs (31)
+    on left: 30 31, on right: 28 30
+TA (32)
+    on left: 32 33 34, on right: 4 5
+RA (33)
+    on left: 35 36 37, on right: 32 33 34
+FA (34)
+    on left: 38 39 40 41 42 43 44 45, on right: 35 36 37
 
 
 state 0
@@ -116,45 +116,46 @@ state 0
 
     $default	reduce using rule 3 (CMDs)
 
-    CMDs	go to state 49
+    CMDs	go to state 77
     L_VALUE_PROP	go to state 8
     A   	go to state 9
     E   	go to state 10
-    F   	go to state 11
+    T   	go to state 11
+    R   	go to state 12
+    F   	go to state 13
 
 
 
 state 1
 
-    F  ->  NUM .   (rule 20)
+    F  ->  NUM .   (rule 22)
 
-    $default	reduce using rule 20 (F)
+    $default	reduce using rule 22 (F)
 
 
 
 state 2
 
-    F  ->  STR .   (rule 21)
+    F  ->  STR .   (rule 23)
 
-    $default	reduce using rule 21 (F)
+    $default	reduce using rule 23 (F)
 
 
 
 state 3
 
-    L_VALUE_PROP  ->  ID . '[' E ']'   (rule 4)
-    L_VALUE_PROP  ->  ID . '.' E   (rule 5)
-    E  ->  ID . '=' E   (rule 11)
-    F  ->  ID .   (rule 18)
-    F  ->  ID . '(' PARAM ')'   (rule 23)
+    L_VALUE_PROP  ->  ID . '[' TA ']'   (rule 4)
+    L_VALUE_PROP  ->  ID . '.' TA   (rule 5)
+    E  ->  ID . '=' T   (rule 11)
+    F  ->  ID .   (rule 20)
+    F  ->  ID . '(' PARAM ')'   (rule 25)
 
-    '=' 	shift, and go to state 12
-    '[' 	shift, and go to state 13
-    '.' 	shift, and go to state 14
-    '(' 	shift, and go to state 15
+    '=' 	shift, and go to state 14
+    '[' 	shift, and go to state 15
+    '.' 	shift, and go to state 16
+    '(' 	shift, and go to state 17
 
-    '=' 	[reduce using rule 18 (F)]
-    $default	reduce using rule 18 (F)
+    $default	reduce using rule 20 (F)
 
 
 
@@ -162,54 +163,54 @@ state 4
 
     A  ->  LET . LET_LVALUE   (rule 9)
 
-    ID  	shift, and go to state 16
+    ID  	shift, and go to state 18
 
-    LET_LVALUE	go to state 17
+    LET_LVALUE	go to state 19
 
 
 
 state 5
 
-    F  ->  '[' . ']'   (rule 25)
+    F  ->  '[' . ']'   (rule 27)
 
-    ']' 	shift, and go to state 18
+    ']' 	shift, and go to state 20
 
 
 
 state 6
 
-    F  ->  '(' . E ')'   (rule 22)
+    F  ->  '(' . T ')'   (rule 24)
 
     NUM 	shift, and go to state 1
     STR 	shift, and go to state 2
-    ID  	shift, and go to state 3
+    ID  	shift, and go to state 21
     '[' 	shift, and go to state 5
     '(' 	shift, and go to state 6
     '{' 	shift, and go to state 7
 
-    L_VALUE_PROP	go to state 8
-    E   	go to state 19
-    F   	go to state 11
+    L_VALUE_PROP	go to state 22
+    T   	go to state 23
+    R   	go to state 12
+    F   	go to state 13
 
 
 
 state 7
 
-    F  ->  '{' . '}'   (rule 24)
+    F  ->  '{' . '}'   (rule 26)
 
-    '}' 	shift, and go to state 20
+    '}' 	shift, and go to state 24
 
 
 
 state 8
 
-    E  ->  L_VALUE_PROP . '=' E   (rule 12)
-    F  ->  L_VALUE_PROP .   (rule 19)
+    E  ->  L_VALUE_PROP . '=' T   (rule 12)
+    F  ->  L_VALUE_PROP .   (rule 21)
 
-    '=' 	shift, and go to state 21
+    '=' 	shift, and go to state 25
 
-    '=' 	[reduce using rule 19 (F)]
-    $default	reduce using rule 19 (F)
+    $default	reduce using rule 21 (F)
 
 
 
@@ -219,22 +220,13 @@ state 9
 
     $default	reduce using rule 1 (@1)
 
-    @1  	go to state 22
+    @1  	go to state 26
 
 
 
 state 10
 
     A  ->  E .   (rule 10)
-    E  ->  E . '+' E   (rule 13)
-    E  ->  E . '-' E   (rule 14)
-    E  ->  E . '*' E   (rule 15)
-    E  ->  E . '/' E   (rule 16)
-
-    '+' 	shift, and go to state 23
-    '-' 	shift, and go to state 24
-    '*' 	shift, and go to state 25
-    '/' 	shift, and go to state 26
 
     $default	reduce using rule 10 (A)
 
@@ -242,321 +234,431 @@ state 10
 
 state 11
 
-    E  ->  F .   (rule 17)
+    E  ->  T .   (rule 13)
 
-    $default	reduce using rule 17 (E)
+    $default	reduce using rule 13 (E)
 
 
 
 state 12
 
-    E  ->  ID '=' . E   (rule 11)
+    T  ->  R . '+' R   (rule 14)
+    T  ->  R . '-' R   (rule 15)
+    T  ->  R .   (rule 16)
 
-    NUM 	shift, and go to state 1
-    STR 	shift, and go to state 2
-    ID  	shift, and go to state 3
-    '[' 	shift, and go to state 5
-    '(' 	shift, and go to state 6
-    '{' 	shift, and go to state 7
+    '+' 	shift, and go to state 27
+    '-' 	shift, and go to state 28
 
-    L_VALUE_PROP	go to state 8
-    E   	go to state 27
-    F   	go to state 11
+    $default	reduce using rule 16 (T)
 
 
 
 state 13
 
-    L_VALUE_PROP  ->  ID '[' . E ']'   (rule 4)
+    R  ->  F . '*' F   (rule 17)
+    R  ->  F . '/' F   (rule 18)
+    R  ->  F .   (rule 19)
 
-    NUM 	shift, and go to state 1
-    STR 	shift, and go to state 2
-    ID  	shift, and go to state 3
-    '[' 	shift, and go to state 5
-    '(' 	shift, and go to state 6
-    '{' 	shift, and go to state 7
+    '*' 	shift, and go to state 29
+    '/' 	shift, and go to state 30
 
-    L_VALUE_PROP	go to state 8
-    E   	go to state 28
-    F   	go to state 11
+    $default	reduce using rule 19 (R)
 
 
 
 state 14
 
-    L_VALUE_PROP  ->  ID '.' . E   (rule 5)
+    E  ->  ID '=' . T   (rule 11)
 
     NUM 	shift, and go to state 1
     STR 	shift, and go to state 2
-    ID  	shift, and go to state 3
+    ID  	shift, and go to state 21
     '[' 	shift, and go to state 5
     '(' 	shift, and go to state 6
     '{' 	shift, and go to state 7
 
-    L_VALUE_PROP	go to state 8
-    E   	go to state 29
-    F   	go to state 11
+    L_VALUE_PROP	go to state 22
+    T   	go to state 31
+    R   	go to state 12
+    F   	go to state 13
 
 
 
 state 15
 
-    F  ->  ID '(' . PARAM ')'   (rule 23)
+    L_VALUE_PROP  ->  ID '[' . TA ']'   (rule 4)
 
-    NUM 	shift, and go to state 1
-    STR 	shift, and go to state 2
-    ID  	shift, and go to state 3
-    '[' 	shift, and go to state 5
-    '(' 	shift, and go to state 6
-    '{' 	shift, and go to state 7
+    NUM 	shift, and go to state 32
+    STR 	shift, and go to state 33
+    ID  	shift, and go to state 34
+    '[' 	shift, and go to state 35
+    '(' 	shift, and go to state 36
+    '{' 	shift, and go to state 37
 
-    $default	reduce using rule 27 (PARAM)
-
-    L_VALUE_PROP	go to state 8
-    E   	go to state 30
-    F   	go to state 11
-    PARAM	go to state 31
-    ARGs	go to state 32
+    L_VALUE_PROP	go to state 38
+    TA  	go to state 39
+    RA  	go to state 40
+    FA  	go to state 41
 
 
 
 state 16
 
-    LET_LVALUE  ->  ID . '=' E   (rule 7)
-    LET_LVALUE  ->  ID .   (rule 8)
+    L_VALUE_PROP  ->  ID '.' . TA   (rule 5)
 
-    '=' 	shift, and go to state 33
+    NUM 	shift, and go to state 32
+    STR 	shift, and go to state 33
+    ID  	shift, and go to state 34
+    '[' 	shift, and go to state 35
+    '(' 	shift, and go to state 36
+    '{' 	shift, and go to state 37
 
-    $default	reduce using rule 8 (LET_LVALUE)
+    L_VALUE_PROP	go to state 38
+    TA  	go to state 42
+    RA  	go to state 40
+    FA  	go to state 41
 
 
 
 state 17
 
-    LET_LVALUE  ->  LET_LVALUE . ',' LET_LVALUE   (rule 6)
-    A  ->  LET LET_LVALUE .   (rule 9)
+    F  ->  ID '(' . PARAM ')'   (rule 25)
 
-    ',' 	shift, and go to state 34
+    NUM 	shift, and go to state 1
+    STR 	shift, and go to state 2
+    ID  	shift, and go to state 3
+    '[' 	shift, and go to state 5
+    '(' 	shift, and go to state 6
+    '{' 	shift, and go to state 7
 
-    $default	reduce using rule 9 (A)
+    $default	reduce using rule 29 (PARAM)
+
+    L_VALUE_PROP	go to state 8
+    E   	go to state 43
+    T   	go to state 11
+    R   	go to state 12
+    F   	go to state 13
+    PARAM	go to state 44
+    ARGs	go to state 45
 
 
 
 state 18
 
-    F  ->  '[' ']' .   (rule 25)
+    LET_LVALUE  ->  ID . '=' E   (rule 7)
+    LET_LVALUE  ->  ID .   (rule 8)
 
-    $default	reduce using rule 25 (F)
+    '=' 	shift, and go to state 46
+
+    $default	reduce using rule 8 (LET_LVALUE)
 
 
 
 state 19
 
-    E  ->  E . '+' E   (rule 13)
-    E  ->  E . '-' E   (rule 14)
-    E  ->  E . '*' E   (rule 15)
-    E  ->  E . '/' E   (rule 16)
-    F  ->  '(' E . ')'   (rule 22)
+    LET_LVALUE  ->  LET_LVALUE . ',' LET_LVALUE   (rule 6)
+    A  ->  LET LET_LVALUE .   (rule 9)
 
-    '+' 	shift, and go to state 23
-    '-' 	shift, and go to state 24
-    '*' 	shift, and go to state 25
-    '/' 	shift, and go to state 26
-    ')' 	shift, and go to state 35
+    ',' 	shift, and go to state 47
+
+    $default	reduce using rule 9 (A)
 
 
 
 state 20
 
-    F  ->  '{' '}' .   (rule 24)
+    F  ->  '[' ']' .   (rule 27)
 
-    $default	reduce using rule 24 (F)
+    $default	reduce using rule 27 (F)
 
 
 
 state 21
 
-    E  ->  L_VALUE_PROP '=' . E   (rule 12)
+    L_VALUE_PROP  ->  ID . '[' TA ']'   (rule 4)
+    L_VALUE_PROP  ->  ID . '.' TA   (rule 5)
+    F  ->  ID .   (rule 20)
+    F  ->  ID . '(' PARAM ')'   (rule 25)
 
-    NUM 	shift, and go to state 1
-    STR 	shift, and go to state 2
-    ID  	shift, and go to state 3
-    '[' 	shift, and go to state 5
-    '(' 	shift, and go to state 6
-    '{' 	shift, and go to state 7
+    '[' 	shift, and go to state 15
+    '.' 	shift, and go to state 16
+    '(' 	shift, and go to state 17
 
-    L_VALUE_PROP	go to state 8
-    E   	go to state 36
-    F   	go to state 11
+    $default	reduce using rule 20 (F)
 
 
 
 state 22
 
-    CMDs  ->  A @1 . ';' CMDs   (rule 2)
+    F  ->  L_VALUE_PROP .   (rule 21)
 
-    ';' 	shift, and go to state 37
+    $default	reduce using rule 21 (F)
 
 
 
 state 23
 
-    E  ->  E '+' . E   (rule 13)
+    F  ->  '(' T . ')'   (rule 24)
 
-    NUM 	shift, and go to state 1
-    STR 	shift, and go to state 2
-    ID  	shift, and go to state 3
-    '[' 	shift, and go to state 5
-    '(' 	shift, and go to state 6
-    '{' 	shift, and go to state 7
-
-    L_VALUE_PROP	go to state 8
-    E   	go to state 38
-    F   	go to state 11
+    ')' 	shift, and go to state 48
 
 
 
 state 24
 
-    E  ->  E '-' . E   (rule 14)
+    F  ->  '{' '}' .   (rule 26)
 
-    NUM 	shift, and go to state 1
-    STR 	shift, and go to state 2
-    ID  	shift, and go to state 3
-    '[' 	shift, and go to state 5
-    '(' 	shift, and go to state 6
-    '{' 	shift, and go to state 7
-
-    L_VALUE_PROP	go to state 8
-    E   	go to state 39
-    F   	go to state 11
+    $default	reduce using rule 26 (F)
 
 
 
 state 25
 
-    E  ->  E '*' . E   (rule 15)
+    E  ->  L_VALUE_PROP '=' . T   (rule 12)
 
     NUM 	shift, and go to state 1
     STR 	shift, and go to state 2
-    ID  	shift, and go to state 3
+    ID  	shift, and go to state 21
     '[' 	shift, and go to state 5
     '(' 	shift, and go to state 6
     '{' 	shift, and go to state 7
 
-    L_VALUE_PROP	go to state 8
-    E   	go to state 40
-    F   	go to state 11
+    L_VALUE_PROP	go to state 22
+    T   	go to state 49
+    R   	go to state 12
+    F   	go to state 13
 
 
 
 state 26
 
-    E  ->  E '/' . E   (rule 16)
+    CMDs  ->  A @1 . ';' CMDs   (rule 2)
 
-    NUM 	shift, and go to state 1
-    STR 	shift, and go to state 2
-    ID  	shift, and go to state 3
-    '[' 	shift, and go to state 5
-    '(' 	shift, and go to state 6
-    '{' 	shift, and go to state 7
-
-    L_VALUE_PROP	go to state 8
-    E   	go to state 41
-    F   	go to state 11
+    ';' 	shift, and go to state 50
 
 
 
 state 27
 
-    E  ->  ID '=' E .   (rule 11)
-    E  ->  E . '+' E   (rule 13)
-    E  ->  E . '-' E   (rule 14)
-    E  ->  E . '*' E   (rule 15)
-    E  ->  E . '/' E   (rule 16)
+    T  ->  R '+' . R   (rule 14)
 
-    '+' 	shift, and go to state 23
-    '-' 	shift, and go to state 24
-    '*' 	shift, and go to state 25
-    '/' 	shift, and go to state 26
+    NUM 	shift, and go to state 1
+    STR 	shift, and go to state 2
+    ID  	shift, and go to state 21
+    '[' 	shift, and go to state 5
+    '(' 	shift, and go to state 6
+    '{' 	shift, and go to state 7
 
-    $default	reduce using rule 11 (E)
+    L_VALUE_PROP	go to state 22
+    R   	go to state 51
+    F   	go to state 13
 
 
 
 state 28
 
-    L_VALUE_PROP  ->  ID '[' E . ']'   (rule 4)
-    E  ->  E . '+' E   (rule 13)
-    E  ->  E . '-' E   (rule 14)
-    E  ->  E . '*' E   (rule 15)
-    E  ->  E . '/' E   (rule 16)
+    T  ->  R '-' . R   (rule 15)
 
-    '+' 	shift, and go to state 23
-    '-' 	shift, and go to state 24
-    '*' 	shift, and go to state 25
-    '/' 	shift, and go to state 26
-    ']' 	shift, and go to state 42
+    NUM 	shift, and go to state 1
+    STR 	shift, and go to state 2
+    ID  	shift, and go to state 21
+    '[' 	shift, and go to state 5
+    '(' 	shift, and go to state 6
+    '{' 	shift, and go to state 7
+
+    L_VALUE_PROP	go to state 22
+    R   	go to state 52
+    F   	go to state 13
 
 
 
 state 29
 
-    L_VALUE_PROP  ->  ID '.' E .   (rule 5)
-    E  ->  E . '+' E   (rule 13)
-    E  ->  E . '-' E   (rule 14)
-    E  ->  E . '*' E   (rule 15)
-    E  ->  E . '/' E   (rule 16)
+    R  ->  F '*' . F   (rule 17)
 
-    '+' 	shift, and go to state 23
-    '-' 	shift, and go to state 24
-    '*' 	shift, and go to state 25
-    '/' 	shift, and go to state 26
+    NUM 	shift, and go to state 1
+    STR 	shift, and go to state 2
+    ID  	shift, and go to state 21
+    '[' 	shift, and go to state 5
+    '(' 	shift, and go to state 6
+    '{' 	shift, and go to state 7
 
-    '+' 	[reduce using rule 5 (L_VALUE_PROP)]
-    '-' 	[reduce using rule 5 (L_VALUE_PROP)]
-    '*' 	[reduce using rule 5 (L_VALUE_PROP)]
-    '/' 	[reduce using rule 5 (L_VALUE_PROP)]
-    $default	reduce using rule 5 (L_VALUE_PROP)
+    L_VALUE_PROP	go to state 22
+    F   	go to state 53
 
 
 
 state 30
 
-    E  ->  E . '+' E   (rule 13)
-    E  ->  E . '-' E   (rule 14)
-    E  ->  E . '*' E   (rule 15)
-    E  ->  E . '/' E   (rule 16)
-    ARGs  ->  E . ',' ARGs   (rule 28)
-    ARGs  ->  E .   (rule 29)
+    R  ->  F '/' . F   (rule 18)
 
-    ',' 	shift, and go to state 43
-    '+' 	shift, and go to state 23
-    '-' 	shift, and go to state 24
-    '*' 	shift, and go to state 25
-    '/' 	shift, and go to state 26
+    NUM 	shift, and go to state 1
+    STR 	shift, and go to state 2
+    ID  	shift, and go to state 21
+    '[' 	shift, and go to state 5
+    '(' 	shift, and go to state 6
+    '{' 	shift, and go to state 7
 
-    $default	reduce using rule 29 (ARGs)
+    L_VALUE_PROP	go to state 22
+    F   	go to state 54
 
 
 
 state 31
 
-    F  ->  ID '(' PARAM . ')'   (rule 23)
+    E  ->  ID '=' T .   (rule 11)
 
-    ')' 	shift, and go to state 44
+    $default	reduce using rule 11 (E)
 
 
 
 state 32
 
-    PARAM  ->  ARGs .   (rule 26)
+    FA  ->  NUM .   (rule 40)
 
-    $default	reduce using rule 26 (PARAM)
+    $default	reduce using rule 40 (FA)
 
 
 
 state 33
+
+    FA  ->  STR .   (rule 41)
+
+    $default	reduce using rule 41 (FA)
+
+
+
+state 34
+
+    L_VALUE_PROP  ->  ID . '[' TA ']'   (rule 4)
+    L_VALUE_PROP  ->  ID . '.' TA   (rule 5)
+    FA  ->  ID .   (rule 38)
+    FA  ->  ID . '(' PARAM ')'   (rule 43)
+
+    '[' 	shift, and go to state 15
+    '.' 	shift, and go to state 16
+    '(' 	shift, and go to state 55
+
+    $default	reduce using rule 38 (FA)
+
+
+
+state 35
+
+    FA  ->  '[' . ']'   (rule 45)
+
+    ']' 	shift, and go to state 56
+
+
+
+state 36
+
+    FA  ->  '(' . T ')'   (rule 42)
+
+    NUM 	shift, and go to state 1
+    STR 	shift, and go to state 2
+    ID  	shift, and go to state 21
+    '[' 	shift, and go to state 5
+    '(' 	shift, and go to state 6
+    '{' 	shift, and go to state 7
+
+    L_VALUE_PROP	go to state 22
+    T   	go to state 57
+    R   	go to state 12
+    F   	go to state 13
+
+
+
+state 37
+
+    FA  ->  '{' . '}'   (rule 44)
+
+    '}' 	shift, and go to state 58
+
+
+
+state 38
+
+    FA  ->  L_VALUE_PROP .   (rule 39)
+
+    $default	reduce using rule 39 (FA)
+
+
+
+state 39
+
+    L_VALUE_PROP  ->  ID '[' TA . ']'   (rule 4)
+
+    ']' 	shift, and go to state 59
+
+
+
+state 40
+
+    TA  ->  RA . '+' RA   (rule 32)
+    TA  ->  RA . '-' RA   (rule 33)
+    TA  ->  RA .   (rule 34)
+
+    '+' 	shift, and go to state 60
+    '-' 	shift, and go to state 61
+
+    '+' 	[reduce using rule 34 (TA)]
+    '-' 	[reduce using rule 34 (TA)]
+    $default	reduce using rule 34 (TA)
+
+
+
+state 41
+
+    RA  ->  FA . '*' FA   (rule 35)
+    RA  ->  FA . '/' FA   (rule 36)
+    RA  ->  FA .   (rule 37)
+
+    '*' 	shift, and go to state 62
+    '/' 	shift, and go to state 63
+
+    '*' 	[reduce using rule 37 (RA)]
+    '/' 	[reduce using rule 37 (RA)]
+    $default	reduce using rule 37 (RA)
+
+
+
+state 42
+
+    L_VALUE_PROP  ->  ID '.' TA .   (rule 5)
+
+    $default	reduce using rule 5 (L_VALUE_PROP)
+
+
+
+state 43
+
+    ARGs  ->  E . ',' ARGs   (rule 30)
+    ARGs  ->  E .   (rule 31)
+
+    ',' 	shift, and go to state 64
+
+    $default	reduce using rule 31 (ARGs)
+
+
+
+state 44
+
+    F  ->  ID '(' PARAM . ')'   (rule 25)
+
+    ')' 	shift, and go to state 65
+
+
+
+state 45
+
+    PARAM  ->  ARGs .   (rule 28)
+
+    $default	reduce using rule 28 (PARAM)
+
+
+
+state 46
 
     LET_LVALUE  ->  ID '=' . E   (rule 7)
 
@@ -568,47 +670,40 @@ state 33
     '{' 	shift, and go to state 7
 
     L_VALUE_PROP	go to state 8
-    E   	go to state 45
-    F   	go to state 11
+    E   	go to state 66
+    T   	go to state 11
+    R   	go to state 12
+    F   	go to state 13
 
 
 
-state 34
+state 47
 
     LET_LVALUE  ->  LET_LVALUE ',' . LET_LVALUE   (rule 6)
 
-    ID  	shift, and go to state 16
+    ID  	shift, and go to state 18
 
-    LET_LVALUE	go to state 46
-
-
-
-state 35
-
-    F  ->  '(' E ')' .   (rule 22)
-
-    $default	reduce using rule 22 (F)
+    LET_LVALUE	go to state 67
 
 
 
-state 36
+state 48
 
-    E  ->  L_VALUE_PROP '=' E .   (rule 12)
-    E  ->  E . '+' E   (rule 13)
-    E  ->  E . '-' E   (rule 14)
-    E  ->  E . '*' E   (rule 15)
-    E  ->  E . '/' E   (rule 16)
+    F  ->  '(' T ')' .   (rule 24)
 
-    '+' 	shift, and go to state 23
-    '-' 	shift, and go to state 24
-    '*' 	shift, and go to state 25
-    '/' 	shift, and go to state 26
+    $default	reduce using rule 24 (F)
+
+
+
+state 49
+
+    E  ->  L_VALUE_PROP '=' T .   (rule 12)
 
     $default	reduce using rule 12 (E)
 
 
 
-state 37
+state 50
 
     CMDs  ->  A @1 ';' . CMDs   (rule 2)
 
@@ -622,81 +717,172 @@ state 37
 
     $default	reduce using rule 3 (CMDs)
 
-    CMDs	go to state 47
+    CMDs	go to state 68
     L_VALUE_PROP	go to state 8
     A   	go to state 9
     E   	go to state 10
-    F   	go to state 11
+    T   	go to state 11
+    R   	go to state 12
+    F   	go to state 13
 
 
 
-state 38
+state 51
 
-    E  ->  E . '+' E   (rule 13)
-    E  ->  E '+' E .   (rule 13)
-    E  ->  E . '-' E   (rule 14)
-    E  ->  E . '*' E   (rule 15)
-    E  ->  E . '/' E   (rule 16)
+    T  ->  R '+' R .   (rule 14)
 
-    '*' 	shift, and go to state 25
-    '/' 	shift, and go to state 26
-
-    $default	reduce using rule 13 (E)
+    $default	reduce using rule 14 (T)
 
 
 
-state 39
+state 52
 
-    E  ->  E . '+' E   (rule 13)
-    E  ->  E . '-' E   (rule 14)
-    E  ->  E '-' E .   (rule 14)
-    E  ->  E . '*' E   (rule 15)
-    E  ->  E . '/' E   (rule 16)
+    T  ->  R '-' R .   (rule 15)
 
-    '*' 	shift, and go to state 25
-    '/' 	shift, and go to state 26
-
-    $default	reduce using rule 14 (E)
+    $default	reduce using rule 15 (T)
 
 
 
-state 40
+state 53
 
-    E  ->  E . '+' E   (rule 13)
-    E  ->  E . '-' E   (rule 14)
-    E  ->  E . '*' E   (rule 15)
-    E  ->  E '*' E .   (rule 15)
-    E  ->  E . '/' E   (rule 16)
+    R  ->  F '*' F .   (rule 17)
 
-
-    $default	reduce using rule 15 (E)
+    $default	reduce using rule 17 (R)
 
 
 
-state 41
+state 54
 
-    E  ->  E . '+' E   (rule 13)
-    E  ->  E . '-' E   (rule 14)
-    E  ->  E . '*' E   (rule 15)
-    E  ->  E . '/' E   (rule 16)
-    E  ->  E '/' E .   (rule 16)
+    R  ->  F '/' F .   (rule 18)
 
-
-    $default	reduce using rule 16 (E)
+    $default	reduce using rule 18 (R)
 
 
 
-state 42
+state 55
 
-    L_VALUE_PROP  ->  ID '[' E ']' .   (rule 4)
+    FA  ->  ID '(' . PARAM ')'   (rule 43)
+
+    NUM 	shift, and go to state 1
+    STR 	shift, and go to state 2
+    ID  	shift, and go to state 3
+    '[' 	shift, and go to state 5
+    '(' 	shift, and go to state 6
+    '{' 	shift, and go to state 7
+
+    $default	reduce using rule 29 (PARAM)
+
+    L_VALUE_PROP	go to state 8
+    E   	go to state 43
+    T   	go to state 11
+    R   	go to state 12
+    F   	go to state 13
+    PARAM	go to state 69
+    ARGs	go to state 45
+
+
+
+state 56
+
+    FA  ->  '[' ']' .   (rule 45)
+
+    $default	reduce using rule 45 (FA)
+
+
+
+state 57
+
+    FA  ->  '(' T . ')'   (rule 42)
+
+    ')' 	shift, and go to state 70
+
+
+
+state 58
+
+    FA  ->  '{' '}' .   (rule 44)
+
+    $default	reduce using rule 44 (FA)
+
+
+
+state 59
+
+    L_VALUE_PROP  ->  ID '[' TA ']' .   (rule 4)
 
     $default	reduce using rule 4 (L_VALUE_PROP)
 
 
 
-state 43
+state 60
 
-    ARGs  ->  E ',' . ARGs   (rule 28)
+    TA  ->  RA '+' . RA   (rule 32)
+
+    NUM 	shift, and go to state 32
+    STR 	shift, and go to state 33
+    ID  	shift, and go to state 34
+    '[' 	shift, and go to state 35
+    '(' 	shift, and go to state 36
+    '{' 	shift, and go to state 37
+
+    L_VALUE_PROP	go to state 38
+    RA  	go to state 71
+    FA  	go to state 41
+
+
+
+state 61
+
+    TA  ->  RA '-' . RA   (rule 33)
+
+    NUM 	shift, and go to state 32
+    STR 	shift, and go to state 33
+    ID  	shift, and go to state 34
+    '[' 	shift, and go to state 35
+    '(' 	shift, and go to state 36
+    '{' 	shift, and go to state 37
+
+    L_VALUE_PROP	go to state 38
+    RA  	go to state 72
+    FA  	go to state 41
+
+
+
+state 62
+
+    RA  ->  FA '*' . FA   (rule 35)
+
+    NUM 	shift, and go to state 32
+    STR 	shift, and go to state 33
+    ID  	shift, and go to state 34
+    '[' 	shift, and go to state 35
+    '(' 	shift, and go to state 36
+    '{' 	shift, and go to state 37
+
+    L_VALUE_PROP	go to state 38
+    FA  	go to state 73
+
+
+
+state 63
+
+    RA  ->  FA '/' . FA   (rule 36)
+
+    NUM 	shift, and go to state 32
+    STR 	shift, and go to state 33
+    ID  	shift, and go to state 34
+    '[' 	shift, and go to state 35
+    '(' 	shift, and go to state 36
+    '{' 	shift, and go to state 37
+
+    L_VALUE_PROP	go to state 38
+    FA  	go to state 74
+
+
+
+state 64
+
+    ARGs  ->  E ',' . ARGs   (rule 30)
 
     NUM 	shift, and go to state 1
     STR 	shift, and go to state 2
@@ -706,38 +892,31 @@ state 43
     '{' 	shift, and go to state 7
 
     L_VALUE_PROP	go to state 8
-    E   	go to state 30
-    F   	go to state 11
-    ARGs	go to state 48
+    E   	go to state 43
+    T   	go to state 11
+    R   	go to state 12
+    F   	go to state 13
+    ARGs	go to state 75
 
 
 
-state 44
+state 65
 
-    F  ->  ID '(' PARAM ')' .   (rule 23)
+    F  ->  ID '(' PARAM ')' .   (rule 25)
 
-    $default	reduce using rule 23 (F)
+    $default	reduce using rule 25 (F)
 
 
 
-state 45
+state 66
 
     LET_LVALUE  ->  ID '=' E .   (rule 7)
-    E  ->  E . '+' E   (rule 13)
-    E  ->  E . '-' E   (rule 14)
-    E  ->  E . '*' E   (rule 15)
-    E  ->  E . '/' E   (rule 16)
-
-    '+' 	shift, and go to state 23
-    '-' 	shift, and go to state 24
-    '*' 	shift, and go to state 25
-    '/' 	shift, and go to state 26
 
     $default	reduce using rule 7 (LET_LVALUE)
 
 
 
-state 46
+state 67
 
     LET_LVALUE  ->  LET_LVALUE . ',' LET_LVALUE   (rule 6)
     LET_LVALUE  ->  LET_LVALUE ',' LET_LVALUE .   (rule 6)
@@ -747,7 +926,7 @@ state 46
 
 
 
-state 47
+state 68
 
     CMDs  ->  A @1 ';' CMDs .   (rule 2)
 
@@ -755,26 +934,82 @@ state 47
 
 
 
-state 48
+state 69
 
-    ARGs  ->  E ',' ARGs .   (rule 28)
+    FA  ->  ID '(' PARAM . ')'   (rule 43)
 
-    $default	reduce using rule 28 (ARGs)
-
-
-
-state 49
-
-    $   	go to state 50
+    ')' 	shift, and go to state 76
 
 
 
-state 50
+state 70
 
-    $   	go to state 51
+    FA  ->  '(' T ')' .   (rule 42)
+
+    $default	reduce using rule 42 (FA)
 
 
 
-state 51
+state 71
+
+    TA  ->  RA '+' RA .   (rule 32)
+
+    $default	reduce using rule 32 (TA)
+
+
+
+state 72
+
+    TA  ->  RA '-' RA .   (rule 33)
+
+    $default	reduce using rule 33 (TA)
+
+
+
+state 73
+
+    RA  ->  FA '*' FA .   (rule 35)
+
+    $default	reduce using rule 35 (RA)
+
+
+
+state 74
+
+    RA  ->  FA '/' FA .   (rule 36)
+
+    $default	reduce using rule 36 (RA)
+
+
+
+state 75
+
+    ARGs  ->  E ',' ARGs .   (rule 30)
+
+    $default	reduce using rule 30 (ARGs)
+
+
+
+state 76
+
+    FA  ->  ID '(' PARAM ')' .   (rule 43)
+
+    $default	reduce using rule 43 (FA)
+
+
+
+state 77
+
+    $   	go to state 78
+
+
+
+state 78
+
+    $   	go to state 79
+
+
+
+state 79
 
     $default	accept
