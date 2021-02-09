@@ -1,6 +1,6 @@
 State 56 contains 1 shift/reduce conflict.
-State 57 contains 2 shift/reduce conflicts.
-State 63 contains 2 shift/reduce conflicts.
+State 58 contains 2 shift/reduce conflicts.
+State 68 contains 2 shift/reduce conflicts.
 
 Grammar
 rule 1    S -> CMDs
@@ -8,10 +8,10 @@ rule 2    CMDs -> CMD CMDs
 rule 3    CMDs ->		/* empty */
 rule 4    CMD -> ATR ';'
 rule 5    CMD -> LET DECLVARs ';'
-rule 6    CMD -> IF '(' R ')' B
-rule 7    B -> '{' CMDs '}' B_LINHA
-rule 8    B -> CMD B_LINHA
-rule 9    B_LINHA -> ELSE_IF '(' R ')' B
+rule 6    CMD -> IF '(' R ')' B B_LINHA
+rule 7    B -> '{' CMDs '}'
+rule 8    B -> CMD
+rule 9    B_LINHA -> ELSE_IF '(' R ')' B B_LINHA
 rule 10   B_LINHA -> ELSE B
 rule 11   B_LINHA ->		/* empty */
 rule 12   DECLVARs -> DECLVAR ',' DECLVARs
@@ -82,7 +82,7 @@ CMD (31)
 B (32)
     on left: 7 8, on right: 6 9 10
 B_LINHA (33)
-    on left: 9 10 11, on right: 7 8
+    on left: 9 10 11, on right: 6 9
 DECLVARs (34)
     on left: 12 13, on right: 5 12
 DECLVAR (35)
@@ -163,7 +163,7 @@ state 4
 
 state 5
 
-    CMD  ->  IF . '(' R ')' B   (rule 6)
+    CMD  ->  IF . '(' R ')' B B_LINHA   (rule 6)
 
     '(' 	shift, and go to state 20
 
@@ -348,7 +348,7 @@ state 19
 
 state 20
 
-    CMD  ->  IF '(' . R ')' B   (rule 6)
+    CMD  ->  IF '(' . R ')' B B_LINHA   (rule 6)
 
     NUM 	shift, and go to state 1
     ID  	shift, and go to state 21
@@ -627,7 +627,7 @@ state 40
 
 state 41
 
-    CMD  ->  IF '(' R . ')' B   (rule 6)
+    CMD  ->  IF '(' R . ')' B B_LINHA   (rule 6)
 
     ')' 	shift, and go to state 55
 
@@ -779,7 +779,7 @@ state 54
 
 state 55
 
-    CMD  ->  IF '(' R ')' . B   (rule 6)
+    CMD  ->  IF '(' R ')' . B B_LINHA   (rule 6)
 
     NUM 	shift, and go to state 1
     ID  	shift, and go to state 2
@@ -802,7 +802,7 @@ state 55
 
 state 56
 
-    B  ->  '{' . CMDs '}' B_LINHA   (rule 7)
+    B  ->  '{' . CMDs '}'   (rule 7)
     F  ->  '{' . '}'   (rule 35)
 
     NUM 	shift, and go to state 1
@@ -830,7 +830,15 @@ state 56
 
 state 57
 
-    B  ->  CMD . B_LINHA   (rule 8)
+    B  ->  CMD .   (rule 8)
+
+    $default	reduce using rule 8 (B)
+
+
+
+state 58
+
+    CMD  ->  IF '(' R ')' B . B_LINHA   (rule 6)
 
     ELSE	shift, and go to state 60
     ELSE_IF	shift, and go to state 61
@@ -843,17 +851,9 @@ state 57
 
 
 
-state 58
-
-    CMD  ->  IF '(' R ')' B .   (rule 6)
-
-    $default	reduce using rule 6 (CMD)
-
-
-
 state 59
 
-    B  ->  '{' CMDs . '}' B_LINHA   (rule 7)
+    B  ->  '{' CMDs . '}'   (rule 7)
 
     '}' 	shift, and go to state 63
 
@@ -884,7 +884,7 @@ state 60
 
 state 61
 
-    B_LINHA  ->  ELSE_IF . '(' R ')' B   (rule 9)
+    B_LINHA  ->  ELSE_IF . '(' R ')' B B_LINHA   (rule 9)
 
     '(' 	shift, and go to state 65
 
@@ -892,24 +892,17 @@ state 61
 
 state 62
 
-    B  ->  CMD B_LINHA .   (rule 8)
+    CMD  ->  IF '(' R ')' B B_LINHA .   (rule 6)
 
-    $default	reduce using rule 8 (B)
+    $default	reduce using rule 6 (CMD)
 
 
 
 state 63
 
-    B  ->  '{' CMDs '}' . B_LINHA   (rule 7)
+    B  ->  '{' CMDs '}' .   (rule 7)
 
-    ELSE	shift, and go to state 60
-    ELSE_IF	shift, and go to state 61
-
-    ELSE	[reduce using rule 11 (B_LINHA)]
-    ELSE_IF	[reduce using rule 11 (B_LINHA)]
-    $default	reduce using rule 11 (B_LINHA)
-
-    B_LINHA	go to state 66
+    $default	reduce using rule 7 (B)
 
 
 
@@ -923,7 +916,7 @@ state 64
 
 state 65
 
-    B_LINHA  ->  ELSE_IF '(' . R ')' B   (rule 9)
+    B_LINHA  ->  ELSE_IF '(' . R ')' B B_LINHA   (rule 9)
 
     NUM 	shift, and go to state 1
     ID  	shift, and go to state 21
@@ -932,7 +925,7 @@ state 65
     '{' 	shift, and go to state 7
     '[' 	shift, and go to state 8
 
-    R   	go to state 67
+    R   	go to state 66
     E   	go to state 13
     T   	go to state 14
     F   	go to state 15
@@ -941,23 +934,15 @@ state 65
 
 state 66
 
-    B  ->  '{' CMDs '}' B_LINHA .   (rule 7)
+    B_LINHA  ->  ELSE_IF '(' R . ')' B B_LINHA   (rule 9)
 
-    $default	reduce using rule 7 (B)
+    ')' 	shift, and go to state 67
 
 
 
 state 67
 
-    B_LINHA  ->  ELSE_IF '(' R . ')' B   (rule 9)
-
-    ')' 	shift, and go to state 68
-
-
-
-state 68
-
-    B_LINHA  ->  ELSE_IF '(' R ')' . B   (rule 9)
+    B_LINHA  ->  ELSE_IF '(' R ')' . B B_LINHA   (rule 9)
 
     NUM 	shift, and go to state 1
     ID  	shift, and go to state 2
@@ -969,7 +954,7 @@ state 68
     '[' 	shift, and go to state 8
 
     CMD 	go to state 57
-    B   	go to state 69
+    B   	go to state 68
     ATR 	go to state 11
     R   	go to state 12
     E   	go to state 13
@@ -978,9 +963,24 @@ state 68
 
 
 
+state 68
+
+    B_LINHA  ->  ELSE_IF '(' R ')' B . B_LINHA   (rule 9)
+
+    ELSE	shift, and go to state 60
+    ELSE_IF	shift, and go to state 61
+
+    ELSE	[reduce using rule 11 (B_LINHA)]
+    ELSE_IF	[reduce using rule 11 (B_LINHA)]
+    $default	reduce using rule 11 (B_LINHA)
+
+    B_LINHA	go to state 69
+
+
+
 state 69
 
-    B_LINHA  ->  ELSE_IF '(' R ')' B .   (rule 9)
+    B_LINHA  ->  ELSE_IF '(' R ')' B B_LINHA .   (rule 9)
 
     $default	reduce using rule 9 (B_LINHA)
 

@@ -40,27 +40,28 @@ vector<string> novo;
 S : CMDs { imprime( resolve_enderecos($1.c) ); }
   ;
 
-CMDs : CMD CMDs   { $$.c = $1.c + $2.c; } 
+CMDs : CMD CMDs { $$.c = $1.c + $2.c; } 
      | { $$.c = novo; }
      ;
 
 CMD : ATR ';' { $$.c = $1.c + "^"; }
     | LET DECLVARs ';' { $$ = $2; }
-    | IF '(' R ')' B
+    | IF '(' R ')' B  B_LINHA
     { string endif = gera_label( "end_if" );	   
-     $$.c = $3.c + "!" + endif + "?" + $5.c + (":" + endif); }
+     $$.c = $3.c + "!" + endif + "?" + $5.c + (":" + endif) + $6.c; }
     ;
 
-B: '{' CMDs '}' B_LINHA { $$.c = $2.c + $4.c; }
- | CMD B_LINHA { $$.c = $1.c + $2.c; }
+B: '{' CMDs '}' { $$.c = $2.c; }
+ | CMD { $$.c = $1.c; }
  ;
 
-B_LINHA: ELSE_IF '(' R ')' B 
+B_LINHA: ELSE_IF '(' R ')' B B_LINHA
          { string endelseif = gera_label("end_elseif");
 	   $$.c = $3.c + "!" + endelseif + "?" + $5.c + (":" + endelseif); }
-       | ELSE B { $$ = $2;}
-       |
+       | ELSE B { $$.c = $2.c;}
+       | 
        ;
+
 DECLVARs : DECLVAR ',' DECLVARs { $$.c = $1.c + $3.c; }
 	 | DECLVAR { $$ = $1; }
          ;
