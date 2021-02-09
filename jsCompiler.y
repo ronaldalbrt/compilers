@@ -31,12 +31,10 @@ vector<string> novo;
 %}
 
 %token NUM ID LET STR IF ELSE ELSE_IF MAIG MEIG IG DIF
-
 // Start indica o símbolo inicial da gramática
 %start S
 
 %%
-
 S : CMDs { imprime( resolve_enderecos($1.c) ); }
   ;
 
@@ -44,42 +42,47 @@ CMDs : CMD CMDs { $$.c = $1.c + $2.c; }
      | { $$.c = novo; }
      ;
 
-CMD : ATR ';' { $$.c = $1.c + "^"; }
+CMD : ATR ';'{ $$.c = $1.c + "^"; }
     | LET DECLVARs ';' { $$ = $2; }
-    | IF '(' R ')' B  B_LINHA
+    | IF '(' R ')' B  C
     { string endif = gera_label( "end_if" );	   
      $$.c = $3.c + "!" + endif + "?" + $5.c + (":" + endif) + $6.c; }
     ;
 
-B: '{' CMDs '}' { $$.c = $2.c; }
- | CMD { $$.c = $1.c; }
- ;
+B : '{' CMDs '}' { $$.c = $2.c; }
+  | CMD 	 { $$.c = $1.c; }
+  ;
 
-B_LINHA: ELSE_IF '(' R ')' B B_LINHA
-         { string endelseif = gera_label("end_elseif");
-	   $$.c = $3.c + "!" + endelseif + "?" + $5.c + (":" + endelseif); }
-       | ELSE B { $$.c = $2.c;}
-       | 
-       ;
+C : ELSE_IF '(' R ')' B C
+    { string endelseif = gera_label("end_elseif");
+      $$.c = $3.c + "!" + endelseif + "?" + $5.c + (":" + endelseif); }
+  | ELSE B { $$.c = $2.c; }
+  | { $$.c = novo; } 
+  ;
 
 DECLVARs : DECLVAR ',' DECLVARs { $$.c = $1.c + $3.c; }
-	 | DECLVAR { $$ = $1; }
+	 | DECLVAR 		{ $$ = $1; }
          ;
 
 DECLVAR : ID '=' R { $$.c = $1.c + "&" + $1.c + $3.c + "=" + "^"; }
-        | ID { $$.c = $1.c + "&"; }
+        | ID       { $$.c = $1.c + "&"; }
         ;
 
-ATR : ID '=' ATR { $$.c = $1.c + $3.c + "="; }
+PROP: E '[' E ']' { $$.c = $1.c + $3.c; }
+    | E '.' ID    { $$.c = $1.c + $3.c; }
+    ;
+
+ATR : ID '=' ATR   { $$.c = $1.c + $3.c + "="; }
+    | PROP '=' ATR { $$.c = $1.c + $3.c + "[=]"}
     | R
     ;
 
-R : E '<' E { $$.c = $1.c + $3.c + "<"; }
-  | E '>' E { $$.c = $1.c + $3.c + ">"; }
-  | E MAIG E { $$.c = $1.c + $3.c + ">="; }
-  | E MEIG E { $$.c = $1.c + $3.c + "<="; }
-  | E IG E { $$.c = $1.c + $3.c + "=="; }
-  | E DIF E { $$.c = $1.c + $3.c + "!="; } 
+R : E '<' E 	{ $$.c = $1.c + $3.c + "<"; }
+  | E '>' E 	{ $$.c = $1.c + $3.c + ">"; }
+  | E MAIG E 	{ $$.c = $1.c + $3.c + ">="; }
+  | E MEIG E	{ $$.c = $1.c + $3.c + "<="; }
+  | E IG E 	{ $$.c = $1.c + $3.c + "=="; }
+  | E DIF E 	{ $$.c = $1.c + $3.c + "!="; } 
   | E
   ;
 
@@ -93,13 +96,13 @@ T : T '*' F { $$.c = $1.c + $3.c + "*"; }
   | F
 
 F : ID          { $$.c = $1.c + "@"; }
+  | PROP  	{ $$.c = $1.c + "[@]"; }
   | NUM         { $$.c = $1.c; }
   | STR         { $$.c = $1.c; }
   | '(' E ')'   { $$ = $2; }
   | '{' '}'     { $$.c = novo + "{}"; }
   | '[' ']'     { $$.c = novo + "[]"; }
   ;
-
 %%
 
 #include "lex.yy.c"

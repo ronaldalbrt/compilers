@@ -1,9 +1,1 @@
-let a = "ABA", c = 'CATE', resultado;
-if( a == c )
-  resultado = "Ta' errado!";
-else if( a < c ) {
-  resultado = "a vem antes de c: ";
-  resultado = resultado + a + '<' + c;
-}
-else
-  resultado = "Deu ruim!";
+obj.nums[i+3] = 45;
