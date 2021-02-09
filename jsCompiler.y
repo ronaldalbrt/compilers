@@ -5,6 +5,7 @@
 #include <iostream>
 #include <vector>
 #include <map>
+
 using namespace std;
 
 struct Atributos {
@@ -20,6 +21,7 @@ void yyerror(const char *);
 vector<string> concatena( vector<string> a, vector<string> b );
 vector<string> operator+( vector<string> a, vector<string> b );
 vector<string> operator+( vector<string> a, string b );
+
 string gera_label( string prefixo );
 vector<string> resolve_enderecos( vector<string> entrada );
 void imprime( vector<string> s);
@@ -44,10 +46,9 @@ CMDs : CMD ';' CMDs   { $$.c = $1.c + $3.c; }
 
 CMD : ATR { $$.c = $1.c + "^"; }
     | LET DECLVARs { $$ = $2; }
-    | IF '(' R ')' CMD {
-	string endif = gera_label( "end_if" );	   
-    	$$.c = $3.c + '!' + endif + "?" + $5.c + (":" + endif);
-    } 
+    | IF '(' R ')' CMD 
+      {	string endif = gera_label( "end_if" );	   
+    	$$.c = $3.c + "!" + endif + "?" + $5.c + (":" + endif); } 
     ;
 
 DECLVARs : DECLVAR ',' DECLVARs { $$.c = $1.c + $3.c; }

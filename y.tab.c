@@ -106,6 +106,7 @@ Maintained by Magnus Ekdahl <magnus@debian.org>
 #include <iostream>
 #include <vector>
 #include <map>
+
 using namespace std;
 
 struct Atributos {
@@ -121,6 +122,7 @@ void yyerror(const char *);
 vector<string> concatena( vector<string> a, vector<string> b );
 vector<string> operator+( vector<string> a, vector<string> b );
 vector<string> operator+( vector<string> a, string b );
+
 string gera_label( string prefixo );
 vector<string> resolve_enderecos( vector<string> entrada );
 void imprime( vector<string> s);
@@ -518,9 +520,9 @@ static const short yyrhs[] = {    24,
 
 #if (YY_parse_DEBUG != 0) || defined(YY_parse_ERROR_VERBOSE) 
 static const short yyrline[] = { 0,
-    38,    41,    42,    45,    46,    47,    53,    54,    57,    58,
-    61,    62,    65,    66,    67,    70,    71,    72,    75,    76,
-    77,    79,    80,    81,    82,    83,    84
+    40,    43,    44,    47,    48,    49,    54,    55,    58,    59,
+    62,    63,    66,    67,    68,    71,    72,    73,    76,    77,
+    78,    80,    81,    82,    83,    84,    85
 };
 
 static const char * const yytname[] = {   "$","error","$illegal.","NUM","ID",
@@ -1082,94 +1084,92 @@ YYLABEL(yyreduce)
   switch (yyn) {
 
 case 1:
-#line 38 "jsCompiler.y"
+#line 40 "jsCompiler.y"
 { imprime( resolve_enderecos(yyvsp[0].c) ); ;
     break;}
 case 2:
-#line 41 "jsCompiler.y"
+#line 43 "jsCompiler.y"
 { yyval.c = yyvsp[-2].c + yyvsp[0].c; ;
     break;}
 case 3:
-#line 42 "jsCompiler.y"
+#line 44 "jsCompiler.y"
 { yyval.c = novo; ;
     break;}
 case 4:
-#line 45 "jsCompiler.y"
+#line 47 "jsCompiler.y"
 { yyval.c = yyvsp[0].c + "^"; ;
     break;}
 case 5:
-#line 46 "jsCompiler.y"
+#line 48 "jsCompiler.y"
 { yyval = yyvsp[0]; ;
     break;}
 case 6:
-#line 47 "jsCompiler.y"
-{
-	string endif = gera_label( "end_if" );	   
-    	yyval.c = yyvsp[-2].c + '!' + endif + "?" + yyvsp[0].c + (":" + endif);
-    ;
+#line 50 "jsCompiler.y"
+{	string endif = gera_label( "end_if" );	   
+    	yyval.c = yyvsp[-2].c + "!" + endif + "?" + yyvsp[0].c + (":" + endif); ;
     break;}
 case 7:
-#line 53 "jsCompiler.y"
+#line 54 "jsCompiler.y"
 { yyval.c = yyvsp[-2].c + yyvsp[0].c; ;
     break;}
 case 9:
-#line 57 "jsCompiler.y"
+#line 58 "jsCompiler.y"
 { yyval.c = yyvsp[-2].c + "&" + yyvsp[-2].c + yyvsp[0].c + "=" + "^"; ;
     break;}
 case 10:
-#line 58 "jsCompiler.y"
+#line 59 "jsCompiler.y"
 { yyval.c = yyvsp[0].c + "&"; ;
     break;}
 case 11:
-#line 61 "jsCompiler.y"
+#line 62 "jsCompiler.y"
 { yyval.c = yyvsp[-2].c + yyvsp[0].c + "="; ;
     break;}
 case 13:
-#line 65 "jsCompiler.y"
+#line 66 "jsCompiler.y"
 { yyval.c = yyvsp[-2].c + yyvsp[0].c + "<"; ;
     break;}
 case 14:
-#line 66 "jsCompiler.y"
+#line 67 "jsCompiler.y"
 { yyval.c = yyvsp[-2].c + yyvsp[0].c + ">"; ;
     break;}
 case 16:
-#line 70 "jsCompiler.y"
+#line 71 "jsCompiler.y"
 { yyval.c = yyvsp[-2].c + yyvsp[0].c + "+"; ;
     break;}
 case 17:
-#line 71 "jsCompiler.y"
+#line 72 "jsCompiler.y"
 { yyval.c = yyvsp[-2].c + yyvsp[0].c + "-"; ;
     break;}
 case 19:
-#line 75 "jsCompiler.y"
+#line 76 "jsCompiler.y"
 { yyval.c = yyvsp[-2].c + yyvsp[0].c + "*"; ;
     break;}
 case 20:
-#line 76 "jsCompiler.y"
+#line 77 "jsCompiler.y"
 { yyval.c = yyvsp[-2].c + yyvsp[0].c + "/"; ;
     break;}
 case 22:
-#line 79 "jsCompiler.y"
+#line 80 "jsCompiler.y"
 { yyval.c = yyvsp[0].c + "@"; ;
     break;}
 case 23:
-#line 80 "jsCompiler.y"
-{ yyval.c = yyvsp[0].c; ;
-    break;}
-case 24:
 #line 81 "jsCompiler.y"
 { yyval.c = yyvsp[0].c; ;
     break;}
-case 25:
+case 24:
 #line 82 "jsCompiler.y"
+{ yyval.c = yyvsp[0].c; ;
+    break;}
+case 25:
+#line 83 "jsCompiler.y"
 { yyval = yyvsp[-1]; ;
     break;}
 case 26:
-#line 83 "jsCompiler.y"
+#line 84 "jsCompiler.y"
 { yyval.c = novo + "{}"; ;
     break;}
 case 27:
-#line 84 "jsCompiler.y"
+#line 85 "jsCompiler.y"
 { yyval.c = novo + "[]"; ;
     break;}
 }
@@ -1376,7 +1376,7 @@ YYLABEL(yyerrhandle)
 /* END */
 
  #line 1038 "/usr/share/bison++/bison.cc"
-#line 87 "jsCompiler.y"
+#line 88 "jsCompiler.y"
 
 
 #include "lex.yy.c"
