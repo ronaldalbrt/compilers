@@ -49,17 +49,16 @@ CMD : ATR ';' { $$.c = $1.c + "^"; }
     | IF '(' R ')' B
     { string endif = gera_label( "end_if" );	   
      $$.c = $3.c + "!" + endif + "?" + $5.c + (":" + endif); }
-
     ;
 
-B: '{' CMDs '}' B_LINHA { $$ = $2; }
- | CMD B_LINHA { $$ = $1; }
+B: '{' CMDs '}' B_LINHA { $$.c = $2.c + $4.c; }
+ | CMD B_LINHA { $$.c = $1.c + $2.c; }
  ;
 
 B_LINHA: ELSE_IF '(' R ')' B 
          { string endelseif = gera_label("end_elseif");
 	   $$.c = $3.c + "!" + endelseif + "?" + $5.c + (":" + endelseif); }
-       | ELSE B { $$.c = $2.c;}
+       | ELSE B { $$ = $2;}
        |
        ;
 DECLVARs : DECLVAR ',' DECLVARs { $$.c = $1.c + $3.c; }
