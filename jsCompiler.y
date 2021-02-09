@@ -13,9 +13,7 @@ struct Atributos {
 #define YYSTYPE Atributos
 
 void erro( string msg );
-void Print( string st );
 
-// protótipo para o analisador léxico (gerado pelo lex)
 int yylex();
 void yyerror( const char* );
 int retorna( int tk );
@@ -31,11 +29,13 @@ int coluna = 1;
 %left '+' '-'
 %left '*' '/'
 
-%start CMDs
+%start S
 %%
+S : CMDs { cout<< $1.v << "." << endl; }
+  ;
 
-CMDs : A { Print( $1.v ); } ';' CMDs 
-     | { Print( "." ); }
+CMDs : A ';' CMDs  { $$.v = $1.v + "\n" + $3.v; }
+     | { $$.v = ""; }
      ;
 
 L_VALUE_PROP: ID '[' E ']' { $$.v = $1.v + "@ " + $3.v; }
@@ -108,10 +108,6 @@ int retorna( int tk ) {
 
 void yyerror( const char* msg ) {
   exit( 0 );
-}
-
-void Print( string st ) {
-  cout << st << " ";
 }
 
 int main() {
