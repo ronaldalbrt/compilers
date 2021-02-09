@@ -1,1 +1,2 @@
-obj.nums[i+3] = 45;
+
+let obj = {}, i = -2;

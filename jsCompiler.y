@@ -27,7 +27,6 @@ vector<string> resolve_enderecos( vector<string> entrada );
 void imprime( vector<string> s);
 
 vector<string> novo;
-
 %}
 
 %token NUM ID LET STR IF ELSE ELSE_IF MAIG MEIG IG DIF
@@ -73,7 +72,7 @@ PROP: E '[' E ']' { $$.c = $1.c + $3.c; }
     ;
 
 ATR : ID '=' ATR   { $$.c = $1.c + $3.c + "="; }
-    | PROP '=' ATR { $$.c = $1.c + $3.c + "[=]"}
+    | PROP '=' ATR { $$.c = $1.c + $3.c + "[=]"; }
     | R
     ;
 
@@ -95,9 +94,12 @@ T : T '*' F { $$.c = $1.c + $3.c + "*"; }
   | T '/' F { $$.c = $1.c + $3.c + "/"; }
   | F
 
+R_NUM: '-' NUM { $$.c = $2.c + "0" + "-"; }
+     | NUM { $$.c = $1.c; }
+
 F : ID          { $$.c = $1.c + "@"; }
   | PROP  	{ $$.c = $1.c + "[@]"; }
-  | NUM         { $$.c = $1.c; }
+  | R_NUM       { $$.c = $1.c; }
   | STR         { $$.c = $1.c; }
   | '(' E ')'   { $$ = $2; }
   | '{' '}'     { $$.c = novo + "{}"; }

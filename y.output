@@ -1,10 +1,10 @@
-State 58 contains 4 reduce/reduce conflicts.
-State 59 contains 4 reduce/reduce conflicts.
-State 60 contains 6 reduce/reduce conflicts.
-State 61 contains 6 reduce/reduce conflicts.
-State 66 contains 1 shift/reduce conflict.
-State 68 contains 2 shift/reduce conflicts.
-State 78 contains 2 shift/reduce conflicts.
+State 61 contains 4 reduce/reduce conflicts.
+State 62 contains 4 reduce/reduce conflicts.
+State 63 contains 6 reduce/reduce conflicts.
+State 64 contains 6 reduce/reduce conflicts.
+State 69 contains 1 shift/reduce conflict.
+State 71 contains 2 shift/reduce conflicts.
+State 81 contains 2 shift/reduce conflicts.
 
 Grammar
 rule 1    S -> CMDs
@@ -40,38 +40,40 @@ rule 30   E -> T
 rule 31   T -> T '*' F
 rule 32   T -> T '/' F
 rule 33   T -> F
-rule 34   F -> ID
-rule 35   F -> PROP
-rule 36   F -> NUM
-rule 37   F -> STR
-rule 38   F -> '(' E ')'
-rule 39   F -> '{' '}'
-rule 40   F -> '[' ']'
+rule 34   R_NUM -> '-' NUM
+rule 35   R_NUM -> NUM
+rule 36   F -> ID
+rule 37   F -> PROP
+rule 38   F -> R_NUM
+rule 39   F -> STR
+rule 40   F -> '(' E ')'
+rule 41   F -> '{' '}'
+rule 42   F -> '[' ']'
 
 Terminals, with rules where they appear
 
 $ (-1)
-'(' (40) 6 9 38
-')' (41) 6 9 38
+'(' (40) 6 9 40
+')' (41) 6 9 40
 '*' (42) 31
 '+' (43) 28
 ',' (44) 12
-'-' (45) 29
+'-' (45) 29 34
 '.' (46) 17
 '/' (47) 32
 ';' (59) 4 5
 '<' (60) 21
 '=' (61) 14 18 19
 '>' (62) 22
-'[' (91) 16 40
-']' (93) 16 40
-'{' (123) 7 39
-'}' (125) 7 39
+'[' (91) 16 42
+']' (93) 16 42
+'{' (123) 7 41
+'}' (125) 7 41
 error (256)
-NUM (258) 36
-ID (259) 14 15 17 18 34
+NUM (258) 34 35
+ID (259) 14 15 17 18 36
 LET (260) 5
-STR (261) 37
+STR (261) 39
 IF (262) 6
 ELSE (263) 10
 ELSE_IF (264) 9
@@ -97,17 +99,19 @@ DECLVARs (35)
 DECLVAR (36)
     on left: 14 15, on right: 12 13
 PROP (37)
-    on left: 16 17, on right: 19 35
+    on left: 16 17, on right: 19 37
 ATR (38)
     on left: 18 19 20, on right: 4 18 19
 R (39)
     on left: 21 22 23 24 25 26 27, on right: 6 9 14 20
 E (40)
-    on left: 28 29 30, on right: 16 17 21 22 23 24 25 26 27 28 29 38
+    on left: 28 29 30, on right: 16 17 21 22 23 24 25 26 27 28 29 40
 T (41)
     on left: 31 32 33, on right: 28 29 30 31 32
-F (42)
-    on left: 34 35 36 37 38 39 40, on right: 31 32 33
+R_NUM (42)
+    on left: 34 35, on right: 38
+F (43)
+    on left: 36 37 38 39 40 41 42, on right: 31 32 33
 
 
 state 0
@@ -120,37 +124,39 @@ state 0
     '(' 	shift, and go to state 6
     '{' 	shift, and go to state 7
     '[' 	shift, and go to state 8
+    '-' 	shift, and go to state 9
 
     $default	reduce using rule 3 (CMDs)
 
-    S   	go to state 80
-    CMDs	go to state 9
-    CMD 	go to state 10
-    PROP	go to state 11
-    ATR 	go to state 12
-    R   	go to state 13
-    E   	go to state 14
-    T   	go to state 15
-    F   	go to state 16
+    S   	go to state 83
+    CMDs	go to state 10
+    CMD 	go to state 11
+    PROP	go to state 12
+    ATR 	go to state 13
+    R   	go to state 14
+    E   	go to state 15
+    T   	go to state 16
+    R_NUM	go to state 17
+    F   	go to state 18
 
 
 
 state 1
 
-    F  ->  NUM .   (rule 36)
+    R_NUM  ->  NUM .   (rule 35)
 
-    $default	reduce using rule 36 (F)
+    $default	reduce using rule 35 (R_NUM)
 
 
 
 state 2
 
     ATR  ->  ID . '=' ATR   (rule 18)
-    F  ->  ID .   (rule 34)
+    F  ->  ID .   (rule 36)
 
-    '=' 	shift, and go to state 17
+    '=' 	shift, and go to state 19
 
-    $default	reduce using rule 34 (F)
+    $default	reduce using rule 36 (F)
 
 
 
@@ -158,18 +164,18 @@ state 3
 
     CMD  ->  LET . DECLVARs ';'   (rule 5)
 
-    ID  	shift, and go to state 18
+    ID  	shift, and go to state 20
 
-    DECLVARs	go to state 19
-    DECLVAR	go to state 20
+    DECLVARs	go to state 21
+    DECLVAR	go to state 22
 
 
 
 state 4
 
-    F  ->  STR .   (rule 37)
+    F  ->  STR .   (rule 39)
 
-    $default	reduce using rule 37 (F)
+    $default	reduce using rule 39 (F)
 
 
 
@@ -177,45 +183,55 @@ state 5
 
     CMD  ->  IF . '(' R ')' B C   (rule 6)
 
-    '(' 	shift, and go to state 21
+    '(' 	shift, and go to state 23
 
 
 
 state 6
 
-    F  ->  '(' . E ')'   (rule 38)
+    F  ->  '(' . E ')'   (rule 40)
 
     NUM 	shift, and go to state 1
-    ID  	shift, and go to state 22
+    ID  	shift, and go to state 24
     STR 	shift, and go to state 4
     '(' 	shift, and go to state 6
     '{' 	shift, and go to state 7
     '[' 	shift, and go to state 8
+    '-' 	shift, and go to state 9
 
-    PROP	go to state 23
-    E   	go to state 24
-    T   	go to state 15
-    F   	go to state 16
+    PROP	go to state 25
+    E   	go to state 26
+    T   	go to state 16
+    R_NUM	go to state 17
+    F   	go to state 18
 
 
 
 state 7
 
-    F  ->  '{' . '}'   (rule 39)
+    F  ->  '{' . '}'   (rule 41)
 
-    '}' 	shift, and go to state 25
+    '}' 	shift, and go to state 27
 
 
 
 state 8
 
-    F  ->  '[' . ']'   (rule 40)
+    F  ->  '[' . ']'   (rule 42)
 
-    ']' 	shift, and go to state 26
+    ']' 	shift, and go to state 28
 
 
 
 state 9
+
+    R_NUM  ->  '-' . NUM   (rule 34)
+
+    NUM 	shift, and go to state 29
+
+
+
+state 10
 
     S  ->  CMDs .   (rule 1)
 
@@ -223,7 +239,7 @@ state 9
 
 
 
-state 10
+state 11
 
     CMDs  ->  CMD . CMDs   (rule 2)
 
@@ -235,40 +251,42 @@ state 10
     '(' 	shift, and go to state 6
     '{' 	shift, and go to state 7
     '[' 	shift, and go to state 8
+    '-' 	shift, and go to state 9
 
     $default	reduce using rule 3 (CMDs)
 
-    CMDs	go to state 27
-    CMD 	go to state 10
-    PROP	go to state 11
-    ATR 	go to state 12
-    R   	go to state 13
-    E   	go to state 14
-    T   	go to state 15
-    F   	go to state 16
-
-
-
-state 11
-
-    ATR  ->  PROP . '=' ATR   (rule 19)
-    F  ->  PROP .   (rule 35)
-
-    '=' 	shift, and go to state 28
-
-    $default	reduce using rule 35 (F)
+    CMDs	go to state 30
+    CMD 	go to state 11
+    PROP	go to state 12
+    ATR 	go to state 13
+    R   	go to state 14
+    E   	go to state 15
+    T   	go to state 16
+    R_NUM	go to state 17
+    F   	go to state 18
 
 
 
 state 12
 
-    CMD  ->  ATR . ';'   (rule 4)
+    ATR  ->  PROP . '=' ATR   (rule 19)
+    F  ->  PROP .   (rule 37)
 
-    ';' 	shift, and go to state 29
+    '=' 	shift, and go to state 31
+
+    $default	reduce using rule 37 (F)
 
 
 
 state 13
+
+    CMD  ->  ATR . ';'   (rule 4)
+
+    ';' 	shift, and go to state 32
+
+
+
+state 14
 
     ATR  ->  R .   (rule 20)
 
@@ -276,7 +294,7 @@ state 13
 
 
 
-state 14
+state 15
 
     PROP  ->  E . '[' E ']'   (rule 16)
     PROP  ->  E . '.' ID   (rule 17)
@@ -290,35 +308,43 @@ state 14
     E  ->  E . '+' T   (rule 28)
     E  ->  E . '-' T   (rule 29)
 
-    MAIG	shift, and go to state 30
-    MEIG	shift, and go to state 31
-    IG  	shift, and go to state 32
-    DIF 	shift, and go to state 33
-    '[' 	shift, and go to state 34
-    '.' 	shift, and go to state 35
-    '<' 	shift, and go to state 36
-    '>' 	shift, and go to state 37
-    '+' 	shift, and go to state 38
-    '-' 	shift, and go to state 39
+    MAIG	shift, and go to state 33
+    MEIG	shift, and go to state 34
+    IG  	shift, and go to state 35
+    DIF 	shift, and go to state 36
+    '[' 	shift, and go to state 37
+    '.' 	shift, and go to state 38
+    '<' 	shift, and go to state 39
+    '>' 	shift, and go to state 40
+    '+' 	shift, and go to state 41
+    '-' 	shift, and go to state 42
 
     $default	reduce using rule 27 (R)
 
 
 
-state 15
+state 16
 
     E  ->  T .   (rule 30)
     T  ->  T . '*' F   (rule 31)
     T  ->  T . '/' F   (rule 32)
 
-    '*' 	shift, and go to state 40
-    '/' 	shift, and go to state 41
+    '*' 	shift, and go to state 43
+    '/' 	shift, and go to state 44
 
     $default	reduce using rule 30 (E)
 
 
 
-state 16
+state 17
+
+    F  ->  R_NUM .   (rule 38)
+
+    $default	reduce using rule 38 (F)
+
+
+
+state 18
 
     T  ->  F .   (rule 33)
 
@@ -326,7 +352,7 @@ state 16
 
 
 
-state 17
+state 19
 
     ATR  ->  ID '=' . ATR   (rule 18)
 
@@ -336,114 +362,126 @@ state 17
     '(' 	shift, and go to state 6
     '{' 	shift, and go to state 7
     '[' 	shift, and go to state 8
+    '-' 	shift, and go to state 9
 
-    PROP	go to state 11
-    ATR 	go to state 42
-    R   	go to state 13
-    E   	go to state 14
-    T   	go to state 15
-    F   	go to state 16
-
-
-
-state 18
-
-    DECLVAR  ->  ID . '=' R   (rule 14)
-    DECLVAR  ->  ID .   (rule 15)
-
-    '=' 	shift, and go to state 43
-
-    $default	reduce using rule 15 (DECLVAR)
-
-
-
-state 19
-
-    CMD  ->  LET DECLVARs . ';'   (rule 5)
-
-    ';' 	shift, and go to state 44
+    PROP	go to state 12
+    ATR 	go to state 45
+    R   	go to state 14
+    E   	go to state 15
+    T   	go to state 16
+    R_NUM	go to state 17
+    F   	go to state 18
 
 
 
 state 20
 
-    DECLVARs  ->  DECLVAR . ',' DECLVARs   (rule 12)
-    DECLVARs  ->  DECLVAR .   (rule 13)
+    DECLVAR  ->  ID . '=' R   (rule 14)
+    DECLVAR  ->  ID .   (rule 15)
 
-    ',' 	shift, and go to state 45
+    '=' 	shift, and go to state 46
 
-    $default	reduce using rule 13 (DECLVARs)
+    $default	reduce using rule 15 (DECLVAR)
 
 
 
 state 21
 
-    CMD  ->  IF '(' . R ')' B C   (rule 6)
+    CMD  ->  LET DECLVARs . ';'   (rule 5)
 
-    NUM 	shift, and go to state 1
-    ID  	shift, and go to state 22
-    STR 	shift, and go to state 4
-    '(' 	shift, and go to state 6
-    '{' 	shift, and go to state 7
-    '[' 	shift, and go to state 8
-
-    PROP	go to state 23
-    R   	go to state 46
-    E   	go to state 14
-    T   	go to state 15
-    F   	go to state 16
+    ';' 	shift, and go to state 47
 
 
 
 state 22
 
-    F  ->  ID .   (rule 34)
+    DECLVARs  ->  DECLVAR . ',' DECLVARs   (rule 12)
+    DECLVARs  ->  DECLVAR .   (rule 13)
 
-    $default	reduce using rule 34 (F)
+    ',' 	shift, and go to state 48
+
+    $default	reduce using rule 13 (DECLVARs)
 
 
 
 state 23
 
-    F  ->  PROP .   (rule 35)
+    CMD  ->  IF '(' . R ')' B C   (rule 6)
 
-    $default	reduce using rule 35 (F)
+    NUM 	shift, and go to state 1
+    ID  	shift, and go to state 24
+    STR 	shift, and go to state 4
+    '(' 	shift, and go to state 6
+    '{' 	shift, and go to state 7
+    '[' 	shift, and go to state 8
+    '-' 	shift, and go to state 9
+
+    PROP	go to state 25
+    R   	go to state 49
+    E   	go to state 15
+    T   	go to state 16
+    R_NUM	go to state 17
+    F   	go to state 18
 
 
 
 state 24
 
-    PROP  ->  E . '[' E ']'   (rule 16)
-    PROP  ->  E . '.' ID   (rule 17)
-    E  ->  E . '+' T   (rule 28)
-    E  ->  E . '-' T   (rule 29)
-    F  ->  '(' E . ')'   (rule 38)
+    F  ->  ID .   (rule 36)
 
-    ')' 	shift, and go to state 47
-    '[' 	shift, and go to state 34
-    '.' 	shift, and go to state 35
-    '+' 	shift, and go to state 38
-    '-' 	shift, and go to state 39
+    $default	reduce using rule 36 (F)
 
 
 
 state 25
 
-    F  ->  '{' '}' .   (rule 39)
+    F  ->  PROP .   (rule 37)
 
-    $default	reduce using rule 39 (F)
+    $default	reduce using rule 37 (F)
 
 
 
 state 26
 
-    F  ->  '[' ']' .   (rule 40)
+    PROP  ->  E . '[' E ']'   (rule 16)
+    PROP  ->  E . '.' ID   (rule 17)
+    E  ->  E . '+' T   (rule 28)
+    E  ->  E . '-' T   (rule 29)
+    F  ->  '(' E . ')'   (rule 40)
 
-    $default	reduce using rule 40 (F)
+    ')' 	shift, and go to state 50
+    '[' 	shift, and go to state 37
+    '.' 	shift, and go to state 38
+    '+' 	shift, and go to state 41
+    '-' 	shift, and go to state 42
 
 
 
 state 27
+
+    F  ->  '{' '}' .   (rule 41)
+
+    $default	reduce using rule 41 (F)
+
+
+
+state 28
+
+    F  ->  '[' ']' .   (rule 42)
+
+    $default	reduce using rule 42 (F)
+
+
+
+state 29
+
+    R_NUM  ->  '-' NUM .   (rule 34)
+
+    $default	reduce using rule 34 (R_NUM)
+
+
+
+state 30
 
     CMDs  ->  CMD CMDs .   (rule 2)
 
@@ -451,7 +489,7 @@ state 27
 
 
 
-state 28
+state 31
 
     ATR  ->  PROP '=' . ATR   (rule 19)
 
@@ -461,17 +499,19 @@ state 28
     '(' 	shift, and go to state 6
     '{' 	shift, and go to state 7
     '[' 	shift, and go to state 8
+    '-' 	shift, and go to state 9
 
-    PROP	go to state 11
-    ATR 	go to state 48
-    R   	go to state 13
-    E   	go to state 14
-    T   	go to state 15
-    F   	go to state 16
+    PROP	go to state 12
+    ATR 	go to state 51
+    R   	go to state 14
+    E   	go to state 15
+    T   	go to state 16
+    R_NUM	go to state 17
+    F   	go to state 18
 
 
 
-state 29
+state 32
 
     CMD  ->  ATR ';' .   (rule 4)
 
@@ -479,213 +519,235 @@ state 29
 
 
 
-state 30
+state 33
 
     R  ->  E MAIG . E   (rule 23)
 
     NUM 	shift, and go to state 1
-    ID  	shift, and go to state 22
+    ID  	shift, and go to state 24
     STR 	shift, and go to state 4
     '(' 	shift, and go to state 6
     '{' 	shift, and go to state 7
     '[' 	shift, and go to state 8
+    '-' 	shift, and go to state 9
 
-    PROP	go to state 23
-    E   	go to state 49
-    T   	go to state 15
-    F   	go to state 16
-
-
-
-state 31
-
-    R  ->  E MEIG . E   (rule 24)
-
-    NUM 	shift, and go to state 1
-    ID  	shift, and go to state 22
-    STR 	shift, and go to state 4
-    '(' 	shift, and go to state 6
-    '{' 	shift, and go to state 7
-    '[' 	shift, and go to state 8
-
-    PROP	go to state 23
-    E   	go to state 50
-    T   	go to state 15
-    F   	go to state 16
-
-
-
-state 32
-
-    R  ->  E IG . E   (rule 25)
-
-    NUM 	shift, and go to state 1
-    ID  	shift, and go to state 22
-    STR 	shift, and go to state 4
-    '(' 	shift, and go to state 6
-    '{' 	shift, and go to state 7
-    '[' 	shift, and go to state 8
-
-    PROP	go to state 23
-    E   	go to state 51
-    T   	go to state 15
-    F   	go to state 16
-
-
-
-state 33
-
-    R  ->  E DIF . E   (rule 26)
-
-    NUM 	shift, and go to state 1
-    ID  	shift, and go to state 22
-    STR 	shift, and go to state 4
-    '(' 	shift, and go to state 6
-    '{' 	shift, and go to state 7
-    '[' 	shift, and go to state 8
-
-    PROP	go to state 23
+    PROP	go to state 25
     E   	go to state 52
-    T   	go to state 15
-    F   	go to state 16
+    T   	go to state 16
+    R_NUM	go to state 17
+    F   	go to state 18
 
 
 
 state 34
 
-    PROP  ->  E '[' . E ']'   (rule 16)
+    R  ->  E MEIG . E   (rule 24)
 
     NUM 	shift, and go to state 1
-    ID  	shift, and go to state 22
+    ID  	shift, and go to state 24
     STR 	shift, and go to state 4
     '(' 	shift, and go to state 6
     '{' 	shift, and go to state 7
     '[' 	shift, and go to state 8
+    '-' 	shift, and go to state 9
 
-    PROP	go to state 23
+    PROP	go to state 25
     E   	go to state 53
-    T   	go to state 15
-    F   	go to state 16
+    T   	go to state 16
+    R_NUM	go to state 17
+    F   	go to state 18
 
 
 
 state 35
 
-    PROP  ->  E '.' . ID   (rule 17)
+    R  ->  E IG . E   (rule 25)
 
-    ID  	shift, and go to state 54
+    NUM 	shift, and go to state 1
+    ID  	shift, and go to state 24
+    STR 	shift, and go to state 4
+    '(' 	shift, and go to state 6
+    '{' 	shift, and go to state 7
+    '[' 	shift, and go to state 8
+    '-' 	shift, and go to state 9
+
+    PROP	go to state 25
+    E   	go to state 54
+    T   	go to state 16
+    R_NUM	go to state 17
+    F   	go to state 18
 
 
 
 state 36
 
-    R  ->  E '<' . E   (rule 21)
+    R  ->  E DIF . E   (rule 26)
 
     NUM 	shift, and go to state 1
-    ID  	shift, and go to state 22
+    ID  	shift, and go to state 24
     STR 	shift, and go to state 4
     '(' 	shift, and go to state 6
     '{' 	shift, and go to state 7
     '[' 	shift, and go to state 8
+    '-' 	shift, and go to state 9
 
-    PROP	go to state 23
+    PROP	go to state 25
     E   	go to state 55
-    T   	go to state 15
-    F   	go to state 16
+    T   	go to state 16
+    R_NUM	go to state 17
+    F   	go to state 18
 
 
 
 state 37
 
-    R  ->  E '>' . E   (rule 22)
+    PROP  ->  E '[' . E ']'   (rule 16)
 
     NUM 	shift, and go to state 1
-    ID  	shift, and go to state 22
+    ID  	shift, and go to state 24
     STR 	shift, and go to state 4
     '(' 	shift, and go to state 6
     '{' 	shift, and go to state 7
     '[' 	shift, and go to state 8
+    '-' 	shift, and go to state 9
 
-    PROP	go to state 23
+    PROP	go to state 25
     E   	go to state 56
-    T   	go to state 15
-    F   	go to state 16
+    T   	go to state 16
+    R_NUM	go to state 17
+    F   	go to state 18
 
 
 
 state 38
 
-    E  ->  E '+' . T   (rule 28)
+    PROP  ->  E '.' . ID   (rule 17)
 
-    NUM 	shift, and go to state 1
-    ID  	shift, and go to state 22
-    STR 	shift, and go to state 4
-    '(' 	shift, and go to state 6
-    '{' 	shift, and go to state 7
-    '[' 	shift, and go to state 8
-
-    PROP	go to state 23
-    E   	go to state 57
-    T   	go to state 58
-    F   	go to state 16
+    ID  	shift, and go to state 57
 
 
 
 state 39
 
-    E  ->  E '-' . T   (rule 29)
+    R  ->  E '<' . E   (rule 21)
 
     NUM 	shift, and go to state 1
-    ID  	shift, and go to state 22
+    ID  	shift, and go to state 24
     STR 	shift, and go to state 4
     '(' 	shift, and go to state 6
     '{' 	shift, and go to state 7
     '[' 	shift, and go to state 8
+    '-' 	shift, and go to state 9
 
-    PROP	go to state 23
-    E   	go to state 57
-    T   	go to state 59
-    F   	go to state 16
+    PROP	go to state 25
+    E   	go to state 58
+    T   	go to state 16
+    R_NUM	go to state 17
+    F   	go to state 18
 
 
 
 state 40
 
-    T  ->  T '*' . F   (rule 31)
+    R  ->  E '>' . E   (rule 22)
 
     NUM 	shift, and go to state 1
-    ID  	shift, and go to state 22
+    ID  	shift, and go to state 24
     STR 	shift, and go to state 4
     '(' 	shift, and go to state 6
     '{' 	shift, and go to state 7
     '[' 	shift, and go to state 8
+    '-' 	shift, and go to state 9
 
-    PROP	go to state 23
-    E   	go to state 57
-    T   	go to state 15
-    F   	go to state 60
+    PROP	go to state 25
+    E   	go to state 59
+    T   	go to state 16
+    R_NUM	go to state 17
+    F   	go to state 18
 
 
 
 state 41
 
-    T  ->  T '/' . F   (rule 32)
+    E  ->  E '+' . T   (rule 28)
 
     NUM 	shift, and go to state 1
-    ID  	shift, and go to state 22
+    ID  	shift, and go to state 24
     STR 	shift, and go to state 4
     '(' 	shift, and go to state 6
     '{' 	shift, and go to state 7
     '[' 	shift, and go to state 8
+    '-' 	shift, and go to state 9
 
-    PROP	go to state 23
-    E   	go to state 57
-    T   	go to state 15
-    F   	go to state 61
+    PROP	go to state 25
+    E   	go to state 60
+    T   	go to state 61
+    R_NUM	go to state 17
+    F   	go to state 18
 
 
 
 state 42
+
+    E  ->  E '-' . T   (rule 29)
+
+    NUM 	shift, and go to state 1
+    ID  	shift, and go to state 24
+    STR 	shift, and go to state 4
+    '(' 	shift, and go to state 6
+    '{' 	shift, and go to state 7
+    '[' 	shift, and go to state 8
+    '-' 	shift, and go to state 9
+
+    PROP	go to state 25
+    E   	go to state 60
+    T   	go to state 62
+    R_NUM	go to state 17
+    F   	go to state 18
+
+
+
+state 43
+
+    T  ->  T '*' . F   (rule 31)
+
+    NUM 	shift, and go to state 1
+    ID  	shift, and go to state 24
+    STR 	shift, and go to state 4
+    '(' 	shift, and go to state 6
+    '{' 	shift, and go to state 7
+    '[' 	shift, and go to state 8
+    '-' 	shift, and go to state 9
+
+    PROP	go to state 25
+    E   	go to state 60
+    T   	go to state 16
+    R_NUM	go to state 17
+    F   	go to state 63
+
+
+
+state 44
+
+    T  ->  T '/' . F   (rule 32)
+
+    NUM 	shift, and go to state 1
+    ID  	shift, and go to state 24
+    STR 	shift, and go to state 4
+    '(' 	shift, and go to state 6
+    '{' 	shift, and go to state 7
+    '[' 	shift, and go to state 8
+    '-' 	shift, and go to state 9
+
+    PROP	go to state 25
+    E   	go to state 60
+    T   	go to state 16
+    R_NUM	go to state 17
+    F   	go to state 64
+
+
+
+state 45
 
     ATR  ->  ID '=' ATR .   (rule 18)
 
@@ -693,26 +755,28 @@ state 42
 
 
 
-state 43
+state 46
 
     DECLVAR  ->  ID '=' . R   (rule 14)
 
     NUM 	shift, and go to state 1
-    ID  	shift, and go to state 22
+    ID  	shift, and go to state 24
     STR 	shift, and go to state 4
     '(' 	shift, and go to state 6
     '{' 	shift, and go to state 7
     '[' 	shift, and go to state 8
+    '-' 	shift, and go to state 9
 
-    PROP	go to state 23
-    R   	go to state 62
-    E   	go to state 14
-    T   	go to state 15
-    F   	go to state 16
+    PROP	go to state 25
+    R   	go to state 65
+    E   	go to state 15
+    T   	go to state 16
+    R_NUM	go to state 17
+    F   	go to state 18
 
 
 
-state 44
+state 47
 
     CMD  ->  LET DECLVARs ';' .   (rule 5)
 
@@ -720,34 +784,34 @@ state 44
 
 
 
-state 45
+state 48
 
     DECLVARs  ->  DECLVAR ',' . DECLVARs   (rule 12)
 
-    ID  	shift, and go to state 18
+    ID  	shift, and go to state 20
 
-    DECLVARs	go to state 63
-    DECLVAR	go to state 20
+    DECLVARs	go to state 66
+    DECLVAR	go to state 22
 
 
 
-state 46
+state 49
 
     CMD  ->  IF '(' R . ')' B C   (rule 6)
 
-    ')' 	shift, and go to state 64
+    ')' 	shift, and go to state 67
 
 
 
-state 47
+state 50
 
-    F  ->  '(' E ')' .   (rule 38)
+    F  ->  '(' E ')' .   (rule 40)
 
-    $default	reduce using rule 38 (F)
+    $default	reduce using rule 40 (F)
 
 
 
-state 48
+state 51
 
     ATR  ->  PROP '=' ATR .   (rule 19)
 
@@ -755,7 +819,7 @@ state 48
 
 
 
-state 49
+state 52
 
     PROP  ->  E . '[' E ']'   (rule 16)
     PROP  ->  E . '.' ID   (rule 17)
@@ -763,16 +827,16 @@ state 49
     E  ->  E . '+' T   (rule 28)
     E  ->  E . '-' T   (rule 29)
 
-    '[' 	shift, and go to state 34
-    '.' 	shift, and go to state 35
-    '+' 	shift, and go to state 38
-    '-' 	shift, and go to state 39
+    '[' 	shift, and go to state 37
+    '.' 	shift, and go to state 38
+    '+' 	shift, and go to state 41
+    '-' 	shift, and go to state 42
 
     $default	reduce using rule 23 (R)
 
 
 
-state 50
+state 53
 
     PROP  ->  E . '[' E ']'   (rule 16)
     PROP  ->  E . '.' ID   (rule 17)
@@ -780,16 +844,16 @@ state 50
     E  ->  E . '+' T   (rule 28)
     E  ->  E . '-' T   (rule 29)
 
-    '[' 	shift, and go to state 34
-    '.' 	shift, and go to state 35
-    '+' 	shift, and go to state 38
-    '-' 	shift, and go to state 39
+    '[' 	shift, and go to state 37
+    '.' 	shift, and go to state 38
+    '+' 	shift, and go to state 41
+    '-' 	shift, and go to state 42
 
     $default	reduce using rule 24 (R)
 
 
 
-state 51
+state 54
 
     PROP  ->  E . '[' E ']'   (rule 16)
     PROP  ->  E . '.' ID   (rule 17)
@@ -797,53 +861,12 @@ state 51
     E  ->  E . '+' T   (rule 28)
     E  ->  E . '-' T   (rule 29)
 
-    '[' 	shift, and go to state 34
-    '.' 	shift, and go to state 35
-    '+' 	shift, and go to state 38
-    '-' 	shift, and go to state 39
+    '[' 	shift, and go to state 37
+    '.' 	shift, and go to state 38
+    '+' 	shift, and go to state 41
+    '-' 	shift, and go to state 42
 
     $default	reduce using rule 25 (R)
-
-
-
-state 52
-
-    PROP  ->  E . '[' E ']'   (rule 16)
-    PROP  ->  E . '.' ID   (rule 17)
-    R  ->  E DIF E .   (rule 26)
-    E  ->  E . '+' T   (rule 28)
-    E  ->  E . '-' T   (rule 29)
-
-    '[' 	shift, and go to state 34
-    '.' 	shift, and go to state 35
-    '+' 	shift, and go to state 38
-    '-' 	shift, and go to state 39
-
-    $default	reduce using rule 26 (R)
-
-
-
-state 53
-
-    PROP  ->  E . '[' E ']'   (rule 16)
-    PROP  ->  E '[' E . ']'   (rule 16)
-    PROP  ->  E . '.' ID   (rule 17)
-    E  ->  E . '+' T   (rule 28)
-    E  ->  E . '-' T   (rule 29)
-
-    '[' 	shift, and go to state 34
-    ']' 	shift, and go to state 65
-    '.' 	shift, and go to state 35
-    '+' 	shift, and go to state 38
-    '-' 	shift, and go to state 39
-
-
-
-state 54
-
-    PROP  ->  E '.' ID .   (rule 17)
-
-    $default	reduce using rule 17 (PROP)
 
 
 
@@ -851,20 +874,61 @@ state 55
 
     PROP  ->  E . '[' E ']'   (rule 16)
     PROP  ->  E . '.' ID   (rule 17)
+    R  ->  E DIF E .   (rule 26)
+    E  ->  E . '+' T   (rule 28)
+    E  ->  E . '-' T   (rule 29)
+
+    '[' 	shift, and go to state 37
+    '.' 	shift, and go to state 38
+    '+' 	shift, and go to state 41
+    '-' 	shift, and go to state 42
+
+    $default	reduce using rule 26 (R)
+
+
+
+state 56
+
+    PROP  ->  E . '[' E ']'   (rule 16)
+    PROP  ->  E '[' E . ']'   (rule 16)
+    PROP  ->  E . '.' ID   (rule 17)
+    E  ->  E . '+' T   (rule 28)
+    E  ->  E . '-' T   (rule 29)
+
+    '[' 	shift, and go to state 37
+    ']' 	shift, and go to state 68
+    '.' 	shift, and go to state 38
+    '+' 	shift, and go to state 41
+    '-' 	shift, and go to state 42
+
+
+
+state 57
+
+    PROP  ->  E '.' ID .   (rule 17)
+
+    $default	reduce using rule 17 (PROP)
+
+
+
+state 58
+
+    PROP  ->  E . '[' E ']'   (rule 16)
+    PROP  ->  E . '.' ID   (rule 17)
     R  ->  E '<' E .   (rule 21)
     E  ->  E . '+' T   (rule 28)
     E  ->  E . '-' T   (rule 29)
 
-    '[' 	shift, and go to state 34
-    '.' 	shift, and go to state 35
-    '+' 	shift, and go to state 38
-    '-' 	shift, and go to state 39
+    '[' 	shift, and go to state 37
+    '.' 	shift, and go to state 38
+    '+' 	shift, and go to state 41
+    '-' 	shift, and go to state 42
 
     $default	reduce using rule 21 (R)
 
 
 
-state 56
+state 59
 
     PROP  ->  E . '[' E ']'   (rule 16)
     PROP  ->  E . '.' ID   (rule 17)
@@ -872,38 +936,38 @@ state 56
     E  ->  E . '+' T   (rule 28)
     E  ->  E . '-' T   (rule 29)
 
-    '[' 	shift, and go to state 34
-    '.' 	shift, and go to state 35
-    '+' 	shift, and go to state 38
-    '-' 	shift, and go to state 39
+    '[' 	shift, and go to state 37
+    '.' 	shift, and go to state 38
+    '+' 	shift, and go to state 41
+    '-' 	shift, and go to state 42
 
     $default	reduce using rule 22 (R)
 
 
 
-state 57
+state 60
 
     PROP  ->  E . '[' E ']'   (rule 16)
     PROP  ->  E . '.' ID   (rule 17)
     E  ->  E . '+' T   (rule 28)
     E  ->  E . '-' T   (rule 29)
 
-    '[' 	shift, and go to state 34
-    '.' 	shift, and go to state 35
-    '+' 	shift, and go to state 38
-    '-' 	shift, and go to state 39
+    '[' 	shift, and go to state 37
+    '.' 	shift, and go to state 38
+    '+' 	shift, and go to state 41
+    '-' 	shift, and go to state 42
 
 
 
-state 58
+state 61
 
     E  ->  E '+' T .   (rule 28)
     E  ->  T .   (rule 30)
     T  ->  T . '*' F   (rule 31)
     T  ->  T . '/' F   (rule 32)
 
-    '*' 	shift, and go to state 40
-    '/' 	shift, and go to state 41
+    '*' 	shift, and go to state 43
+    '/' 	shift, and go to state 44
 
     '[' 	reduce using rule 28 (E)
     '[' 	[reduce using rule 30 (E)]
@@ -917,15 +981,15 @@ state 58
 
 
 
-state 59
+state 62
 
     E  ->  E '-' T .   (rule 29)
     E  ->  T .   (rule 30)
     T  ->  T . '*' F   (rule 31)
     T  ->  T . '/' F   (rule 32)
 
-    '*' 	shift, and go to state 40
-    '/' 	shift, and go to state 41
+    '*' 	shift, and go to state 43
+    '/' 	shift, and go to state 44
 
     '[' 	reduce using rule 29 (E)
     '[' 	[reduce using rule 30 (E)]
@@ -939,7 +1003,7 @@ state 59
 
 
 
-state 60
+state 63
 
     T  ->  T '*' F .   (rule 31)
     T  ->  F .   (rule 33)
@@ -960,7 +1024,7 @@ state 60
 
 
 
-state 61
+state 64
 
     T  ->  T '/' F .   (rule 32)
     T  ->  F .   (rule 33)
@@ -981,7 +1045,7 @@ state 61
 
 
 
-state 62
+state 65
 
     DECLVAR  ->  ID '=' R .   (rule 14)
 
@@ -989,7 +1053,7 @@ state 62
 
 
 
-state 63
+state 66
 
     DECLVARs  ->  DECLVAR ',' DECLVARs .   (rule 12)
 
@@ -997,7 +1061,7 @@ state 63
 
 
 
-state 64
+state 67
 
     CMD  ->  IF '(' R ')' . B C   (rule 6)
 
@@ -1007,21 +1071,23 @@ state 64
     STR 	shift, and go to state 4
     IF  	shift, and go to state 5
     '(' 	shift, and go to state 6
-    '{' 	shift, and go to state 66
+    '{' 	shift, and go to state 69
     '[' 	shift, and go to state 8
+    '-' 	shift, and go to state 9
 
-    CMD 	go to state 67
-    B   	go to state 68
-    PROP	go to state 11
-    ATR 	go to state 12
-    R   	go to state 13
-    E   	go to state 14
-    T   	go to state 15
-    F   	go to state 16
+    CMD 	go to state 70
+    B   	go to state 71
+    PROP	go to state 12
+    ATR 	go to state 13
+    R   	go to state 14
+    E   	go to state 15
+    T   	go to state 16
+    R_NUM	go to state 17
+    F   	go to state 18
 
 
 
-state 65
+state 68
 
     PROP  ->  E '[' E ']' .   (rule 16)
 
@@ -1029,10 +1095,10 @@ state 65
 
 
 
-state 66
+state 69
 
     B  ->  '{' . CMDs '}'   (rule 7)
-    F  ->  '{' . '}'   (rule 39)
+    F  ->  '{' . '}'   (rule 41)
 
     NUM 	shift, and go to state 1
     ID  	shift, and go to state 2
@@ -1041,24 +1107,26 @@ state 66
     IF  	shift, and go to state 5
     '(' 	shift, and go to state 6
     '{' 	shift, and go to state 7
-    '}' 	shift, and go to state 25
+    '}' 	shift, and go to state 27
     '[' 	shift, and go to state 8
+    '-' 	shift, and go to state 9
 
     '}' 	[reduce using rule 3 (CMDs)]
     $default	reduce using rule 3 (CMDs)
 
-    CMDs	go to state 69
-    CMD 	go to state 10
-    PROP	go to state 11
-    ATR 	go to state 12
-    R   	go to state 13
-    E   	go to state 14
-    T   	go to state 15
-    F   	go to state 16
+    CMDs	go to state 72
+    CMD 	go to state 11
+    PROP	go to state 12
+    ATR 	go to state 13
+    R   	go to state 14
+    E   	go to state 15
+    T   	go to state 16
+    R_NUM	go to state 17
+    F   	go to state 18
 
 
 
-state 67
+state 70
 
     B  ->  CMD .   (rule 8)
 
@@ -1066,30 +1134,30 @@ state 67
 
 
 
-state 68
+state 71
 
     CMD  ->  IF '(' R ')' B . C   (rule 6)
 
-    ELSE	shift, and go to state 70
-    ELSE_IF	shift, and go to state 71
+    ELSE	shift, and go to state 73
+    ELSE_IF	shift, and go to state 74
 
     ELSE	[reduce using rule 11 (C)]
     ELSE_IF	[reduce using rule 11 (C)]
     $default	reduce using rule 11 (C)
 
-    C   	go to state 72
+    C   	go to state 75
 
 
 
-state 69
+state 72
 
     B  ->  '{' CMDs . '}'   (rule 7)
 
-    '}' 	shift, and go to state 73
+    '}' 	shift, and go to state 76
 
 
 
-state 70
+state 73
 
     C  ->  ELSE . B   (rule 10)
 
@@ -1099,29 +1167,31 @@ state 70
     STR 	shift, and go to state 4
     IF  	shift, and go to state 5
     '(' 	shift, and go to state 6
-    '{' 	shift, and go to state 66
+    '{' 	shift, and go to state 69
     '[' 	shift, and go to state 8
+    '-' 	shift, and go to state 9
 
-    CMD 	go to state 67
-    B   	go to state 74
-    PROP	go to state 11
-    ATR 	go to state 12
-    R   	go to state 13
-    E   	go to state 14
-    T   	go to state 15
-    F   	go to state 16
+    CMD 	go to state 70
+    B   	go to state 77
+    PROP	go to state 12
+    ATR 	go to state 13
+    R   	go to state 14
+    E   	go to state 15
+    T   	go to state 16
+    R_NUM	go to state 17
+    F   	go to state 18
 
 
 
-state 71
+state 74
 
     C  ->  ELSE_IF . '(' R ')' B C   (rule 9)
 
-    '(' 	shift, and go to state 75
+    '(' 	shift, and go to state 78
 
 
 
-state 72
+state 75
 
     CMD  ->  IF '(' R ')' B C .   (rule 6)
 
@@ -1129,7 +1199,7 @@ state 72
 
 
 
-state 73
+state 76
 
     B  ->  '{' CMDs '}' .   (rule 7)
 
@@ -1137,7 +1207,7 @@ state 73
 
 
 
-state 74
+state 77
 
     C  ->  ELSE B .   (rule 10)
 
@@ -1145,34 +1215,36 @@ state 74
 
 
 
-state 75
+state 78
 
     C  ->  ELSE_IF '(' . R ')' B C   (rule 9)
 
     NUM 	shift, and go to state 1
-    ID  	shift, and go to state 22
+    ID  	shift, and go to state 24
     STR 	shift, and go to state 4
     '(' 	shift, and go to state 6
     '{' 	shift, and go to state 7
     '[' 	shift, and go to state 8
+    '-' 	shift, and go to state 9
 
-    PROP	go to state 23
-    R   	go to state 76
-    E   	go to state 14
-    T   	go to state 15
-    F   	go to state 16
+    PROP	go to state 25
+    R   	go to state 79
+    E   	go to state 15
+    T   	go to state 16
+    R_NUM	go to state 17
+    F   	go to state 18
 
 
 
-state 76
+state 79
 
     C  ->  ELSE_IF '(' R . ')' B C   (rule 9)
 
-    ')' 	shift, and go to state 77
+    ')' 	shift, and go to state 80
 
 
 
-state 77
+state 80
 
     C  ->  ELSE_IF '(' R ')' . B C   (rule 9)
 
@@ -1182,36 +1254,38 @@ state 77
     STR 	shift, and go to state 4
     IF  	shift, and go to state 5
     '(' 	shift, and go to state 6
-    '{' 	shift, and go to state 66
+    '{' 	shift, and go to state 69
     '[' 	shift, and go to state 8
+    '-' 	shift, and go to state 9
 
-    CMD 	go to state 67
-    B   	go to state 78
-    PROP	go to state 11
-    ATR 	go to state 12
-    R   	go to state 13
-    E   	go to state 14
-    T   	go to state 15
-    F   	go to state 16
+    CMD 	go to state 70
+    B   	go to state 81
+    PROP	go to state 12
+    ATR 	go to state 13
+    R   	go to state 14
+    E   	go to state 15
+    T   	go to state 16
+    R_NUM	go to state 17
+    F   	go to state 18
 
 
 
-state 78
+state 81
 
     C  ->  ELSE_IF '(' R ')' B . C   (rule 9)
 
-    ELSE	shift, and go to state 70
-    ELSE_IF	shift, and go to state 71
+    ELSE	shift, and go to state 73
+    ELSE_IF	shift, and go to state 74
 
     ELSE	[reduce using rule 11 (C)]
     ELSE_IF	[reduce using rule 11 (C)]
     $default	reduce using rule 11 (C)
 
-    C   	go to state 79
+    C   	go to state 82
 
 
 
-state 79
+state 82
 
     C  ->  ELSE_IF '(' R ')' B C .   (rule 9)
 
@@ -1219,18 +1293,18 @@ state 79
 
 
 
-state 80
+state 83
 
-    $   	go to state 81
-
-
-
-state 81
-
-    $   	go to state 82
+    $   	go to state 84
 
 
 
-state 82
+state 84
+
+    $   	go to state 85
+
+
+
+state 85
 
     $default	accept
