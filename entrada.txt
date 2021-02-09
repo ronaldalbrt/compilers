@@ -1,2 +1,1 @@
-
-let obj = {}, i = -2;
+obj['nom' + 'e'] = obj.nome + "!";

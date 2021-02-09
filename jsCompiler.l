@@ -3,7 +3,7 @@ DIGITO  [0-9]
 LETRA   [A-Za-z_]
 DOUBLE  {DIGITO}+("."{DIGITO}+)?
 ID      {LETRA}({LETRA}|{DIGITO})*
-STR 	(\"([^\"\n]|(\\\")|\"\")+\")|(\'([^\"\n]|(\\\")|\"\")+\')
+STR 	(\"([^"\n]|\\\"|\"\")*\")|('([^'\n]|''|\\')*')
 %%
 
 {DELIM}    { }
