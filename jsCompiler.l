@@ -14,6 +14,12 @@ STR 	(\"([^\"\n]|(\\\")|\"\")+\")|(\'([^\"\n]|(\\\")|\"\")+\')
 {STR}	   { yylval.c = novo + yytext;
              return STR; }
 
+"else if"  { yylval.c = novo + "else if";
+	     return ELSE_IF; }
+
+"else"     { yylval.c = novo + "else";
+            return ELSE; }
+
 "if"       { yylval.c = novo + "if";
 	     return IF; }
 

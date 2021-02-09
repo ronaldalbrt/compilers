@@ -1,9 +1,9 @@
-let a = 4, b = 5, c, d;
-
-if( a > b ) {
-  c = "a e' maior" + "!";
+let a = "ABA", c = 'CATE', resultado;
+if( a == c )
+  resultado = "Ta' errado!";
+else if( a < c ) {
+  resultado = "a vem antes de c: ";
+  resultado = resultado + a + '<' + c;
 }
-
-if( a < b + 1 ) { 
-  d = "a e' menor";
-}
+else
+  resultado = "Deu ruim!";

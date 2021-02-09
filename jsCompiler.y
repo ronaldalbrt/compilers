@@ -30,7 +30,7 @@ vector<string> novo;
 
 %}
 
-%token NUM ID LET STR IF MAIG MEIG IG DIF
+%token NUM ID LET STR IF ELSE ELSE_IF MAIG MEIG IG DIF
 
 // Start indica o símbolo inicial da gramática
 %start S
@@ -52,10 +52,16 @@ CMD : ATR ';' { $$.c = $1.c + "^"; }
 
     ;
 
-B: '{' CMDs '}' { $$ = $2; }
- | CMD { $$ = $1; }
+B: '{' CMDs '}' B_LINHA { $$ = $2; }
+ | CMD B_LINHA { $$ = $1; }
  ;
 
+B_LINHA: ELSE_IF '(' R ')' B 
+         { string endelseif = gera_label("end_elseif");
+	   $$.c = $3.c + "!" + endelseif + "?" + $5.c + (":" + endelseif); }
+       | ELSE B { $$.c = $2.c;}
+       |
+       ;
 DECLVARs : DECLVAR ',' DECLVARs { $$.c = $1.c + $3.c; }
 	 | DECLVAR { $$ = $1; }
          ;
