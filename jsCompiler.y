@@ -27,6 +27,7 @@ vector<string> resolve_enderecos( vector<string> entrada );
 void imprime( vector<string> s);
 
 vector<string> novo;
+vector<string> zero = novo + "0";
 %}
 
 %token NUM ID LET STR IF ELSE ELSE_IF MAIG MEIG IG DIF
@@ -94,7 +95,7 @@ T : T '*' F { $$.c = $1.c + $3.c + "*"; }
   | T '/' F { $$.c = $1.c + $3.c + "/"; }
   | F
 
-R_NUM: '-' NUM { $$.c = $2.c + "0" + "-"; }
+R_NUM: '-' NUM { $$.c = zero + $2.c + "-"; }
      | NUM { $$.c = $1.c; }
 
 F : ID          { $$.c = $1.c + "@"; }
