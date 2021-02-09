@@ -30,7 +30,7 @@ vector<string> novo;
 
 %}
 
-%token NUM ID LET STR IF
+%token NUM ID LET STR IF MAIG MEIG IG DIF
 
 // Start indica o símbolo inicial da gramática
 %start S
@@ -40,19 +40,24 @@ vector<string> novo;
 S : CMDs { imprime( resolve_enderecos($1.c) ); }
   ;
 
-CMDs : CMD ';' CMDs   { $$.c = $1.c + $3.c; }
+CMDs : CMD CMDs   { $$.c = $1.c + $2.c; } 
      | { $$.c = novo; }
      ;
 
-CMD : ATR { $$.c = $1.c + "^"; }
-    | LET DECLVARs { $$ = $2; }
-    | IF '(' R ')' CMD 
-      {	string endif = gera_label( "end_if" );	   
-    	$$.c = $3.c + "!" + endif + "?" + $5.c + (":" + endif); } 
+CMD : ATR ';' { $$.c = $1.c + "^"; }
+    | LET DECLVARs ';' { $$ = $2; }
+    | IF '(' R ')' B
+    { string endif = gera_label( "end_if" );	   
+     $$.c = $3.c + "!" + endif + "?" + $5.c + (":" + endif); }
+
     ;
 
+B: '{' CMDs '}' { $$ = $2; }
+ | CMD { $$ = $1; }
+ ;
+
 DECLVARs : DECLVAR ',' DECLVARs { $$.c = $1.c + $3.c; }
-	 | DECLVAR
+	 | DECLVAR { $$ = $1; }
          ;
 
 DECLVAR : ID '=' R { $$.c = $1.c + "&" + $1.c + $3.c + "=" + "^"; }
@@ -65,6 +70,10 @@ ATR : ID '=' ATR { $$.c = $1.c + $3.c + "="; }
 
 R : E '<' E { $$.c = $1.c + $3.c + "<"; }
   | E '>' E { $$.c = $1.c + $3.c + ">"; }
+  | E MAIG E { $$.c = $1.c + $3.c + ">="; }
+  | E MEIG E { $$.c = $1.c + $3.c + "<="; }
+  | E IG E { $$.c = $1.c + $3.c + "=="; }
+  | E DIF E { $$.c = $1.c + $3.c + "!="; } 
   | E
   ;
 

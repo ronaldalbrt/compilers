@@ -7,18 +7,30 @@ STR 	(\"([^\"\n]|(\\\")|\"\")+\")|(\'([^\"\n]|(\\\")|\"\")+\')
 %%
 
 {DELIM}    { }
-
              
 {DOUBLE}   { yylval.c = novo + yytext; 
              return NUM; }
 
 {STR}	   { yylval.c = novo + yytext;
              return STR; }
-"if"       { yylval.c = novo + "erro";
+
+"if"       { yylval.c = novo + "if";
 	     return IF; }
 
-"let"	   { yylval.c = novo + "erro"; 
+"let"	   { yylval.c = novo + "let"; 
              return LET; }
+
+">="	   { yylval.c = novo + ">=";
+             return MAIG; }
+
+"<="	   { yylval.c = novo + "<="; 
+             return MEIG; }
+
+"=="	   { yylval.c = novo + "==";
+ 	     return IG; }
+	
+"!="	   { yylval.c = novo + "!=";
+	     return DIF; }
 
 {ID}       { yylval.c = novo + yytext; 
              return ID; }
