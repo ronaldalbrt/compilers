@@ -35,7 +35,7 @@ int coluna = 1;
 %%
 
 CMDs : A { Print( $1.v ); } ';' CMDs 
-     | 
+     | { Print( "." ); }
      ;
 
 L_VALUE_PROP: ID '[' E ']' { $$.v = $1.v + "@ " + $3.v; }
@@ -48,7 +48,7 @@ LET_LVALUE: LET_LVALUE ',' LET_LVALUE { $$.v = $1.v + $3.v; }
       ;	 
 
 A: LET LET_LVALUE { $$.v = $2.v; }
- | E { $$.v = $1.v; }
+ | E { $$.v = $1.v; + "^ " }
 
 E : ID '=' E { $$.v = $1.v + " " + $3.v + "= "; }
   | L_VALUE_PROP '=' E {$$.v = $1.v + $3. v + "[=] "; } 

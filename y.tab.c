@@ -1082,6 +1082,10 @@ case 1:
 #line 37 "jsCompiler.y"
 { Print( yyvsp[0].v ); ;
     break;}
+case 3:
+#line 38 "jsCompiler.y"
+{ Print( "." ); ;
+    break;}
 case 4:
 #line 41 "jsCompiler.y"
 { yyval.v = yyvsp[-3].v + "@ " + yyvsp[-1].v; ;
@@ -1108,15 +1112,15 @@ case 9:
     break;}
 case 10:
 #line 51 "jsCompiler.y"
-{ yyval.v = yyvsp[0].v; ;
+{ yyval.v = yyvsp[0].v; + "^ " ;
     break;}
 case 11:
 #line 53 "jsCompiler.y"
-{ yyval.v = yyvsp[-2].v + " " + yyvsp[0].v + "= ^ "; ;
+{ yyval.v = yyvsp[-2].v + " " + yyvsp[0].v + "= "; ;
     break;}
 case 12:
 #line 54 "jsCompiler.y"
-{yyval.v = yyvsp[-2].v + yyvsp[0]. v + "[=] ^ "; ;
+{yyval.v = yyvsp[-2].v + yyvsp[0]. v + "[=] "; ;
     break;}
 case 13:
 #line 55 "jsCompiler.y"
@@ -1413,8 +1417,6 @@ int retorna( int tk ) {
 }
 
 void yyerror( const char* msg ) {
-  char* p = NULL; 
-  cout << p << endl;
   exit( 0 );
 }
 
