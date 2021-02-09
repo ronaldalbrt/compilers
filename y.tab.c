@@ -1111,7 +1111,7 @@ case 9:
     break;}
 case 10:
 #line 49 "jsCompiler.y"
-{ yyval.v = yyvsp[0].v; + "^ "; ;
+{ yyval.v = yyvsp[0].v + "^ "; ;
     break;}
 case 11:
 #line 51 "jsCompiler.y"
