@@ -1,1 +1,4 @@
-.o
+saida
+y.tab.c
+lex.yy.c
+y.output
