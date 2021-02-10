@@ -26,6 +26,9 @@ STR 	(\"([^"\n]|\\\"|\"\")*\")|('([^'\n]|''|\\')*')
 "while"    { yylval.c = novo + "while";
              return WHILE; }
 
+"for"      { yylval.c = novo + "for";
+             return FOR; }
+
 "let"	   { yylval.c = novo + "let"; 
              return LET; }
 

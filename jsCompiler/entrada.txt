@@ -1,7 +1,4 @@
-let i = 0, j = -1, x = 9, b = [];
-while( i < x - 2*3 + 2.1 ) {
-  b[i] = j;
-  i = i + 1;
-  j = i / 2.0 + j;
+let a = {}, campo = "c";
+for( let i = 0; i < 6; i = i + 2 ) {
+  a[campo = campo + i] = i;
 }
-j = x = 0;

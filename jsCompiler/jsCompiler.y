@@ -30,7 +30,7 @@ vector<string> novo;
 vector<string> zero = novo + "0";
 %}
 
-%token NUM ID LET STR IF WHILE ELSE ELSE_IF MAIG MEIG IG DIF
+%token NUM ID LET STR IF WHILE FOR ELSE ELSE_IF MAIG MEIG IG DIF
 // Start indica o símbolo inicial da gramática
 %start S
 
@@ -51,6 +51,10 @@ CMD : ATR ';'{ $$.c = $1.c + "^"; }
     { string endwhile = gera_label("end_while"); 
       string startwhile = gera_label("start_while");
       $$.c = $3.c + "!" + endwhile + "?" + (":" + startwhile) + $5.c + $3.c + startwhile + "?" + (":" + endwhile); }
+    | FOR '(' CMD  R ';' ATR ')' B
+    { string endfor = gera_label("end_for"); 
+      string startfor = gera_label("start_for");
+      $$.c = $3.c + $4.c + "!" + endfor + "?" + (":" + startfor) + $8.c + $6.c + $3.c + startfor + "?" + (":" + endfor); }
     ;
 
 B : '{' CMDs '}' { $$.c = $2.c; }
@@ -72,7 +76,7 @@ DECLVAR : ID '=' R { $$.c = $1.c + "&" + $1.c + $3.c + "=" + "^"; }
         | ID       { $$.c = $1.c + "&"; }
         ;
 
-PROP: E '[' E ']' { $$.c = $1.c + $3.c; }
+PROP: E '[' ATR ']' { $$.c = $1.c + $3.c; }
     | E '.' ID    { $$.c = $1.c + $3.c; }
     ;
 
