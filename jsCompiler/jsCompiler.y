@@ -54,7 +54,7 @@ CMD : ATR ';'{ $$.c = $1.c + "^"; }
     | FOR '(' CMD  R ';' ATR ')' B
     { string endfor = gera_label("end_for"); 
       string startfor = gera_label("start_for");
-      $$.c = $3.c + $4.c + "!" + endfor + "?" + (":" + startfor) + $8.c + $6.c + $3.c + startfor + "?" + (":" + endfor); }
+      $$.c = $3.c + $4.c + "!" + endfor + "?" + (":" + startfor) + $8.c + $6.c + "^" + $4.c + startfor + "?" + (":" + endfor); }
     ;
 
 B : '{' CMDs '}' { $$.c = $2.c; }
