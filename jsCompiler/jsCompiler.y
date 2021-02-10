@@ -30,7 +30,7 @@ vector<string> novo;
 vector<string> zero = novo + "0";
 %}
 
-%token NUM ID LET STR IF ELSE ELSE_IF MAIG MEIG IG DIF
+%token NUM ID LET STR IF WHILE ELSE ELSE_IF MAIG MEIG IG DIF
 // Start indica o símbolo inicial da gramática
 %start S
 
@@ -47,6 +47,10 @@ CMD : ATR ';'{ $$.c = $1.c + "^"; }
     | IF '(' R ')' B  C
     { string endif = gera_label( "end_if" );	   
      $$.c = $3.c + "!" + endif + "?" + $5.c + (":" + endif) + $6.c; }
+    | WHILE '(' R ')' B
+    { string endwhile = gera_label("end_while"); 
+      string startwhile = gera_label("start_while");
+      $$.c = $3.c + "!" + endwhile + "?" + (":" + startwhile) + $5.c + $3.c + "!" + startwhile + "?" + (":" + endwhile); }
     ;
 
 B : '{' CMDs '}' { $$.c = $2.c; }
