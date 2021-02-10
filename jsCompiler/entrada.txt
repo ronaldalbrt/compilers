@@ -1,11 +1,1 @@
-let a = [], b = [], c = [];
-let i, j, k;
-
-for( i = 0; i < 4; i = i + 1 ) {
-  for( j = 0; j < 4; j = j + 1 ) {
-    c[i][j] = 0;
-    for( k = 0; k < 4; k = k + 1 ) {
-      c[i][j] = c[i][j] + a[i][k] * b[k][j];
-    }
-  }
-}
+c[i][j] = a[i][j] + b[i][j] + c[i][j];
