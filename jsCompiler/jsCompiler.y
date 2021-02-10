@@ -5,6 +5,7 @@
 #include <iostream>
 #include <vector>
 #include <map>
+#include <algorithm>
 
 using namespace std;
 
@@ -25,13 +26,15 @@ vector<string> operator+( vector<string> a, string b );
 string gera_label( string prefixo );
 vector<string> resolve_enderecos( vector<string> entrada );
 void imprime( vector<string> s);
+void imprimeErro( vector<string> s);
 
 vector<string> novo;
 vector<string> zero = novo + "0";
+vector<string> variaveis_declaradas;
 %}
 
 %token NUM ID LET STR IF WHILE FOR ELSE ELSE_IF MAIG MEIG IG DIF
-// Start indica o símbolo inicial da gramática
+
 %start S
 
 %%
@@ -43,7 +46,8 @@ CMDs : CMD CMDs { $$.c = $1.c + $2.c; }
      ;
 
 CMD : ATR ';'{ $$.c = $1.c + "^"; }
-    | LET DECLVARs ';' { $$ = $2; }
+    | LET DECLVARs ';' 
+    { $$ = $2; }
     | IF '(' R ')' B  C
     { string endif = gera_label( "end_if" );	   
      $$.c = $3.c + "!" + endif + "?" + $5.c + (":" + endif) + $6.c; }
@@ -58,7 +62,7 @@ CMD : ATR ';'{ $$.c = $1.c + "^"; }
     ;
 
 B : '{' CMDs '}' { $$.c = $2.c; }
-  | CMD 	 { $$.c = $1.c; }
+  | CMD          { $$.c = $1.c; }
   ;
 
 C : ELSE_IF '(' R ')' B C
@@ -72,8 +76,24 @@ DECLVARs : DECLVAR ',' DECLVARs { $$.c = $1.c + $3.c; }
 	 | DECLVAR 		{ $$ = $1; }
          ;
 
-DECLVAR : ID '=' R { $$.c = $1.c + "&" + $1.c + $3.c + "=" + "^"; }
-        | ID       { $$.c = $1.c + "&"; }
+DECLVAR : ID '=' R 
+	{ if( find(variaveis_declaradas.begin(), variaveis_declaradas.end(), $1.c[0]) == variaveis_declaradas.end() ){
+		 $$.c = $1.c + "&" + $1.c + $3.c + "=" + "^";
+		variaveis_declaradas.push_back($1.c[0]);
+	  }
+	  else{
+		imprimeErro(novo + "Erro: a variável "+ $1.c + " já foi declarada.");
+		exit(1);
+	  } }
+        | ID       
+	{ if( find(variaveis_declaradas.begin(), variaveis_declaradas.end(), $1.c[0]) == variaveis_declaradas.end() ){
+	  	$$.c = $1.c + "&";
+		variaveis_declaradas.push_back($1.c[0]);
+	  }
+	  else { 
+		imprimeErro(novo + "Erro: a variável " + $1.c + " já foi declarada.");
+		exit(1);
+          } }
         ;
 
 PROP: PROP_NAME '[' ATR ']' { $$.c = $1.c + $3.c; }
@@ -84,7 +104,14 @@ PROP_NAME: ID { $$.c = $1.c + "@"; }
 	 | PROP { $$.c = $1.c + "[@]"; }
 	 ;
 
-ATR : ID '=' ATR   { $$.c = $1.c + $3.c + "="; }
+ATR : ID '=' ATR   
+    { if( find(variaveis_declaradas.begin(), variaveis_declaradas.end(), $1.c[0]) != variaveis_declaradas.end() ){
+   	 $$.c = $1.c + $3.c + "="; 
+      }
+      else {
+	imprimeErro(novo + "Erro a variável " + $1.c + " não foi declarada.");
+	exit(1);
+      } }
     | PROP '=' ATR { $$.c = $1.c + $3.c + "[=]"; }
     | R
     ;
@@ -136,6 +163,16 @@ void imprime( vector<string> s)
   }
 
   cout << '.' << endl;
+}
+
+void imprimeErro(vector<string> s)
+{
+  for(int i = 0; i < s.size(); i++)
+  {
+	cout << s[i];
+  } 
+
+  cout << endl;
 }
 
 vector<string> concatena( vector<string> a, vector<string> b ) {
