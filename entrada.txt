@@ -1,1 +1,0 @@
-obj['nom' + 'e'] = obj.nome + "!";
