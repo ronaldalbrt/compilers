@@ -50,7 +50,7 @@ CMD : ATR ';'{ $$.c = $1.c + "^"; }
     | WHILE '(' R ')' B
     { string endwhile = gera_label("end_while"); 
       string startwhile = gera_label("start_while");
-      $$.c = $3.c + "!" + endwhile + "?" + (":" + startwhile) + $5.c + $3.c + "!" + startwhile + "?" + (":" + endwhile); }
+      $$.c = $3.c + "!" + endwhile + "?" + (":" + startwhile) + $5.c + $3.c + startwhile + "?" + (":" + endwhile); }
     ;
 
 B : '{' CMDs '}' { $$.c = $2.c; }
