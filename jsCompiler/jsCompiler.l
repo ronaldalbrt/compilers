@@ -1,4 +1,3 @@
-DELIM   [\t\n ]
 DIGITO  [0-9]
 LETRA   [A-Za-z_]
 DOUBLE  {DIGITO}+("."{DIGITO}+)?
@@ -6,7 +5,11 @@ ID      {LETRA}({LETRA}|{DIGITO})*
 STR 	(\"([^"\n]|\\\"|\"\")*\")|('([^'\n]|''|\\')*')
 %%
 
-{DELIM}    { }
+"\t" 	   { coluna += 4; }
+
+" "	   { coluna++; }
+
+"\n"	   { linha++; coluna = 1; }
              
 {DOUBLE}   { yylval.c = novo + yytext; 
              return NUM; }

@@ -30,7 +30,10 @@ void imprimeErro( vector<string> s);
 
 vector<string> novo;
 vector<string> zero = novo + "0";
-vector<string> variaveis_declaradas;
+map<string, int> variaveis_declaradas;
+
+int linha = 1;
+int coluna = 1;
 %}
 
 %token NUM ID LET STR IF WHILE FOR ELSE ELSE_IF MAIG MEIG IG DIF
@@ -76,22 +79,24 @@ DECLVARs : DECLVAR ',' DECLVARs { $$.c = $1.c + $3.c; }
 	 | DECLVAR 		{ $$ = $1; }
          ;
 
-DECLVAR : ID '=' R 
-	{ if( find(variaveis_declaradas.begin(), variaveis_declaradas.end(), $1.c[0]) == variaveis_declaradas.end() ){
+DECLVAR : ID '=' R	
+	{ string var = $1.c[0];
+	  if( variaveis_declaradas.find(var) == variaveis_declaradas.end() ){
 		 $$.c = $1.c + "&" + $1.c + $3.c + "=" + "^";
-		variaveis_declaradas.push_back($1.c[0]);
+		variaveis_declaradas[var] = linha;
 	  }
 	  else{
-		imprimeErro(novo + "Erro: a variável "+ $1.c + " já foi declarada.");
+		imprimeErro(novo + "Erro: a variável \'"+ $1.c + "\' já foi declarada na linha " + to_string(variaveis_declaradas[var]) + ".");
 		exit(1);
 	  } }
         | ID       
-	{ if( find(variaveis_declaradas.begin(), variaveis_declaradas.end(), $1.c[0]) == variaveis_declaradas.end() ){
+	{ string var = $1.c[0];
+	  if( variaveis_declaradas.find(var) == variaveis_declaradas.end() ){
 	  	$$.c = $1.c + "&";
-		variaveis_declaradas.push_back($1.c[0]);
+		variaveis_declaradas[var] = linha;
 	  }
 	  else { 
-		imprimeErro(novo + "Erro: a variável " + $1.c + " já foi declarada.");
+		imprimeErro(novo + "Erro: a variável \'" + $1.c + "\' já foi declarada na linha " + to_string(variaveis_declaradas[var]) + ".");
 		exit(1);
           } }
         ;
@@ -105,11 +110,12 @@ PROP_NAME: ID { $$.c = $1.c + "@"; }
 	 ;
 
 ATR : ID '=' ATR   
-    { if( find(variaveis_declaradas.begin(), variaveis_declaradas.end(), $1.c[0]) != variaveis_declaradas.end() ){
+    { string var = $1.c[0];
+      if( variaveis_declaradas.find(var) != variaveis_declaradas.end() ){
    	 $$.c = $1.c + $3.c + "="; 
       }
       else {
-	imprimeErro(novo + "Erro a variável " + $1.c + " não foi declarada.");
+	imprimeErro(novo + "Erro: a variável \'" + $1.c + "\' não foi declarada.");
 	exit(1);
       } }
     | PROP '=' ATR { $$.c = $1.c + $3.c + "[=]"; }
