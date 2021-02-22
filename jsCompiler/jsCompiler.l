@@ -17,6 +17,17 @@ STR 	(\"([^"\n]|\\\"|\"\")*\")|('([^'\n]|''|\\')*')
 {STR}	   { yylval.c = novo + yytext;
              return STR; }
 
+"asm{".*"}"  {  string lexema = trim( yytext + 3, "{}" ); 
+                yylval.c = tokeniza( lexema );
+                coluna += strlen( yytext ); 
+                return ASM; }
+
+"function" { yylval.c = novo + "function"; 
+ 	     return FUNCTION; }
+
+"return"   { yylval.c = novo + "return";
+	     return RETURN; }
+
 "else if"  { yylval.c = novo + "else if";
 	     return ELSE_IF; }
 

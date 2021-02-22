@@ -6,7 +6,7 @@
 #include <vector>
 #include <map>
 #include <algorithm>
-
+#include <cstring>
 using namespace std;
 
 struct Atributos {
@@ -25,23 +25,28 @@ vector<string> operator+( vector<string> a, string b );
 
 string gera_label( string prefixo );
 vector<string> resolve_enderecos( vector<string> entrada );
+vector<string> tokeniza( string s );
+string trim( string s, string c );
 void imprime( vector<string> s);
 void imprimeErro( vector<string> s);
 
 vector<string> novo;
 vector<string> zero = novo + "0";
+vector<string> funcoes;
 map<string, int> variaveis_declaradas;
 
 int linha = 1;
 int coluna = 1;
+int param_counter = 0;
+int param_decl_counter = 0;
 %}
 
-%token NUM ID LET STR IF WHILE FOR ELSE ELSE_IF MAIG MEIG IG DIF
+%token NUM ID LET STR IF WHILE FOR ELSE ELSE_IF MAIG MEIG IG DIF ASM FUNCTION RETURN
 
 %start S
 
 %%
-S : CMDs { imprime( resolve_enderecos($1.c) ); }
+S : CMDs { $$.c = $1.c + "." + funcoes; imprime( resolve_enderecos($$.c) ); }
   ;
 
 CMDs : CMD CMDs { $$.c = $1.c + $2.c; } 
@@ -62,7 +67,19 @@ CMD : ATR ';'{ $$.c = $1.c + "^"; }
     { string endfor = gera_label("end_for"); 
       string startfor = gera_label("start_for");
       $$.c = $3.c + $4.c + "!" + endfor + "?" + (":" + startfor) + $8.c + $6.c + "^" + $4.c + startfor + "?" + (":" + endfor); }
+    | E ASM ';' { $$.c = $1.c + $2.c; }
+    | FUNCTION ID '(' FUNC_DECL_PARAMs ')' '{' CMDs '}' 
+    { string endfunc = gera_label("end_func");
+      $$.c = $2.c + "&" + $2.c + "{}" + "=" + "'&funcao'" + endfunc + "[=]" + "^";
+      param_decl_counter = 0; 
+      funcoes = novo + endfunc + $4.c + $7.c + "undefined" + "@" + "'&retorno'" + "@" + "~" + (":" + endfunc); }
+    | RETURN ATR ';' { $$.c = $2.c + "'&retorno'" + "@" + "~"; } 
     ;
+
+FUNC_DECL_PARAMs: FUNC_DECL_PARAMs ',' ID { $$.c = $1.c + $3.c + "&" + $3.c + "arguments" + "@" + to_string(param_decl_counter++) + "[@]" + "=" + "^"; }
+		| ID { $$.c = $1.c + "&" + $1.c + "arguments" + "@" + to_string(param_decl_counter++) + "[@]" + "=" + "^"; }
+                | { $$.c = novo; }
+		;
 
 B : '{' CMDs '}' { $$.c = $2.c; }
   | CMD          { $$.c = $1.c; }
@@ -101,6 +118,14 @@ DECLVAR : ID '=' R
           } }
         ;
 
+FUNC: ID '(' FUNC_PARAMs ')' { $$.c = $3.c + to_string(param_counter) + $1.c; }
+    ;
+
+FUNC_PARAMs: ATR ',' FUNC_PARAMs { $$.c = $1.c + $3.c; param_counter++; }
+	   | ATR { $$.c = $1.c; param_counter++; }
+	   | { $$.c = novo; }
+           ; 
+
 PROP: PROP_NAME '[' ATR ']' { $$.c = $1.c + $3.c; }
     | PROP_NAME '.' ID    { $$.c = $1.c + $3.c; }
     ;
@@ -131,20 +156,26 @@ R : E '<' E 	{ $$.c = $1.c + $3.c + "<"; }
   | E
   ;
 
-E : E '+' T { $$.c = $1.c + $3.c + "+"; }
-  | E '-' T { $$.c = $1.c + $3.c + "-"; }
-  | T
+E : E '+' M { $$.c = $1.c + $3.c + "+"; }
+  | E '-' M { $$.c = $1.c + $3.c + "-"; }
+  | M
   ;
+
+M: M '%' T { $$.c = $1.c + $3.c + "%"; }
+ | T 
+ ;
 
 T : T '*' F { $$.c = $1.c + $3.c + "*"; }
   | T '/' F { $$.c = $1.c + $3.c + "/"; }
   | F
+  ;
 
 R_NUM: '-' NUM { $$.c = zero + $2.c + "-"; }
      | NUM { $$.c = $1.c; }
 
 F : ID          { $$.c = $1.c + "@"; }
   | PROP 	{ $$.c = $1.c + "[@]"; }
+  | FUNC	{ param_counter = 0; $$.c = $1.c + "@" + "$"; }
   | R_NUM       { $$.c = $1.c; }
   | STR         { $$.c = $1.c; }
   | '(' E ')'   { $$ = $2; }
@@ -167,8 +198,6 @@ void imprime( vector<string> s)
   {
   	cout << s[i] << endl;
   }
-
-  cout << '.' << endl;
 }
 
 void imprimeErro(vector<string> s)
@@ -179,6 +208,41 @@ void imprimeErro(vector<string> s)
   } 
 
   cout << endl;
+}
+
+vector<string> tokeniza( string s ) {
+  vector<string> a;
+  string b = "";
+
+  for ( int i = 0; i < s.size(); i++ ) {
+	if(s[i] == ' ' || ( i == s.size() - 1 && s[i] != ' ')) {
+		a = a + b;
+		b = "";
+	}
+	else {
+		b.push_back(s[i]);	
+  	}	
+  }
+  
+  return a;
+}
+
+string trim( string s, string c ) {
+  vector<char> a;
+  for( int i = 0; i < c.size(); i++ ) {
+  	a.push_back(c[i]);
+  }
+
+  for( int i = 0; i < s.size(); i++ ) {
+  	if(find(a.begin(), a.end(), s[i]) != a.end()) {
+        	s[i] = ' ';
+                for(int j = i; j < s.size(); j++) {
+                	s[j] = s[j + 1];
+        	}
+        }
+  }
+ 
+  return s;
 }
 
 vector<string> concatena( vector<string> a, vector<string> b ) {
