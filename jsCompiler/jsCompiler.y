@@ -72,7 +72,7 @@ CMD : ATR ';'{ $$.c = $1.c + "^"; }
     { string endfunc = gera_label("end_func");
       $$.c = $2.c + "&" + $2.c + "{}" + "=" + "'&funcao'" + endfunc + "[=]" + "^";
       param_decl_counter = 0; 
-      funcoes = novo + endfunc + $4.c + $7.c + "undefined" + "@" + "'&retorno'" + "@" + "~" + (":" + endfunc); }
+      funcoes = novo +(":" + endfunc) + $4.c + $7.c + "undefined" + "@" + "'&retorno'" + "@" + "~"; }
     | RETURN ATR ';' { $$.c = $2.c + "'&retorno'" + "@" + "~"; } 
     ;
 
