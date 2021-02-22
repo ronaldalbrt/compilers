@@ -67,7 +67,7 @@ CMD : ATR ';'{ $$.c = $1.c + "^"; }
     { string endfor = gera_label("end_for"); 
       string startfor = gera_label("start_for");
       $$.c = $3.c + $4.c + "!" + endfor + "?" + (":" + startfor) + $8.c + $6.c + "^" + $4.c + startfor + "?" + (":" + endfor); }
-    | E ASM ';' { $$.c = $1.c + $2.c; }
+    | E ASM ';' { $$.c = $1.c + $2.c + "^"; }
     | FUNCTION ID '(' FUNC_DECL_PARAMs ')' '{' CMDs '}' 
     { string endfunc = gera_label("end_func");
       $$.c = $2.c + "&" + $2.c + "{}" + "=" + "'&funcao'" + endfunc + "[=]" + "^";
@@ -198,6 +198,7 @@ void imprime( vector<string> s)
   {
   	cout << s[i] << endl;
   }
+  cout << ".";
 }
 
 void imprimeErro(vector<string> s)
