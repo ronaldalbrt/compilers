@@ -1,3 +1,5 @@
-let str = "hello";
-function valor() { return str + ", world"; }
-let a = valor();
+function log( msg ) {
+  msg asm{println # undefined};
+}
+
+let r = log( 'Hello, world!' );

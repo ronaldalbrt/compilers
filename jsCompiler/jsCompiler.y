@@ -198,7 +198,6 @@ void imprime( vector<string> s)
   {
   	cout << s[i] << endl;
   }
-  cout << ".";
 }
 
 void imprimeErro(vector<string> s)
