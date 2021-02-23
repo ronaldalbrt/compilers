@@ -25,7 +25,7 @@ number_to_string
 {}
 =
 '&funcao'
-94
+95
 [=]
 ^
 console
@@ -86,6 +86,7 @@ msg
 @
 println
 #
+undefined
 ^
 undefined
 @
@@ -107,6 +108,7 @@ to_string
 #
 '&retorno'
 @
+~
 ^
 undefined
 @

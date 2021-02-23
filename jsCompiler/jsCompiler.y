@@ -224,6 +224,7 @@ vector<string> tokeniza( string s ) {
 		b.push_back(s[i]);	
   	}	
   }
+  a = a + b;
   
   return a;
 }
