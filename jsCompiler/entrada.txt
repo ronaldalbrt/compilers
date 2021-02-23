@@ -1,18 +1,9 @@
-let console = {};
-let Number = {};
-
-function log( msg ) {
-  msg asm{println # undefined};
+function f( x ) {
+  let b = f;
+  f = x;
+  return b;
 }
 
-function number_to_string( msg ) {
-  msg asm{to_string # '&retorno' @ ~};
-}
+let a;
+let g = f( a = [], {} );
 
-console.log = log;
-Number.toString = number_to_string;
-
-let a = "Saida: ";
-let b = 3.14;
-
-console.log( a + Number.toString( b ) );

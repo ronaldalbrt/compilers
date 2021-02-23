@@ -143,7 +143,8 @@ ATR : ID '=' ATR
       else {
 	imprimeErro(novo + "Erro: a variável \'" + $1.c + "\' não foi declarada.");
 	exit(1);
-      } }
+      } 
+    }
     | PROP '=' ATR { $$.c = $1.c + $3.c + "[=]"; }
     | R
     ;
