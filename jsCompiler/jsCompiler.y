@@ -72,7 +72,7 @@ CMD : ATR ';'{ $$.c = $1.c + "^"; }
     { string endfunc = gera_label("end_func");
       $$.c = $2.c + "&" + $2.c + "{}" + "=" + "'&funcao'" + endfunc + "[=]" + "^";
       param_decl_counter = 0; 
-      funcoes = novo +(":" + endfunc) + $4.c + $7.c + "undefined" + "@" + "'&retorno'" + "@" + "~"; }
+      funcoes = funcoes + (":" + endfunc) + $4.c + $7.c + "undefined" + "@" + "'&retorno'" + "@" + "~"; }
     | RETURN ATR ';' { $$.c = $2.c + "'&retorno'" + "@" + "~"; } 
     ;
 
@@ -118,7 +118,8 @@ DECLVAR : ID '=' R
           } }
         ;
 
-FUNC: ID '(' FUNC_PARAMs ')' { $$.c = $3.c + to_string(param_counter) + $1.c; }
+FUNC: ID '(' FUNC_PARAMs ')' { $$.c = $3.c + to_string(param_counter) + $1.c + "@"; }
+    | PROP '(' FUNC_PARAMs ')' { $$.c = $3.c + to_string(param_counter) + $1.c + "[@]"; }
     ;
 
 FUNC_PARAMs: ATR ',' FUNC_PARAMs { $$.c = $1.c + $3.c; param_counter++; }
@@ -175,7 +176,7 @@ R_NUM: '-' NUM { $$.c = zero + $2.c + "-"; }
 
 F : ID          { $$.c = $1.c + "@"; }
   | PROP 	{ $$.c = $1.c + "[@]"; }
-  | FUNC	{ param_counter = 0; $$.c = $1.c + "@" + "$"; }
+  | FUNC	{ param_counter = 0; $$.c = $1.c + "$"; }
   | R_NUM       { $$.c = $1.c; }
   | STR         { $$.c = $1.c; }
   | '(' E ')'   { $$ = $2; }
@@ -215,7 +216,7 @@ vector<string> tokeniza( string s ) {
   string b = "";
 
   for ( int i = 0; i < s.size(); i++ ) {
-	if(s[i] == ' ' || ( i == s.size() - 1 && s[i] != ' ')) {
+	if(s[i] == ' ') {
 		a = a + b;
 		b = "";
 	}
