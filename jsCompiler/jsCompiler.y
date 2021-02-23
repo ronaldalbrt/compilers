@@ -239,9 +239,9 @@ string trim( string s, string c ) {
                 for(int j = i; j < s.size(); j++) {
                 	s[j] = s[j + 1];
         	}
+		s.pop_back();
         }
   }
- 
   return s;
 }
 
