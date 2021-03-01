@@ -213,18 +213,21 @@ F : ID          { $$.c = $1.c + "@"; }
   ;
 
 
-ARRAY: '[' ARRAY_N ']' { $$.c = $2.c; }
+ARRAY: '[' ARRAY_N ']' { $$.c = novo + "[]" + $2.c; }
      ;
 
 ARRAY_N: ARRAY_N ',' ATR { $$.c = $1.c + to_string(array_decl_counter++) + $3.c + "[<=]"; }
        | ATR { $$.c = novo + to_string(array_decl_counter++) + $1.c + "[<=]"; }
-
-OBJ: '{' OBJ_DECL '}' {$$.c = $2.c; }
+       ;
+OBJ: '{' OBJ_DECL '}' { $$.c = novo + "{}" + $2.c; }
+   ;
 
 OBJ_DECL: OBJ_DECL ',' ID ':' ATR { $$.c = $1.c + $3.c + $5.c + "[<=]"; }
 	| ID ':' ATR { $$.c = $1.c + $3.c + "[<=]"; }
+	;
 
 B_VAZIO: '{' '}' { $$.c = novo; }
+       ;
 
 FUNCTION_RETURN: FUNCTION '(' FUNC_DECL_PARAMs ')' B 
     	       { string endfunc = gera_label("end_func");
