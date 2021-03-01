@@ -1,2 +1,6 @@
-let c = {};
-c[2] = 1;
+function par( n ) {
+  if( n % 2 == 0 )
+    return true;
+  else
+    return false;
+}

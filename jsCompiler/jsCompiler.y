@@ -140,18 +140,18 @@ PROP_NAME: ID { $$.c = $1.c + "@"; }
 	 ;
 
 
-SETA_FUNC: '(' SETA_FUNC_PARAMs ')' SETA B_SETA
+SETA_FUNC:  SETA_FUNC_PARAMs SETA B_SETA
      	   { string endsetafunc = gera_label("end_setafunc");
            $$.c = novo + "{}" + "'&funcao'" + endsetafunc + "[<=]";
            seta_param_counter = 0; 
-           funcoes = funcoes + (":" + endsetafunc) + $2.c + $5.c + "undefined" + "@" + "'&retorno'" + "@" + "~"; }
+           funcoes = funcoes + (":" + endsetafunc) + $1.c + $3.c + "undefined" + "@" + "'&retorno'" + "@" + "~"; }
 	;
 
 SETA_FUNC_PARAMs: ID_SETA_PARAMs { $$.c = $1.c; }
-                | { $$.c = novo; }
+                | '(' ')' { $$.c = novo; }
 		;
 
-ID_SETA_PARAMs: ID_SETA_PARAMs ',' ID { $$.c = $1.c + $3.c + "&" + $3.c + "arguments" + "@" + to_string(seta_param_counter++) + "[@]" + "=" + "^"; }
+ID_SETA_PARAMs: '(' ID_SETA_PARAMs ',' ID ')' { $$.c = $2.c + $4.c + "&" + $4.c + "arguments" + "@" + to_string(seta_param_counter++) + "[@]" + "=" + "^"; }
 	      | ID { $$.c = $1.c + "&" + $1.c + "arguments" + "@" + to_string(seta_param_counter++) + "[@]" + "=" + "^"; }
 	      ;	
 
@@ -209,6 +209,7 @@ F : ID          { $$.c = $1.c + "@"; }
   | SETA_FUNC	{ $$.c = $1.c; }
   | ARRAY	{ array_decl_counter = 0; $$.c = $1.c; }
   | OBJ		{ $$.c = $1.c; }
+  | FUNCTION_RETURN { $$.c = $1.c; }
   ;
 
 
@@ -224,6 +225,13 @@ OBJ_DECL: OBJ_DECL ',' ID ':' ATR { $$.c = $1.c + $3.c + $5.c + "[<=]"; }
 	| ID ':' ATR { $$.c = $1.c + $3.c + "[<=]"; }
 
 B_VAZIO: '{' '}' { $$.c = novo; }
+
+FUNCTION_RETURN: FUNCTION '(' FUNC_DECL_PARAMs ')' B 
+    	       { string endfunc = gera_label("end_func");
+      		 $$.c = novo + "{}" + "'&funcao'" + endfunc + "[<=]";
+     		 param_decl_counter = 0; 
+      		 funcoes = funcoes + (":" + endfunc) + $3.c + $5.c + "undefined" + "@" + "'&retorno'" + "@" + "~"; } 
+	       ;
 %%
 
 #include "lex.yy.c"
