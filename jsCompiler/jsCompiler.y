@@ -39,9 +39,13 @@ int linha = 1;
 int coluna = 1;
 int param_counter = 0;
 int param_decl_counter = 0;
+int seta_param_counter = 0;
+int array_decl_counter = 0;
 %}
 
-%token NUM ID LET STR IF WHILE FOR ELSE ELSE_IF MAIG MEIG IG DIF ASM FUNCTION RETURN
+%token NUM ID LET STR IF WHILE FOR ELSE ELSE_IF MAIG MEIG IG DIF ASM FUNCTION RETURN SETA
+
+%right ','
 
 %start S
 
@@ -68,11 +72,11 @@ CMD : ATR ';'{ $$.c = $1.c + "^"; }
       string startfor = gera_label("start_for");
       $$.c = $3.c + $4.c + "!" + endfor + "?" + (":" + startfor) + $8.c + $6.c + "^" + $4.c + startfor + "?" + (":" + endfor); }
     | E ASM ';' { $$.c = $1.c + $2.c + "^"; }
-    | FUNCTION ID '(' FUNC_DECL_PARAMs ')' '{' CMDs '}' 
+    | FUNCTION ID '(' FUNC_DECL_PARAMs ')' B 
     { string endfunc = gera_label("end_func");
       $$.c = $2.c + "&" + $2.c + "{}" + "=" + "'&funcao'" + endfunc + "[=]" + "^";
       param_decl_counter = 0; 
-      funcoes = funcoes + (":" + endfunc) + $4.c + $7.c + "undefined" + "@" + "'&retorno'" + "@" + "~"; }
+      funcoes = funcoes + (":" + endfunc) + $4.c + $6.c + "undefined" + "@" + "'&retorno'" + "@" + "~"; }
     | RETURN ATR ';' { $$.c = $2.c + "'&retorno'" + "@" + "~"; } 
     ;
 
@@ -82,7 +86,7 @@ FUNC_DECL_PARAMs: FUNC_DECL_PARAMs ',' ID { $$.c = $1.c + $3.c + "&" + $3.c + "a
 		;
 
 B : '{' CMDs '}' { $$.c = $2.c; }
-  | CMD          { $$.c = $1.c; }
+  | CMD	         { $$.c = $1.c; }
   ;
 
 C : ELSE_IF '(' R ')' B C
@@ -135,6 +139,26 @@ PROP_NAME: ID { $$.c = $1.c + "@"; }
 	 | PROP { $$.c = $1.c + "[@]"; }
 	 ;
 
+
+SETA_FUNC: '(' SETA_FUNC_PARAMs ')' SETA B_SETA
+     	   { string endsetafunc = gera_label("end_setafunc");
+           $$.c = novo + "{}" + "'&funcao'" + endsetafunc + "[<=]";
+           seta_param_counter = 0; 
+           funcoes = funcoes + (":" + endsetafunc) + $2.c + $5.c + "undefined" + "@" + "'&retorno'" + "@" + "~"; }
+	;
+
+SETA_FUNC_PARAMs: ID_SETA_PARAMs { $$.c = $1.c; }
+                | { $$.c = novo; }
+		;
+
+ID_SETA_PARAMs: ID_SETA_PARAMs ',' ID { $$.c = $1.c + $3.c + "&" + $3.c + "arguments" + "@" + to_string(seta_param_counter++) + "[@]" + "=" + "^"; }
+	      | ID { $$.c = $1.c + "&" + $1.c + "arguments" + "@" + to_string(seta_param_counter++) + "[@]" + "=" + "^"; }
+	      ;	
+
+B_SETA : '{' CMDs '}' { $$.c = $2.c; }
+       //| ATR { $$.c = $1.c + "'&retorno'" + "@" + "~"; }
+       ;
+
 ATR : ID '=' ATR   
     { string var = $1.c[0];
       if( variaveis_declaradas.find(var) != variaveis_declaradas.end() ){
@@ -143,8 +167,7 @@ ATR : ID '=' ATR
       else {
 	imprimeErro(novo + "Erro: a variável \'" + $1.c + "\' não foi declarada.");
 	exit(1);
-      } 
-    }
+      } }
     | PROP '=' ATR { $$.c = $1.c + $3.c + "[=]"; }
     | R
     ;
@@ -180,10 +203,27 @@ F : ID          { $$.c = $1.c + "@"; }
   | FUNC	{ param_counter = 0; $$.c = $1.c + "$"; }
   | R_NUM       { $$.c = $1.c; }
   | STR         { $$.c = $1.c; }
-  | '(' E ')'   { $$ = $2; }
-  | '{' '}'     { $$.c = novo + "{}"; }
+  | '(' E ')'   { $$.c = $2.c; }
+  | B_VAZIO     { $$.c = $1.c + "{}"; }
   | '[' ']'     { $$.c = novo + "[]"; }
+  | SETA_FUNC	{ $$.c = $1.c; }
+  | ARRAY	{ array_decl_counter = 0; $$.c = $1.c; }
+  | OBJ		{ $$.c = $1.c; }
   ;
+
+
+ARRAY: '[' ARRAY_N ']' { $$.c = $2.c; }
+     ;
+
+ARRAY_N: ARRAY_N ',' ATR { $$.c = $1.c + to_string(array_decl_counter++) + $3.c + "[<=]"; }
+       | ATR { $$.c = novo + to_string(array_decl_counter++) + $1.c + "[<=]"; }
+
+OBJ: '{' OBJ_DECL '}' {$$.c = $2.c; }
+
+OBJ_DECL: OBJ_DECL ',' ID ':' ATR { $$.c = $1.c + $3.c + $5.c + "[<=]"; }
+	| ID ':' ATR { $$.c = $1.c + $3.c + "[<=]"; }
+
+B_VAZIO: '{' '}' { $$.c = novo; }
 %%
 
 #include "lex.yy.c"

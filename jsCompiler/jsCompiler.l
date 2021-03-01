@@ -46,6 +46,9 @@ STR 	(\"([^"\n]|\\\"|\"\")*\")|('([^'\n]|''|\\')*')
 "let"	   { yylval.c = novo + "let"; 
              return LET; }
 
+"=>"	   { yylval.c = novo + "seta";
+	     return SETA; }
+
 ">="	   { yylval.c = novo + ">=";
              return MAIG; }
 
