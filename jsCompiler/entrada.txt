@@ -1,1 +1,1 @@
-let o = { a: 3, m : msg => { log(msg); } };
+function a() {}
