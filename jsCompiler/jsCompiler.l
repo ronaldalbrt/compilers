@@ -3,6 +3,8 @@ LETRA   [A-Za-z_]
 DOUBLE  {DIGITO}+("."{DIGITO}+)?
 ID      {LETRA}({LETRA}|{DIGITO})*
 STR 	(\"([^"\n]|\\\"|\"\")*\")|('([^'\n]|''|\\')*')
+TRUE	[Tt][Rr][Uu][Ee]
+FALSE	[Ff][Aa][Ll][Ss][Ee]
 %%
 
 "\t" 	   { coluna += 4; }
@@ -21,6 +23,11 @@ STR 	(\"([^"\n]|\\\"|\"\")*\")|('([^'\n]|''|\\')*')
                 yylval.c = tokeniza( lexema );
                 coluna += strlen( yytext ); 
                 return ASM; }
+{TRUE}	   { yylval.c = novo + "true"; 
+	     return TRUE; }
+
+{FALSE}	   { yylval.c = novo + "false";
+	     return FALSE; }
 
 "function" { yylval.c = novo + "function"; 
  	     return FUNCTION; }

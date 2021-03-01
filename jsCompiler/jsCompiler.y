@@ -43,7 +43,7 @@ int seta_param_counter = 0;
 int array_decl_counter = 0;
 %}
 
-%token NUM ID LET STR IF WHILE FOR ELSE ELSE_IF MAIG MEIG IG DIF ASM FUNCTION RETURN SETA
+%token NUM ID LET STR IF WHILE FOR ELSE ELSE_IF MAIG MEIG IG DIF ASM FUNCTION RETURN SETA TRUE FALSE
 
 %right ','
 
@@ -102,25 +102,27 @@ DECLVARs : DECLVAR ',' DECLVARs { $$.c = $1.c + $3.c; }
          ;
 
 DECLVAR : ID '=' R	
-	{ string var = $1.c[0];
-	  if( variaveis_declaradas.find(var) == variaveis_declaradas.end() ){
+	{ //string var = $1.c[0];
+	  //if( variaveis_declaradas.find(var) == variaveis_declaradas.end() ){
 		 $$.c = $1.c + "&" + $1.c + $3.c + "=" + "^";
-		variaveis_declaradas[var] = linha;
-	  }
-	  else{
-		imprimeErro(novo + "Erro: a variável \'"+ $1.c + "\' já foi declarada na linha " + to_string(variaveis_declaradas[var]) + ".");
-		exit(1);
-	  } }
+		//variaveis_declaradas[var] = linha;
+	  //}
+	  //else{
+		//imprimeErro(novo + "Erro: a variável \'"+ $1.c + "\' já foi declarada na linha " + to_string(variaveis_declaradas[var]) + ".");
+		//exit(1);
+	  //}
+ }
         | ID       
-	{ string var = $1.c[0];
-	  if( variaveis_declaradas.find(var) == variaveis_declaradas.end() ){
+	{ //string var = $1.c[0];
+	  //if( variaveis_declaradas.find(var) == variaveis_declaradas.end() ){
 	  	$$.c = $1.c + "&";
-		variaveis_declaradas[var] = linha;
-	  }
-	  else { 
-		imprimeErro(novo + "Erro: a variável \'" + $1.c + "\' já foi declarada na linha " + to_string(variaveis_declaradas[var]) + ".");
-		exit(1);
-          } }
+		//variaveis_declaradas[var] = linha;
+	  //}
+	  //else { 
+		//imprimeErro(novo + "Erro: a variável \'" + $1.c + "\' já foi declarada na linha " + to_string(variaveis_declaradas[var]) + ".");
+		//exit(1);
+          //}
+ }
         ;
 
 FUNC: ID '(' FUNC_PARAMs ')' { $$.c = $3.c + to_string(param_counter) + $1.c + "@"; }
@@ -161,14 +163,15 @@ B_SETA : '{' CMDs '}' { $$.c = $2.c; }
        ;
 
 ATR : ID '=' ATR   
-    { string var = $1.c[0];
-      if( variaveis_declaradas.find(var) != variaveis_declaradas.end() ){
+    { //string var = $1.c[0];
+      //if( variaveis_declaradas.find(var) != variaveis_declaradas.end() ){
    	 $$.c = $1.c + $3.c + "="; 
-      }
-      else {
-	imprimeErro(novo + "Erro: a variável \'" + $1.c + "\' não foi declarada.");
-	exit(1);
-      } }
+    // }
+    //  else {
+	//imprimeErro(novo + "Erro: a variável \'" + $1.c + "\' não foi declarada.");
+	//exit(1);
+      //} 
+}
     | PROP '=' ATR { $$.c = $1.c + $3.c + "[=]"; }
     | R
     ;
@@ -211,6 +214,8 @@ F : ID          { $$.c = $1.c + "@"; }
   | ARRAY	{ array_decl_counter = 0; $$.c = $1.c; }
   | OBJ		{ $$.c = $1.c; }
   | FUNCTION_RETURN { $$.c = $1.c; }
+  | TRUE	{ $$.c = $1.c; }
+  | FALSE	{ $$.c = $1.c; }
   ;
 
 
