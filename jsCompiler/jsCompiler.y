@@ -87,7 +87,7 @@ FUNC_DECL_PARAMs: FUNC_DECL_PARAMs ',' ID { $$.c = $1.c + $3.c + "&" + $3.c + "a
 
 B : '{' CMDs '}' { $$.c = $2.c; }
   | CMD	         { $$.c = $1.c; }
- // | B_VAZIO  	 { $$.c = $1.c; }
+  | B_VAZIO  	 { $$.c = $1.c; }
   ;
 
 C : ELSE_IF '(' R ')' B C
