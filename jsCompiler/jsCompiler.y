@@ -87,7 +87,7 @@ FUNC_DECL_PARAMs: FUNC_DECL_PARAMs ',' ID { $$.c = $1.c + $3.c + "&" + $3.c + "a
 
 B : '{' CMDs '}' { $$.c = $2.c; }
   | CMD	         { $$.c = $1.c; }
-  | B_VAZIO  	 { $$.c = $1.c; }
+ // | B_VAZIO  	 { $$.c = $1.c; }
   ;
 
 C : ELSE_IF '(' R ')' B C
@@ -207,7 +207,7 @@ F : ID          { $$.c = $1.c + "@"; }
   | FUNC	{ param_counter = 0; $$.c = $1.c + "$"; }
   | R_NUM       { $$.c = $1.c; }
   | STR         { $$.c = $1.c; }
-  | '(' E ')'   { $$.c = $2.c; }
+  | '(' ATR ')' { $$.c = $2.c; }
   | B_VAZIO     { $$.c = $1.c + "{}"; }
   | '[' ']'     { $$.c = novo + "[]"; }
   | SETA_FUNC	{ $$.c = $1.c; }
@@ -247,6 +247,7 @@ FUNCTION_RETURN: FUNCTION '(' FUNC_DECL_PARAMs ')' B
 
 void yyerror( const char* st ) {
    puts( st ); 
+   cout << "Linha: " << linha << " | Coluna: " << coluna << endl;
    printf( "Proximo a: %s\n", yytext );
    exit( 1 );
 }
