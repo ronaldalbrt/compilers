@@ -342,7 +342,7 @@ vector<string> resolve_enderecos( vector<string> entrada ) {
   return saida;
 }
 
-int main( int argc, char* argv[] ) {
+int main( int argc, char* argv[] ) { 
   yyparse();
   
   return 0;

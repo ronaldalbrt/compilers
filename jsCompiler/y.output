@@ -1,0 +1,2894 @@
+State 106 contains 1 shift/reduce conflict.
+State 140 contains 1 shift/reduce conflict.
+State 142 contains 2 shift/reduce conflicts.
+State 143 contains 2 reduce/reduce conflicts.
+State 165 contains 2 shift/reduce conflicts.
+
+Grammar
+rule 1    S -> CMDs
+rule 2    CMDs -> CMD CMDs
+rule 3    CMDs ->		/* empty */
+rule 4    CMD -> ATR ';'
+rule 5    CMD -> LET DECLVARs ';'
+rule 6    CMD -> IF '(' R ')' B C
+rule 7    CMD -> WHILE '(' R ')' B
+rule 8    CMD -> FOR '(' CMD R ';' ATR ')' B
+rule 9    CMD -> E ASM ';'
+rule 10   CMD -> FUNCTION ID '(' FUNC_DECL_PARAMs ')' B
+rule 11   CMD -> RETURN ATR ';'
+rule 12   FUNC_DECL_PARAMs -> FUNC_DECL_PARAMs ',' ID
+rule 13   FUNC_DECL_PARAMs -> ID
+rule 14   FUNC_DECL_PARAMs ->		/* empty */
+rule 15   B -> '{' CMDs '}'
+rule 16   B -> CMD
+rule 17   B -> B_VAZIO
+rule 18   C -> ELSE_IF '(' R ')' B C
+rule 19   C -> ELSE B
+rule 20   C ->		/* empty */
+rule 21   DECLVARs -> DECLVAR ',' DECLVARs
+rule 22   DECLVARs -> DECLVAR
+rule 23   DECLVAR -> ID '=' R
+rule 24   DECLVAR -> ID
+rule 25   FUNC -> ID '(' FUNC_PARAMs ')'
+rule 26   FUNC -> PROP '(' FUNC_PARAMs ')'
+rule 27   FUNC_PARAMs -> ATR ',' FUNC_PARAMs
+rule 28   FUNC_PARAMs -> ATR
+rule 29   FUNC_PARAMs ->		/* empty */
+rule 30   PROP -> PROP_NAME '[' ATR ']'
+rule 31   PROP -> PROP_NAME '.' ID
+rule 32   PROP_NAME -> ID
+rule 33   PROP_NAME -> PROP
+rule 34   SETA_FUNC -> SETA_FUNC_PARAMs SETA B_SETA
+rule 35   SETA_FUNC_PARAMs -> ABRE_PAR_SETA ID_SETA_PARAMs ')'
+rule 36   SETA_FUNC_PARAMs -> ID
+rule 37   SETA_FUNC_PARAMs -> '(' ')'
+rule 38   ID_SETA_PARAMs -> ID_SETA_PARAMs ',' ID
+rule 39   ID_SETA_PARAMs -> ID
+rule 40   B_SETA -> '{' CMDs '}'
+rule 41   B_SETA -> ATR
+rule 42   ATR -> ID '=' ATR
+rule 43   ATR -> PROP '=' ATR
+rule 44   ATR -> SETA_FUNC
+rule 45   ATR -> FUNCTION_RETURN
+rule 46   ATR -> R
+rule 47   R -> E '<' E
+rule 48   R -> E '>' E
+rule 49   R -> E MAIG E
+rule 50   R -> E MEIG E
+rule 51   R -> E IG E
+rule 52   R -> E DIF E
+rule 53   R -> E
+rule 54   E -> E '+' M
+rule 55   E -> E '-' M
+rule 56   E -> M
+rule 57   M -> M '%' T
+rule 58   M -> T
+rule 59   T -> T '*' F
+rule 60   T -> T '/' F
+rule 61   T -> F
+rule 62   R_NUM -> '-' NUM
+rule 63   R_NUM -> NUM
+rule 64   F -> ID
+rule 65   F -> PROP
+rule 66   F -> FUNC
+rule 67   F -> R_NUM
+rule 68   F -> STR
+rule 69   F -> '(' ATR ')'
+rule 70   F -> B_VAZIO
+rule 71   F -> '[' ']'
+rule 72   F -> ARRAY
+rule 73   F -> OBJ
+rule 74   F -> TRUE
+rule 75   F -> FALSE
+rule 76   ARRAY -> '[' ARRAY_N ']'
+rule 77   ARRAY_N -> ARRAY_N ',' ATR
+rule 78   ARRAY_N -> ATR
+rule 79   OBJ -> '{' OBJ_DECL '}'
+rule 80   OBJ_DECL -> OBJ_DECL ',' ID ':' ATR
+rule 81   OBJ_DECL -> ID ':' ATR
+rule 82   B_VAZIO -> '{' '}'
+rule 83   FUNCTION_RETURN -> FUNCTION '(' FUNC_DECL_PARAMs ')' B
+
+Terminals, with rules where they appear
+
+$ (-1)
+'%' (37) 57
+'(' (40) 6 7 8 10 18 25 26 37 69 83
+')' (41) 6 7 8 10 18 25 26 35 37 69 83
+'*' (42) 59
+'+' (43) 54
+',' (44) 12 21 27 38 77 80
+'-' (45) 55 62
+'.' (46) 31
+'/' (47) 60
+':' (58) 80 81
+';' (59) 4 5 8 9 11
+'<' (60) 47
+'=' (61) 23 42 43
+'>' (62) 48
+'[' (91) 30 71 76
+']' (93) 30 71 76
+'{' (123) 15 40 79 82
+'}' (125) 15 40 79 82
+error (256)
+NUM (258) 62 63
+ID (259) 10 12 13 23 24 25 31 32 36 38 39 42 64 80 81
+LET (260) 5
+STR (261) 68
+IF (262) 6
+WHILE (263) 7
+FOR (264) 8
+ELSE (265) 19
+ELSE_IF (266) 18
+MAIG (267) 49
+MEIG (268) 50
+IG (269) 51
+DIF (270) 52
+ASM (271) 9
+FUNCTION (272) 10 83
+RETURN (273) 11
+SETA (274) 34
+TRUE (275) 74
+FALSE (276) 75
+ABRE_PAR_SETA (277) 35
+
+Nonterminals, with rules where they appear
+
+S (41)
+    on left: 1
+CMDs (42)
+    on left: 2 3, on right: 1 2 15 40
+CMD (43)
+    on left: 4 5 6 7 8 9 10 11, on right: 2 8 16
+FUNC_DECL_PARAMs (44)
+    on left: 12 13 14, on right: 10 12 83
+B (45)
+    on left: 15 16 17, on right: 6 7 8 10 18 19 83
+C (46)
+    on left: 18 19 20, on right: 6 18
+DECLVARs (47)
+    on left: 21 22, on right: 5 21
+DECLVAR (48)
+    on left: 23 24, on right: 21 22
+FUNC (49)
+    on left: 25 26, on right: 66
+FUNC_PARAMs (50)
+    on left: 27 28 29, on right: 25 26 27
+PROP (51)
+    on left: 30 31, on right: 26 33 43 65
+PROP_NAME (52)
+    on left: 32 33, on right: 30 31
+SETA_FUNC (53)
+    on left: 34, on right: 44
+SETA_FUNC_PARAMs (54)
+    on left: 35 36 37, on right: 34
+ID_SETA_PARAMs (55)
+    on left: 38 39, on right: 35 38
+B_SETA (56)
+    on left: 40 41, on right: 34
+ATR (57)
+    on left: 42 43 44 45 46, on right: 4 8 11 27 28 30 41 42 43 69
+    77 78 80 81
+R (58)
+    on left: 47 48 49 50 51 52 53, on right: 6 7 8 18 23 46
+E (59)
+    on left: 54 55 56, on right: 9 47 48 49 50 51 52 53 54 55
+M (60)
+    on left: 57 58, on right: 54 55 56 57
+T (61)
+    on left: 59 60 61, on right: 57 58 59 60
+R_NUM (62)
+    on left: 62 63, on right: 67
+F (63)
+    on left: 64 65 66 67 68 69 70 71 72 73 74 75, on right: 59 60 61
+ARRAY (64)
+    on left: 76, on right: 72
+ARRAY_N (65)
+    on left: 77 78, on right: 76 77
+OBJ (66)
+    on left: 79, on right: 73
+OBJ_DECL (67)
+    on left: 80 81, on right: 79 80
+B_VAZIO (68)
+    on left: 82, on right: 17 70
+FUNCTION_RETURN (69)
+    on left: 83, on right: 45
+
+
+state 0
+
+    NUM 	shift, and go to state 1
+    ID  	shift, and go to state 2
+    LET 	shift, and go to state 3
+    STR 	shift, and go to state 4
+    IF  	shift, and go to state 5
+    WHILE	shift, and go to state 6
+    FOR 	shift, and go to state 7
+    FUNCTION	shift, and go to state 8
+    RETURN	shift, and go to state 9
+    TRUE	shift, and go to state 10
+    FALSE	shift, and go to state 11
+    ABRE_PAR_SETA	shift, and go to state 12
+    '(' 	shift, and go to state 13
+    '{' 	shift, and go to state 14
+    '[' 	shift, and go to state 15
+    '-' 	shift, and go to state 16
+
+    $default	reduce using rule 3 (CMDs)
+
+    S   	go to state 167
+    CMDs	go to state 17
+    CMD 	go to state 18
+    FUNC	go to state 19
+    PROP	go to state 20
+    PROP_NAME	go to state 21
+    SETA_FUNC	go to state 22
+    SETA_FUNC_PARAMs	go to state 23
+    ATR 	go to state 24
+    R   	go to state 25
+    E   	go to state 26
+    M   	go to state 27
+    T   	go to state 28
+    R_NUM	go to state 29
+    F   	go to state 30
+    ARRAY	go to state 31
+    OBJ 	go to state 32
+    B_VAZIO	go to state 33
+    FUNCTION_RETURN	go to state 34
+
+
+
+state 1
+
+    R_NUM  ->  NUM .   (rule 63)
+
+    $default	reduce using rule 63 (R_NUM)
+
+
+
+state 2
+
+    FUNC  ->  ID . '(' FUNC_PARAMs ')'   (rule 25)
+    PROP_NAME  ->  ID .   (rule 32)
+    SETA_FUNC_PARAMs  ->  ID .   (rule 36)
+    ATR  ->  ID . '=' ATR   (rule 42)
+    F  ->  ID .   (rule 64)
+
+    '(' 	shift, and go to state 35
+    '=' 	shift, and go to state 36
+
+    SETA	reduce using rule 36 (SETA_FUNC_PARAMs)
+    '[' 	reduce using rule 32 (PROP_NAME)
+    $default	reduce using rule 64 (F)
+
+
+
+state 3
+
+    CMD  ->  LET . DECLVARs ';'   (rule 5)
+
+    ID  	shift, and go to state 37
+
+    DECLVARs	go to state 38
+    DECLVAR	go to state 39
+
+
+
+state 4
+
+    F  ->  STR .   (rule 68)
+
+    $default	reduce using rule 68 (F)
+
+
+
+state 5
+
+    CMD  ->  IF . '(' R ')' B C   (rule 6)
+
+    '(' 	shift, and go to state 40
+
+
+
+state 6
+
+    CMD  ->  WHILE . '(' R ')' B   (rule 7)
+
+    '(' 	shift, and go to state 41
+
+
+
+state 7
+
+    CMD  ->  FOR . '(' CMD R ';' ATR ')' B   (rule 8)
+
+    '(' 	shift, and go to state 42
+
+
+
+state 8
+
+    CMD  ->  FUNCTION . ID '(' FUNC_DECL_PARAMs ')' B   (rule 10)
+    FUNCTION_RETURN  ->  FUNCTION . '(' FUNC_DECL_PARAMs ')' B   (rule 83)
+
+    ID  	shift, and go to state 43
+    '(' 	shift, and go to state 44
+
+
+
+state 9
+
+    CMD  ->  RETURN . ATR ';'   (rule 11)
+
+    NUM 	shift, and go to state 1
+    ID  	shift, and go to state 2
+    STR 	shift, and go to state 4
+    FUNCTION	shift, and go to state 45
+    TRUE	shift, and go to state 10
+    FALSE	shift, and go to state 11
+    ABRE_PAR_SETA	shift, and go to state 12
+    '(' 	shift, and go to state 13
+    '{' 	shift, and go to state 14
+    '[' 	shift, and go to state 15
+    '-' 	shift, and go to state 16
+
+    FUNC	go to state 19
+    PROP	go to state 20
+    PROP_NAME	go to state 21
+    SETA_FUNC	go to state 22
+    SETA_FUNC_PARAMs	go to state 23
+    ATR 	go to state 46
+    R   	go to state 25
+    E   	go to state 47
+    M   	go to state 27
+    T   	go to state 28
+    R_NUM	go to state 29
+    F   	go to state 30
+    ARRAY	go to state 31
+    OBJ 	go to state 32
+    B_VAZIO	go to state 33
+    FUNCTION_RETURN	go to state 34
+
+
+
+state 10
+
+    F  ->  TRUE .   (rule 74)
+
+    $default	reduce using rule 74 (F)
+
+
+
+state 11
+
+    F  ->  FALSE .   (rule 75)
+
+    $default	reduce using rule 75 (F)
+
+
+
+state 12
+
+    SETA_FUNC_PARAMs  ->  ABRE_PAR_SETA . ID_SETA_PARAMs ')'   (rule 35)
+
+    ID  	shift, and go to state 48
+
+    ID_SETA_PARAMs	go to state 49
+
+
+
+state 13
+
+    SETA_FUNC_PARAMs  ->  '(' . ')'   (rule 37)
+    F  ->  '(' . ATR ')'   (rule 69)
+
+    NUM 	shift, and go to state 1
+    ID  	shift, and go to state 2
+    STR 	shift, and go to state 4
+    FUNCTION	shift, and go to state 45
+    TRUE	shift, and go to state 10
+    FALSE	shift, and go to state 11
+    ABRE_PAR_SETA	shift, and go to state 12
+    '(' 	shift, and go to state 13
+    ')' 	shift, and go to state 50
+    '{' 	shift, and go to state 14
+    '[' 	shift, and go to state 15
+    '-' 	shift, and go to state 16
+
+    FUNC	go to state 19
+    PROP	go to state 20
+    PROP_NAME	go to state 21
+    SETA_FUNC	go to state 22
+    SETA_FUNC_PARAMs	go to state 23
+    ATR 	go to state 51
+    R   	go to state 25
+    E   	go to state 47
+    M   	go to state 27
+    T   	go to state 28
+    R_NUM	go to state 29
+    F   	go to state 30
+    ARRAY	go to state 31
+    OBJ 	go to state 32
+    B_VAZIO	go to state 33
+    FUNCTION_RETURN	go to state 34
+
+
+
+state 14
+
+    OBJ  ->  '{' . OBJ_DECL '}'   (rule 79)
+    B_VAZIO  ->  '{' . '}'   (rule 82)
+
+    ID  	shift, and go to state 52
+    '}' 	shift, and go to state 53
+
+    OBJ_DECL	go to state 54
+
+
+
+state 15
+
+    F  ->  '[' . ']'   (rule 71)
+    ARRAY  ->  '[' . ARRAY_N ']'   (rule 76)
+
+    NUM 	shift, and go to state 1
+    ID  	shift, and go to state 2
+    STR 	shift, and go to state 4
+    FUNCTION	shift, and go to state 45
+    TRUE	shift, and go to state 10
+    FALSE	shift, and go to state 11
+    ABRE_PAR_SETA	shift, and go to state 12
+    '(' 	shift, and go to state 13
+    '{' 	shift, and go to state 14
+    '[' 	shift, and go to state 15
+    ']' 	shift, and go to state 55
+    '-' 	shift, and go to state 16
+
+    FUNC	go to state 19
+    PROP	go to state 20
+    PROP_NAME	go to state 21
+    SETA_FUNC	go to state 22
+    SETA_FUNC_PARAMs	go to state 23
+    ATR 	go to state 56
+    R   	go to state 25
+    E   	go to state 47
+    M   	go to state 27
+    T   	go to state 28
+    R_NUM	go to state 29
+    F   	go to state 30
+    ARRAY	go to state 31
+    ARRAY_N	go to state 57
+    OBJ 	go to state 32
+    B_VAZIO	go to state 33
+    FUNCTION_RETURN	go to state 34
+
+
+
+state 16
+
+    R_NUM  ->  '-' . NUM   (rule 62)
+
+    NUM 	shift, and go to state 58
+
+
+
+state 17
+
+    S  ->  CMDs .   (rule 1)
+
+    $default	reduce using rule 1 (S)
+
+
+
+state 18
+
+    CMDs  ->  CMD . CMDs   (rule 2)
+
+    NUM 	shift, and go to state 1
+    ID  	shift, and go to state 2
+    LET 	shift, and go to state 3
+    STR 	shift, and go to state 4
+    IF  	shift, and go to state 5
+    WHILE	shift, and go to state 6
+    FOR 	shift, and go to state 7
+    FUNCTION	shift, and go to state 8
+    RETURN	shift, and go to state 9
+    TRUE	shift, and go to state 10
+    FALSE	shift, and go to state 11
+    ABRE_PAR_SETA	shift, and go to state 12
+    '(' 	shift, and go to state 13
+    '{' 	shift, and go to state 14
+    '[' 	shift, and go to state 15
+    '-' 	shift, and go to state 16
+
+    $default	reduce using rule 3 (CMDs)
+
+    CMDs	go to state 59
+    CMD 	go to state 18
+    FUNC	go to state 19
+    PROP	go to state 20
+    PROP_NAME	go to state 21
+    SETA_FUNC	go to state 22
+    SETA_FUNC_PARAMs	go to state 23
+    ATR 	go to state 24
+    R   	go to state 25
+    E   	go to state 26
+    M   	go to state 27
+    T   	go to state 28
+    R_NUM	go to state 29
+    F   	go to state 30
+    ARRAY	go to state 31
+    OBJ 	go to state 32
+    B_VAZIO	go to state 33
+    FUNCTION_RETURN	go to state 34
+
+
+
+state 19
+
+    F  ->  FUNC .   (rule 66)
+
+    $default	reduce using rule 66 (F)
+
+
+
+state 20
+
+    FUNC  ->  PROP . '(' FUNC_PARAMs ')'   (rule 26)
+    PROP_NAME  ->  PROP .   (rule 33)
+    ATR  ->  PROP . '=' ATR   (rule 43)
+    F  ->  PROP .   (rule 65)
+
+    '(' 	shift, and go to state 60
+    '=' 	shift, and go to state 61
+
+    '[' 	reduce using rule 33 (PROP_NAME)
+    $default	reduce using rule 65 (F)
+
+
+
+state 21
+
+    PROP  ->  PROP_NAME . '[' ATR ']'   (rule 30)
+    PROP  ->  PROP_NAME . '.' ID   (rule 31)
+
+    '[' 	shift, and go to state 62
+    '.' 	shift, and go to state 63
+
+
+
+state 22
+
+    ATR  ->  SETA_FUNC .   (rule 44)
+
+    $default	reduce using rule 44 (ATR)
+
+
+
+state 23
+
+    SETA_FUNC  ->  SETA_FUNC_PARAMs . SETA B_SETA   (rule 34)
+
+    SETA	shift, and go to state 64
+
+
+
+state 24
+
+    CMD  ->  ATR . ';'   (rule 4)
+
+    ';' 	shift, and go to state 65
+
+
+
+state 25
+
+    ATR  ->  R .   (rule 46)
+
+    $default	reduce using rule 46 (ATR)
+
+
+
+state 26
+
+    CMD  ->  E . ASM ';'   (rule 9)
+    R  ->  E . '<' E   (rule 47)
+    R  ->  E . '>' E   (rule 48)
+    R  ->  E . MAIG E   (rule 49)
+    R  ->  E . MEIG E   (rule 50)
+    R  ->  E . IG E   (rule 51)
+    R  ->  E . DIF E   (rule 52)
+    R  ->  E .   (rule 53)
+    E  ->  E . '+' M   (rule 54)
+    E  ->  E . '-' M   (rule 55)
+
+    MAIG	shift, and go to state 66
+    MEIG	shift, and go to state 67
+    IG  	shift, and go to state 68
+    DIF 	shift, and go to state 69
+    ASM 	shift, and go to state 70
+    '<' 	shift, and go to state 71
+    '>' 	shift, and go to state 72
+    '+' 	shift, and go to state 73
+    '-' 	shift, and go to state 74
+
+    $default	reduce using rule 53 (R)
+
+
+
+state 27
+
+    E  ->  M .   (rule 56)
+    M  ->  M . '%' T   (rule 57)
+
+    '%' 	shift, and go to state 75
+
+    $default	reduce using rule 56 (E)
+
+
+
+state 28
+
+    M  ->  T .   (rule 58)
+    T  ->  T . '*' F   (rule 59)
+    T  ->  T . '/' F   (rule 60)
+
+    '*' 	shift, and go to state 76
+    '/' 	shift, and go to state 77
+
+    $default	reduce using rule 58 (M)
+
+
+
+state 29
+
+    F  ->  R_NUM .   (rule 67)
+
+    $default	reduce using rule 67 (F)
+
+
+
+state 30
+
+    T  ->  F .   (rule 61)
+
+    $default	reduce using rule 61 (T)
+
+
+
+state 31
+
+    F  ->  ARRAY .   (rule 72)
+
+    $default	reduce using rule 72 (F)
+
+
+
+state 32
+
+    F  ->  OBJ .   (rule 73)
+
+    $default	reduce using rule 73 (F)
+
+
+
+state 33
+
+    F  ->  B_VAZIO .   (rule 70)
+
+    $default	reduce using rule 70 (F)
+
+
+
+state 34
+
+    ATR  ->  FUNCTION_RETURN .   (rule 45)
+
+    $default	reduce using rule 45 (ATR)
+
+
+
+state 35
+
+    FUNC  ->  ID '(' . FUNC_PARAMs ')'   (rule 25)
+
+    NUM 	shift, and go to state 1
+    ID  	shift, and go to state 2
+    STR 	shift, and go to state 4
+    FUNCTION	shift, and go to state 45
+    TRUE	shift, and go to state 10
+    FALSE	shift, and go to state 11
+    ABRE_PAR_SETA	shift, and go to state 12
+    '(' 	shift, and go to state 13
+    '{' 	shift, and go to state 14
+    '[' 	shift, and go to state 15
+    '-' 	shift, and go to state 16
+
+    $default	reduce using rule 29 (FUNC_PARAMs)
+
+    FUNC	go to state 19
+    FUNC_PARAMs	go to state 78
+    PROP	go to state 20
+    PROP_NAME	go to state 21
+    SETA_FUNC	go to state 22
+    SETA_FUNC_PARAMs	go to state 23
+    ATR 	go to state 79
+    R   	go to state 25
+    E   	go to state 47
+    M   	go to state 27
+    T   	go to state 28
+    R_NUM	go to state 29
+    F   	go to state 30
+    ARRAY	go to state 31
+    OBJ 	go to state 32
+    B_VAZIO	go to state 33
+    FUNCTION_RETURN	go to state 34
+
+
+
+state 36
+
+    ATR  ->  ID '=' . ATR   (rule 42)
+
+    NUM 	shift, and go to state 1
+    ID  	shift, and go to state 2
+    STR 	shift, and go to state 4
+    FUNCTION	shift, and go to state 45
+    TRUE	shift, and go to state 10
+    FALSE	shift, and go to state 11
+    ABRE_PAR_SETA	shift, and go to state 12
+    '(' 	shift, and go to state 13
+    '{' 	shift, and go to state 14
+    '[' 	shift, and go to state 15
+    '-' 	shift, and go to state 16
+
+    FUNC	go to state 19
+    PROP	go to state 20
+    PROP_NAME	go to state 21
+    SETA_FUNC	go to state 22
+    SETA_FUNC_PARAMs	go to state 23
+    ATR 	go to state 80
+    R   	go to state 25
+    E   	go to state 47
+    M   	go to state 27
+    T   	go to state 28
+    R_NUM	go to state 29
+    F   	go to state 30
+    ARRAY	go to state 31
+    OBJ 	go to state 32
+    B_VAZIO	go to state 33
+    FUNCTION_RETURN	go to state 34
+
+
+
+state 37
+
+    DECLVAR  ->  ID . '=' R   (rule 23)
+    DECLVAR  ->  ID .   (rule 24)
+
+    '=' 	shift, and go to state 81
+
+    $default	reduce using rule 24 (DECLVAR)
+
+
+
+state 38
+
+    CMD  ->  LET DECLVARs . ';'   (rule 5)
+
+    ';' 	shift, and go to state 82
+
+
+
+state 39
+
+    DECLVARs  ->  DECLVAR . ',' DECLVARs   (rule 21)
+    DECLVARs  ->  DECLVAR .   (rule 22)
+
+    ',' 	shift, and go to state 83
+
+    $default	reduce using rule 22 (DECLVARs)
+
+
+
+state 40
+
+    CMD  ->  IF '(' . R ')' B C   (rule 6)
+
+    NUM 	shift, and go to state 1
+    ID  	shift, and go to state 84
+    STR 	shift, and go to state 4
+    TRUE	shift, and go to state 10
+    FALSE	shift, and go to state 11
+    '(' 	shift, and go to state 85
+    '{' 	shift, and go to state 14
+    '[' 	shift, and go to state 15
+    '-' 	shift, and go to state 16
+
+    FUNC	go to state 19
+    PROP	go to state 86
+    PROP_NAME	go to state 21
+    R   	go to state 87
+    E   	go to state 47
+    M   	go to state 27
+    T   	go to state 28
+    R_NUM	go to state 29
+    F   	go to state 30
+    ARRAY	go to state 31
+    OBJ 	go to state 32
+    B_VAZIO	go to state 33
+
+
+
+state 41
+
+    CMD  ->  WHILE '(' . R ')' B   (rule 7)
+
+    NUM 	shift, and go to state 1
+    ID  	shift, and go to state 84
+    STR 	shift, and go to state 4
+    TRUE	shift, and go to state 10
+    FALSE	shift, and go to state 11
+    '(' 	shift, and go to state 85
+    '{' 	shift, and go to state 14
+    '[' 	shift, and go to state 15
+    '-' 	shift, and go to state 16
+
+    FUNC	go to state 19
+    PROP	go to state 86
+    PROP_NAME	go to state 21
+    R   	go to state 88
+    E   	go to state 47
+    M   	go to state 27
+    T   	go to state 28
+    R_NUM	go to state 29
+    F   	go to state 30
+    ARRAY	go to state 31
+    OBJ 	go to state 32
+    B_VAZIO	go to state 33
+
+
+
+state 42
+
+    CMD  ->  FOR '(' . CMD R ';' ATR ')' B   (rule 8)
+
+    NUM 	shift, and go to state 1
+    ID  	shift, and go to state 2
+    LET 	shift, and go to state 3
+    STR 	shift, and go to state 4
+    IF  	shift, and go to state 5
+    WHILE	shift, and go to state 6
+    FOR 	shift, and go to state 7
+    FUNCTION	shift, and go to state 8
+    RETURN	shift, and go to state 9
+    TRUE	shift, and go to state 10
+    FALSE	shift, and go to state 11
+    ABRE_PAR_SETA	shift, and go to state 12
+    '(' 	shift, and go to state 13
+    '{' 	shift, and go to state 14
+    '[' 	shift, and go to state 15
+    '-' 	shift, and go to state 16
+
+    CMD 	go to state 89
+    FUNC	go to state 19
+    PROP	go to state 20
+    PROP_NAME	go to state 21
+    SETA_FUNC	go to state 22
+    SETA_FUNC_PARAMs	go to state 23
+    ATR 	go to state 24
+    R   	go to state 25
+    E   	go to state 26
+    M   	go to state 27
+    T   	go to state 28
+    R_NUM	go to state 29
+    F   	go to state 30
+    ARRAY	go to state 31
+    OBJ 	go to state 32
+    B_VAZIO	go to state 33
+    FUNCTION_RETURN	go to state 34
+
+
+
+state 43
+
+    CMD  ->  FUNCTION ID . '(' FUNC_DECL_PARAMs ')' B   (rule 10)
+
+    '(' 	shift, and go to state 90
+
+
+
+state 44
+
+    FUNCTION_RETURN  ->  FUNCTION '(' . FUNC_DECL_PARAMs ')' B   (rule 83)
+
+    ID  	shift, and go to state 91
+
+    $default	reduce using rule 14 (FUNC_DECL_PARAMs)
+
+    FUNC_DECL_PARAMs	go to state 92
+
+
+
+state 45
+
+    FUNCTION_RETURN  ->  FUNCTION . '(' FUNC_DECL_PARAMs ')' B   (rule 83)
+
+    '(' 	shift, and go to state 44
+
+
+
+state 46
+
+    CMD  ->  RETURN ATR . ';'   (rule 11)
+
+    ';' 	shift, and go to state 93
+
+
+
+state 47
+
+    R  ->  E . '<' E   (rule 47)
+    R  ->  E . '>' E   (rule 48)
+    R  ->  E . MAIG E   (rule 49)
+    R  ->  E . MEIG E   (rule 50)
+    R  ->  E . IG E   (rule 51)
+    R  ->  E . DIF E   (rule 52)
+    R  ->  E .   (rule 53)
+    E  ->  E . '+' M   (rule 54)
+    E  ->  E . '-' M   (rule 55)
+
+    MAIG	shift, and go to state 66
+    MEIG	shift, and go to state 67
+    IG  	shift, and go to state 68
+    DIF 	shift, and go to state 69
+    '<' 	shift, and go to state 71
+    '>' 	shift, and go to state 72
+    '+' 	shift, and go to state 73
+    '-' 	shift, and go to state 74
+
+    $default	reduce using rule 53 (R)
+
+
+
+state 48
+
+    ID_SETA_PARAMs  ->  ID .   (rule 39)
+
+    $default	reduce using rule 39 (ID_SETA_PARAMs)
+
+
+
+state 49
+
+    SETA_FUNC_PARAMs  ->  ABRE_PAR_SETA ID_SETA_PARAMs . ')'   (rule 35)
+    ID_SETA_PARAMs  ->  ID_SETA_PARAMs . ',' ID   (rule 38)
+
+    ',' 	shift, and go to state 94
+    ')' 	shift, and go to state 95
+
+
+
+state 50
+
+    SETA_FUNC_PARAMs  ->  '(' ')' .   (rule 37)
+
+    $default	reduce using rule 37 (SETA_FUNC_PARAMs)
+
+
+
+state 51
+
+    F  ->  '(' ATR . ')'   (rule 69)
+
+    ')' 	shift, and go to state 96
+
+
+
+state 52
+
+    OBJ_DECL  ->  ID . ':' ATR   (rule 81)
+
+    ':' 	shift, and go to state 97
+
+
+
+state 53
+
+    B_VAZIO  ->  '{' '}' .   (rule 82)
+
+    $default	reduce using rule 82 (B_VAZIO)
+
+
+
+state 54
+
+    OBJ  ->  '{' OBJ_DECL . '}'   (rule 79)
+    OBJ_DECL  ->  OBJ_DECL . ',' ID ':' ATR   (rule 80)
+
+    ',' 	shift, and go to state 98
+    '}' 	shift, and go to state 99
+
+
+
+state 55
+
+    F  ->  '[' ']' .   (rule 71)
+
+    $default	reduce using rule 71 (F)
+
+
+
+state 56
+
+    ARRAY_N  ->  ATR .   (rule 78)
+
+    $default	reduce using rule 78 (ARRAY_N)
+
+
+
+state 57
+
+    ARRAY  ->  '[' ARRAY_N . ']'   (rule 76)
+    ARRAY_N  ->  ARRAY_N . ',' ATR   (rule 77)
+
+    ',' 	shift, and go to state 100
+    ']' 	shift, and go to state 101
+
+
+
+state 58
+
+    R_NUM  ->  '-' NUM .   (rule 62)
+
+    $default	reduce using rule 62 (R_NUM)
+
+
+
+state 59
+
+    CMDs  ->  CMD CMDs .   (rule 2)
+
+    $default	reduce using rule 2 (CMDs)
+
+
+
+state 60
+
+    FUNC  ->  PROP '(' . FUNC_PARAMs ')'   (rule 26)
+
+    NUM 	shift, and go to state 1
+    ID  	shift, and go to state 2
+    STR 	shift, and go to state 4
+    FUNCTION	shift, and go to state 45
+    TRUE	shift, and go to state 10
+    FALSE	shift, and go to state 11
+    ABRE_PAR_SETA	shift, and go to state 12
+    '(' 	shift, and go to state 13
+    '{' 	shift, and go to state 14
+    '[' 	shift, and go to state 15
+    '-' 	shift, and go to state 16
+
+    $default	reduce using rule 29 (FUNC_PARAMs)
+
+    FUNC	go to state 19
+    FUNC_PARAMs	go to state 102
+    PROP	go to state 20
+    PROP_NAME	go to state 21
+    SETA_FUNC	go to state 22
+    SETA_FUNC_PARAMs	go to state 23
+    ATR 	go to state 79
+    R   	go to state 25
+    E   	go to state 47
+    M   	go to state 27
+    T   	go to state 28
+    R_NUM	go to state 29
+    F   	go to state 30
+    ARRAY	go to state 31
+    OBJ 	go to state 32
+    B_VAZIO	go to state 33
+    FUNCTION_RETURN	go to state 34
+
+
+
+state 61
+
+    ATR  ->  PROP '=' . ATR   (rule 43)
+
+    NUM 	shift, and go to state 1
+    ID  	shift, and go to state 2
+    STR 	shift, and go to state 4
+    FUNCTION	shift, and go to state 45
+    TRUE	shift, and go to state 10
+    FALSE	shift, and go to state 11
+    ABRE_PAR_SETA	shift, and go to state 12
+    '(' 	shift, and go to state 13
+    '{' 	shift, and go to state 14
+    '[' 	shift, and go to state 15
+    '-' 	shift, and go to state 16
+
+    FUNC	go to state 19
+    PROP	go to state 20
+    PROP_NAME	go to state 21
+    SETA_FUNC	go to state 22
+    SETA_FUNC_PARAMs	go to state 23
+    ATR 	go to state 103
+    R   	go to state 25
+    E   	go to state 47
+    M   	go to state 27
+    T   	go to state 28
+    R_NUM	go to state 29
+    F   	go to state 30
+    ARRAY	go to state 31
+    OBJ 	go to state 32
+    B_VAZIO	go to state 33
+    FUNCTION_RETURN	go to state 34
+
+
+
+state 62
+
+    PROP  ->  PROP_NAME '[' . ATR ']'   (rule 30)
+
+    NUM 	shift, and go to state 1
+    ID  	shift, and go to state 2
+    STR 	shift, and go to state 4
+    FUNCTION	shift, and go to state 45
+    TRUE	shift, and go to state 10
+    FALSE	shift, and go to state 11
+    ABRE_PAR_SETA	shift, and go to state 12
+    '(' 	shift, and go to state 13
+    '{' 	shift, and go to state 14
+    '[' 	shift, and go to state 15
+    '-' 	shift, and go to state 16
+
+    FUNC	go to state 19
+    PROP	go to state 20
+    PROP_NAME	go to state 21
+    SETA_FUNC	go to state 22
+    SETA_FUNC_PARAMs	go to state 23
+    ATR 	go to state 104
+    R   	go to state 25
+    E   	go to state 47
+    M   	go to state 27
+    T   	go to state 28
+    R_NUM	go to state 29
+    F   	go to state 30
+    ARRAY	go to state 31
+    OBJ 	go to state 32
+    B_VAZIO	go to state 33
+    FUNCTION_RETURN	go to state 34
+
+
+
+state 63
+
+    PROP  ->  PROP_NAME '.' . ID   (rule 31)
+
+    ID  	shift, and go to state 105
+
+
+
+state 64
+
+    SETA_FUNC  ->  SETA_FUNC_PARAMs SETA . B_SETA   (rule 34)
+
+    NUM 	shift, and go to state 1
+    ID  	shift, and go to state 2
+    STR 	shift, and go to state 4
+    FUNCTION	shift, and go to state 45
+    TRUE	shift, and go to state 10
+    FALSE	shift, and go to state 11
+    ABRE_PAR_SETA	shift, and go to state 12
+    '(' 	shift, and go to state 13
+    '{' 	shift, and go to state 106
+    '[' 	shift, and go to state 15
+    '-' 	shift, and go to state 16
+
+    FUNC	go to state 19
+    PROP	go to state 20
+    PROP_NAME	go to state 21
+    SETA_FUNC	go to state 22
+    SETA_FUNC_PARAMs	go to state 23
+    B_SETA	go to state 107
+    ATR 	go to state 108
+    R   	go to state 25
+    E   	go to state 47
+    M   	go to state 27
+    T   	go to state 28
+    R_NUM	go to state 29
+    F   	go to state 30
+    ARRAY	go to state 31
+    OBJ 	go to state 32
+    B_VAZIO	go to state 33
+    FUNCTION_RETURN	go to state 34
+
+
+
+state 65
+
+    CMD  ->  ATR ';' .   (rule 4)
+
+    $default	reduce using rule 4 (CMD)
+
+
+
+state 66
+
+    R  ->  E MAIG . E   (rule 49)
+
+    NUM 	shift, and go to state 1
+    ID  	shift, and go to state 84
+    STR 	shift, and go to state 4
+    TRUE	shift, and go to state 10
+    FALSE	shift, and go to state 11
+    '(' 	shift, and go to state 85
+    '{' 	shift, and go to state 14
+    '[' 	shift, and go to state 15
+    '-' 	shift, and go to state 16
+
+    FUNC	go to state 19
+    PROP	go to state 86
+    PROP_NAME	go to state 21
+    E   	go to state 109
+    M   	go to state 27
+    T   	go to state 28
+    R_NUM	go to state 29
+    F   	go to state 30
+    ARRAY	go to state 31
+    OBJ 	go to state 32
+    B_VAZIO	go to state 33
+
+
+
+state 67
+
+    R  ->  E MEIG . E   (rule 50)
+
+    NUM 	shift, and go to state 1
+    ID  	shift, and go to state 84
+    STR 	shift, and go to state 4
+    TRUE	shift, and go to state 10
+    FALSE	shift, and go to state 11
+    '(' 	shift, and go to state 85
+    '{' 	shift, and go to state 14
+    '[' 	shift, and go to state 15
+    '-' 	shift, and go to state 16
+
+    FUNC	go to state 19
+    PROP	go to state 86
+    PROP_NAME	go to state 21
+    E   	go to state 110
+    M   	go to state 27
+    T   	go to state 28
+    R_NUM	go to state 29
+    F   	go to state 30
+    ARRAY	go to state 31
+    OBJ 	go to state 32
+    B_VAZIO	go to state 33
+
+
+
+state 68
+
+    R  ->  E IG . E   (rule 51)
+
+    NUM 	shift, and go to state 1
+    ID  	shift, and go to state 84
+    STR 	shift, and go to state 4
+    TRUE	shift, and go to state 10
+    FALSE	shift, and go to state 11
+    '(' 	shift, and go to state 85
+    '{' 	shift, and go to state 14
+    '[' 	shift, and go to state 15
+    '-' 	shift, and go to state 16
+
+    FUNC	go to state 19
+    PROP	go to state 86
+    PROP_NAME	go to state 21
+    E   	go to state 111
+    M   	go to state 27
+    T   	go to state 28
+    R_NUM	go to state 29
+    F   	go to state 30
+    ARRAY	go to state 31
+    OBJ 	go to state 32
+    B_VAZIO	go to state 33
+
+
+
+state 69
+
+    R  ->  E DIF . E   (rule 52)
+
+    NUM 	shift, and go to state 1
+    ID  	shift, and go to state 84
+    STR 	shift, and go to state 4
+    TRUE	shift, and go to state 10
+    FALSE	shift, and go to state 11
+    '(' 	shift, and go to state 85
+    '{' 	shift, and go to state 14
+    '[' 	shift, and go to state 15
+    '-' 	shift, and go to state 16
+
+    FUNC	go to state 19
+    PROP	go to state 86
+    PROP_NAME	go to state 21
+    E   	go to state 112
+    M   	go to state 27
+    T   	go to state 28
+    R_NUM	go to state 29
+    F   	go to state 30
+    ARRAY	go to state 31
+    OBJ 	go to state 32
+    B_VAZIO	go to state 33
+
+
+
+state 70
+
+    CMD  ->  E ASM . ';'   (rule 9)
+
+    ';' 	shift, and go to state 113
+
+
+
+state 71
+
+    R  ->  E '<' . E   (rule 47)
+
+    NUM 	shift, and go to state 1
+    ID  	shift, and go to state 84
+    STR 	shift, and go to state 4
+    TRUE	shift, and go to state 10
+    FALSE	shift, and go to state 11
+    '(' 	shift, and go to state 85
+    '{' 	shift, and go to state 14
+    '[' 	shift, and go to state 15
+    '-' 	shift, and go to state 16
+
+    FUNC	go to state 19
+    PROP	go to state 86
+    PROP_NAME	go to state 21
+    E   	go to state 114
+    M   	go to state 27
+    T   	go to state 28
+    R_NUM	go to state 29
+    F   	go to state 30
+    ARRAY	go to state 31
+    OBJ 	go to state 32
+    B_VAZIO	go to state 33
+
+
+
+state 72
+
+    R  ->  E '>' . E   (rule 48)
+
+    NUM 	shift, and go to state 1
+    ID  	shift, and go to state 84
+    STR 	shift, and go to state 4
+    TRUE	shift, and go to state 10
+    FALSE	shift, and go to state 11
+    '(' 	shift, and go to state 85
+    '{' 	shift, and go to state 14
+    '[' 	shift, and go to state 15
+    '-' 	shift, and go to state 16
+
+    FUNC	go to state 19
+    PROP	go to state 86
+    PROP_NAME	go to state 21
+    E   	go to state 115
+    M   	go to state 27
+    T   	go to state 28
+    R_NUM	go to state 29
+    F   	go to state 30
+    ARRAY	go to state 31
+    OBJ 	go to state 32
+    B_VAZIO	go to state 33
+
+
+
+state 73
+
+    E  ->  E '+' . M   (rule 54)
+
+    NUM 	shift, and go to state 1
+    ID  	shift, and go to state 84
+    STR 	shift, and go to state 4
+    TRUE	shift, and go to state 10
+    FALSE	shift, and go to state 11
+    '(' 	shift, and go to state 85
+    '{' 	shift, and go to state 14
+    '[' 	shift, and go to state 15
+    '-' 	shift, and go to state 16
+
+    FUNC	go to state 19
+    PROP	go to state 86
+    PROP_NAME	go to state 21
+    M   	go to state 116
+    T   	go to state 28
+    R_NUM	go to state 29
+    F   	go to state 30
+    ARRAY	go to state 31
+    OBJ 	go to state 32
+    B_VAZIO	go to state 33
+
+
+
+state 74
+
+    E  ->  E '-' . M   (rule 55)
+
+    NUM 	shift, and go to state 1
+    ID  	shift, and go to state 84
+    STR 	shift, and go to state 4
+    TRUE	shift, and go to state 10
+    FALSE	shift, and go to state 11
+    '(' 	shift, and go to state 85
+    '{' 	shift, and go to state 14
+    '[' 	shift, and go to state 15
+    '-' 	shift, and go to state 16
+
+    FUNC	go to state 19
+    PROP	go to state 86
+    PROP_NAME	go to state 21
+    M   	go to state 117
+    T   	go to state 28
+    R_NUM	go to state 29
+    F   	go to state 30
+    ARRAY	go to state 31
+    OBJ 	go to state 32
+    B_VAZIO	go to state 33
+
+
+
+state 75
+
+    M  ->  M '%' . T   (rule 57)
+
+    NUM 	shift, and go to state 1
+    ID  	shift, and go to state 84
+    STR 	shift, and go to state 4
+    TRUE	shift, and go to state 10
+    FALSE	shift, and go to state 11
+    '(' 	shift, and go to state 85
+    '{' 	shift, and go to state 14
+    '[' 	shift, and go to state 15
+    '-' 	shift, and go to state 16
+
+    FUNC	go to state 19
+    PROP	go to state 86
+    PROP_NAME	go to state 21
+    T   	go to state 118
+    R_NUM	go to state 29
+    F   	go to state 30
+    ARRAY	go to state 31
+    OBJ 	go to state 32
+    B_VAZIO	go to state 33
+
+
+
+state 76
+
+    T  ->  T '*' . F   (rule 59)
+
+    NUM 	shift, and go to state 1
+    ID  	shift, and go to state 84
+    STR 	shift, and go to state 4
+    TRUE	shift, and go to state 10
+    FALSE	shift, and go to state 11
+    '(' 	shift, and go to state 85
+    '{' 	shift, and go to state 14
+    '[' 	shift, and go to state 15
+    '-' 	shift, and go to state 16
+
+    FUNC	go to state 19
+    PROP	go to state 86
+    PROP_NAME	go to state 21
+    R_NUM	go to state 29
+    F   	go to state 119
+    ARRAY	go to state 31
+    OBJ 	go to state 32
+    B_VAZIO	go to state 33
+
+
+
+state 77
+
+    T  ->  T '/' . F   (rule 60)
+
+    NUM 	shift, and go to state 1
+    ID  	shift, and go to state 84
+    STR 	shift, and go to state 4
+    TRUE	shift, and go to state 10
+    FALSE	shift, and go to state 11
+    '(' 	shift, and go to state 85
+    '{' 	shift, and go to state 14
+    '[' 	shift, and go to state 15
+    '-' 	shift, and go to state 16
+
+    FUNC	go to state 19
+    PROP	go to state 86
+    PROP_NAME	go to state 21
+    R_NUM	go to state 29
+    F   	go to state 120
+    ARRAY	go to state 31
+    OBJ 	go to state 32
+    B_VAZIO	go to state 33
+
+
+
+state 78
+
+    FUNC  ->  ID '(' FUNC_PARAMs . ')'   (rule 25)
+
+    ')' 	shift, and go to state 121
+
+
+
+state 79
+
+    FUNC_PARAMs  ->  ATR . ',' FUNC_PARAMs   (rule 27)
+    FUNC_PARAMs  ->  ATR .   (rule 28)
+
+    ',' 	shift, and go to state 122
+
+    $default	reduce using rule 28 (FUNC_PARAMs)
+
+
+
+state 80
+
+    ATR  ->  ID '=' ATR .   (rule 42)
+
+    $default	reduce using rule 42 (ATR)
+
+
+
+state 81
+
+    DECLVAR  ->  ID '=' . R   (rule 23)
+
+    NUM 	shift, and go to state 1
+    ID  	shift, and go to state 84
+    STR 	shift, and go to state 4
+    TRUE	shift, and go to state 10
+    FALSE	shift, and go to state 11
+    '(' 	shift, and go to state 85
+    '{' 	shift, and go to state 14
+    '[' 	shift, and go to state 15
+    '-' 	shift, and go to state 16
+
+    FUNC	go to state 19
+    PROP	go to state 86
+    PROP_NAME	go to state 21
+    R   	go to state 123
+    E   	go to state 47
+    M   	go to state 27
+    T   	go to state 28
+    R_NUM	go to state 29
+    F   	go to state 30
+    ARRAY	go to state 31
+    OBJ 	go to state 32
+    B_VAZIO	go to state 33
+
+
+
+state 82
+
+    CMD  ->  LET DECLVARs ';' .   (rule 5)
+
+    $default	reduce using rule 5 (CMD)
+
+
+
+state 83
+
+    DECLVARs  ->  DECLVAR ',' . DECLVARs   (rule 21)
+
+    ID  	shift, and go to state 37
+
+    DECLVARs	go to state 124
+    DECLVAR	go to state 39
+
+
+
+state 84
+
+    FUNC  ->  ID . '(' FUNC_PARAMs ')'   (rule 25)
+    PROP_NAME  ->  ID .   (rule 32)
+    F  ->  ID .   (rule 64)
+
+    '(' 	shift, and go to state 35
+
+    '[' 	reduce using rule 32 (PROP_NAME)
+    $default	reduce using rule 64 (F)
+
+
+
+state 85
+
+    F  ->  '(' . ATR ')'   (rule 69)
+
+    NUM 	shift, and go to state 1
+    ID  	shift, and go to state 2
+    STR 	shift, and go to state 4
+    FUNCTION	shift, and go to state 45
+    TRUE	shift, and go to state 10
+    FALSE	shift, and go to state 11
+    ABRE_PAR_SETA	shift, and go to state 12
+    '(' 	shift, and go to state 13
+    '{' 	shift, and go to state 14
+    '[' 	shift, and go to state 15
+    '-' 	shift, and go to state 16
+
+    FUNC	go to state 19
+    PROP	go to state 20
+    PROP_NAME	go to state 21
+    SETA_FUNC	go to state 22
+    SETA_FUNC_PARAMs	go to state 23
+    ATR 	go to state 51
+    R   	go to state 25
+    E   	go to state 47
+    M   	go to state 27
+    T   	go to state 28
+    R_NUM	go to state 29
+    F   	go to state 30
+    ARRAY	go to state 31
+    OBJ 	go to state 32
+    B_VAZIO	go to state 33
+    FUNCTION_RETURN	go to state 34
+
+
+
+state 86
+
+    FUNC  ->  PROP . '(' FUNC_PARAMs ')'   (rule 26)
+    PROP_NAME  ->  PROP .   (rule 33)
+    F  ->  PROP .   (rule 65)
+
+    '(' 	shift, and go to state 60
+
+    '[' 	reduce using rule 33 (PROP_NAME)
+    $default	reduce using rule 65 (F)
+
+
+
+state 87
+
+    CMD  ->  IF '(' R . ')' B C   (rule 6)
+
+    ')' 	shift, and go to state 125
+
+
+
+state 88
+
+    CMD  ->  WHILE '(' R . ')' B   (rule 7)
+
+    ')' 	shift, and go to state 126
+
+
+
+state 89
+
+    CMD  ->  FOR '(' CMD . R ';' ATR ')' B   (rule 8)
+
+    NUM 	shift, and go to state 1
+    ID  	shift, and go to state 84
+    STR 	shift, and go to state 4
+    TRUE	shift, and go to state 10
+    FALSE	shift, and go to state 11
+    '(' 	shift, and go to state 85
+    '{' 	shift, and go to state 14
+    '[' 	shift, and go to state 15
+    '-' 	shift, and go to state 16
+
+    FUNC	go to state 19
+    PROP	go to state 86
+    PROP_NAME	go to state 21
+    R   	go to state 127
+    E   	go to state 47
+    M   	go to state 27
+    T   	go to state 28
+    R_NUM	go to state 29
+    F   	go to state 30
+    ARRAY	go to state 31
+    OBJ 	go to state 32
+    B_VAZIO	go to state 33
+
+
+
+state 90
+
+    CMD  ->  FUNCTION ID '(' . FUNC_DECL_PARAMs ')' B   (rule 10)
+
+    ID  	shift, and go to state 91
+
+    $default	reduce using rule 14 (FUNC_DECL_PARAMs)
+
+    FUNC_DECL_PARAMs	go to state 128
+
+
+
+state 91
+
+    FUNC_DECL_PARAMs  ->  ID .   (rule 13)
+
+    $default	reduce using rule 13 (FUNC_DECL_PARAMs)
+
+
+
+state 92
+
+    FUNC_DECL_PARAMs  ->  FUNC_DECL_PARAMs . ',' ID   (rule 12)
+    FUNCTION_RETURN  ->  FUNCTION '(' FUNC_DECL_PARAMs . ')' B   (rule 83)
+
+    ',' 	shift, and go to state 129
+    ')' 	shift, and go to state 130
+
+
+
+state 93
+
+    CMD  ->  RETURN ATR ';' .   (rule 11)
+
+    $default	reduce using rule 11 (CMD)
+
+
+
+state 94
+
+    ID_SETA_PARAMs  ->  ID_SETA_PARAMs ',' . ID   (rule 38)
+
+    ID  	shift, and go to state 131
+
+
+
+state 95
+
+    SETA_FUNC_PARAMs  ->  ABRE_PAR_SETA ID_SETA_PARAMs ')' .   (rule 35)
+
+    $default	reduce using rule 35 (SETA_FUNC_PARAMs)
+
+
+
+state 96
+
+    F  ->  '(' ATR ')' .   (rule 69)
+
+    $default	reduce using rule 69 (F)
+
+
+
+state 97
+
+    OBJ_DECL  ->  ID ':' . ATR   (rule 81)
+
+    NUM 	shift, and go to state 1
+    ID  	shift, and go to state 2
+    STR 	shift, and go to state 4
+    FUNCTION	shift, and go to state 45
+    TRUE	shift, and go to state 10
+    FALSE	shift, and go to state 11
+    ABRE_PAR_SETA	shift, and go to state 12
+    '(' 	shift, and go to state 13
+    '{' 	shift, and go to state 14
+    '[' 	shift, and go to state 15
+    '-' 	shift, and go to state 16
+
+    FUNC	go to state 19
+    PROP	go to state 20
+    PROP_NAME	go to state 21
+    SETA_FUNC	go to state 22
+    SETA_FUNC_PARAMs	go to state 23
+    ATR 	go to state 132
+    R   	go to state 25
+    E   	go to state 47
+    M   	go to state 27
+    T   	go to state 28
+    R_NUM	go to state 29
+    F   	go to state 30
+    ARRAY	go to state 31
+    OBJ 	go to state 32
+    B_VAZIO	go to state 33
+    FUNCTION_RETURN	go to state 34
+
+
+
+state 98
+
+    OBJ_DECL  ->  OBJ_DECL ',' . ID ':' ATR   (rule 80)
+
+    ID  	shift, and go to state 133
+
+
+
+state 99
+
+    OBJ  ->  '{' OBJ_DECL '}' .   (rule 79)
+
+    $default	reduce using rule 79 (OBJ)
+
+
+
+state 100
+
+    ARRAY_N  ->  ARRAY_N ',' . ATR   (rule 77)
+
+    NUM 	shift, and go to state 1
+    ID  	shift, and go to state 2
+    STR 	shift, and go to state 4
+    FUNCTION	shift, and go to state 45
+    TRUE	shift, and go to state 10
+    FALSE	shift, and go to state 11
+    ABRE_PAR_SETA	shift, and go to state 12
+    '(' 	shift, and go to state 13
+    '{' 	shift, and go to state 14
+    '[' 	shift, and go to state 15
+    '-' 	shift, and go to state 16
+
+    FUNC	go to state 19
+    PROP	go to state 20
+    PROP_NAME	go to state 21
+    SETA_FUNC	go to state 22
+    SETA_FUNC_PARAMs	go to state 23
+    ATR 	go to state 134
+    R   	go to state 25
+    E   	go to state 47
+    M   	go to state 27
+    T   	go to state 28
+    R_NUM	go to state 29
+    F   	go to state 30
+    ARRAY	go to state 31
+    OBJ 	go to state 32
+    B_VAZIO	go to state 33
+    FUNCTION_RETURN	go to state 34
+
+
+
+state 101
+
+    ARRAY  ->  '[' ARRAY_N ']' .   (rule 76)
+
+    $default	reduce using rule 76 (ARRAY)
+
+
+
+state 102
+
+    FUNC  ->  PROP '(' FUNC_PARAMs . ')'   (rule 26)
+
+    ')' 	shift, and go to state 135
+
+
+
+state 103
+
+    ATR  ->  PROP '=' ATR .   (rule 43)
+
+    $default	reduce using rule 43 (ATR)
+
+
+
+state 104
+
+    PROP  ->  PROP_NAME '[' ATR . ']'   (rule 30)
+
+    ']' 	shift, and go to state 136
+
+
+
+state 105
+
+    PROP  ->  PROP_NAME '.' ID .   (rule 31)
+
+    $default	reduce using rule 31 (PROP)
+
+
+
+state 106
+
+    B_SETA  ->  '{' . CMDs '}'   (rule 40)
+    OBJ  ->  '{' . OBJ_DECL '}'   (rule 79)
+    B_VAZIO  ->  '{' . '}'   (rule 82)
+
+    NUM 	shift, and go to state 1
+    ID  	shift, and go to state 137
+    LET 	shift, and go to state 3
+    STR 	shift, and go to state 4
+    IF  	shift, and go to state 5
+    WHILE	shift, and go to state 6
+    FOR 	shift, and go to state 7
+    FUNCTION	shift, and go to state 8
+    RETURN	shift, and go to state 9
+    TRUE	shift, and go to state 10
+    FALSE	shift, and go to state 11
+    ABRE_PAR_SETA	shift, and go to state 12
+    '(' 	shift, and go to state 13
+    '{' 	shift, and go to state 14
+    '}' 	shift, and go to state 53
+    '[' 	shift, and go to state 15
+    '-' 	shift, and go to state 16
+
+    '}' 	[reduce using rule 3 (CMDs)]
+    $default	reduce using rule 3 (CMDs)
+
+    CMDs	go to state 138
+    CMD 	go to state 18
+    FUNC	go to state 19
+    PROP	go to state 20
+    PROP_NAME	go to state 21
+    SETA_FUNC	go to state 22
+    SETA_FUNC_PARAMs	go to state 23
+    ATR 	go to state 24
+    R   	go to state 25
+    E   	go to state 26
+    M   	go to state 27
+    T   	go to state 28
+    R_NUM	go to state 29
+    F   	go to state 30
+    ARRAY	go to state 31
+    OBJ 	go to state 32
+    OBJ_DECL	go to state 54
+    B_VAZIO	go to state 33
+    FUNCTION_RETURN	go to state 34
+
+
+
+state 107
+
+    SETA_FUNC  ->  SETA_FUNC_PARAMs SETA B_SETA .   (rule 34)
+
+    $default	reduce using rule 34 (SETA_FUNC)
+
+
+
+state 108
+
+    B_SETA  ->  ATR .   (rule 41)
+
+    $default	reduce using rule 41 (B_SETA)
+
+
+
+state 109
+
+    R  ->  E MAIG E .   (rule 49)
+    E  ->  E . '+' M   (rule 54)
+    E  ->  E . '-' M   (rule 55)
+
+    '+' 	shift, and go to state 73
+    '-' 	shift, and go to state 74
+
+    $default	reduce using rule 49 (R)
+
+
+
+state 110
+
+    R  ->  E MEIG E .   (rule 50)
+    E  ->  E . '+' M   (rule 54)
+    E  ->  E . '-' M   (rule 55)
+
+    '+' 	shift, and go to state 73
+    '-' 	shift, and go to state 74
+
+    $default	reduce using rule 50 (R)
+
+
+
+state 111
+
+    R  ->  E IG E .   (rule 51)
+    E  ->  E . '+' M   (rule 54)
+    E  ->  E . '-' M   (rule 55)
+
+    '+' 	shift, and go to state 73
+    '-' 	shift, and go to state 74
+
+    $default	reduce using rule 51 (R)
+
+
+
+state 112
+
+    R  ->  E DIF E .   (rule 52)
+    E  ->  E . '+' M   (rule 54)
+    E  ->  E . '-' M   (rule 55)
+
+    '+' 	shift, and go to state 73
+    '-' 	shift, and go to state 74
+
+    $default	reduce using rule 52 (R)
+
+
+
+state 113
+
+    CMD  ->  E ASM ';' .   (rule 9)
+
+    $default	reduce using rule 9 (CMD)
+
+
+
+state 114
+
+    R  ->  E '<' E .   (rule 47)
+    E  ->  E . '+' M   (rule 54)
+    E  ->  E . '-' M   (rule 55)
+
+    '+' 	shift, and go to state 73
+    '-' 	shift, and go to state 74
+
+    $default	reduce using rule 47 (R)
+
+
+
+state 115
+
+    R  ->  E '>' E .   (rule 48)
+    E  ->  E . '+' M   (rule 54)
+    E  ->  E . '-' M   (rule 55)
+
+    '+' 	shift, and go to state 73
+    '-' 	shift, and go to state 74
+
+    $default	reduce using rule 48 (R)
+
+
+
+state 116
+
+    E  ->  E '+' M .   (rule 54)
+    M  ->  M . '%' T   (rule 57)
+
+    '%' 	shift, and go to state 75
+
+    $default	reduce using rule 54 (E)
+
+
+
+state 117
+
+    E  ->  E '-' M .   (rule 55)
+    M  ->  M . '%' T   (rule 57)
+
+    '%' 	shift, and go to state 75
+
+    $default	reduce using rule 55 (E)
+
+
+
+state 118
+
+    M  ->  M '%' T .   (rule 57)
+    T  ->  T . '*' F   (rule 59)
+    T  ->  T . '/' F   (rule 60)
+
+    '*' 	shift, and go to state 76
+    '/' 	shift, and go to state 77
+
+    $default	reduce using rule 57 (M)
+
+
+
+state 119
+
+    T  ->  T '*' F .   (rule 59)
+
+    $default	reduce using rule 59 (T)
+
+
+
+state 120
+
+    T  ->  T '/' F .   (rule 60)
+
+    $default	reduce using rule 60 (T)
+
+
+
+state 121
+
+    FUNC  ->  ID '(' FUNC_PARAMs ')' .   (rule 25)
+
+    $default	reduce using rule 25 (FUNC)
+
+
+
+state 122
+
+    FUNC_PARAMs  ->  ATR ',' . FUNC_PARAMs   (rule 27)
+
+    NUM 	shift, and go to state 1
+    ID  	shift, and go to state 2
+    STR 	shift, and go to state 4
+    FUNCTION	shift, and go to state 45
+    TRUE	shift, and go to state 10
+    FALSE	shift, and go to state 11
+    ABRE_PAR_SETA	shift, and go to state 12
+    '(' 	shift, and go to state 13
+    '{' 	shift, and go to state 14
+    '[' 	shift, and go to state 15
+    '-' 	shift, and go to state 16
+
+    $default	reduce using rule 29 (FUNC_PARAMs)
+
+    FUNC	go to state 19
+    FUNC_PARAMs	go to state 139
+    PROP	go to state 20
+    PROP_NAME	go to state 21
+    SETA_FUNC	go to state 22
+    SETA_FUNC_PARAMs	go to state 23
+    ATR 	go to state 79
+    R   	go to state 25
+    E   	go to state 47
+    M   	go to state 27
+    T   	go to state 28
+    R_NUM	go to state 29
+    F   	go to state 30
+    ARRAY	go to state 31
+    OBJ 	go to state 32
+    B_VAZIO	go to state 33
+    FUNCTION_RETURN	go to state 34
+
+
+
+state 123
+
+    DECLVAR  ->  ID '=' R .   (rule 23)
+
+    $default	reduce using rule 23 (DECLVAR)
+
+
+
+state 124
+
+    DECLVARs  ->  DECLVAR ',' DECLVARs .   (rule 21)
+
+    $default	reduce using rule 21 (DECLVARs)
+
+
+
+state 125
+
+    CMD  ->  IF '(' R ')' . B C   (rule 6)
+
+    NUM 	shift, and go to state 1
+    ID  	shift, and go to state 2
+    LET 	shift, and go to state 3
+    STR 	shift, and go to state 4
+    IF  	shift, and go to state 5
+    WHILE	shift, and go to state 6
+    FOR 	shift, and go to state 7
+    FUNCTION	shift, and go to state 8
+    RETURN	shift, and go to state 9
+    TRUE	shift, and go to state 10
+    FALSE	shift, and go to state 11
+    ABRE_PAR_SETA	shift, and go to state 12
+    '(' 	shift, and go to state 13
+    '{' 	shift, and go to state 140
+    '[' 	shift, and go to state 15
+    '-' 	shift, and go to state 16
+
+    CMD 	go to state 141
+    B   	go to state 142
+    FUNC	go to state 19
+    PROP	go to state 20
+    PROP_NAME	go to state 21
+    SETA_FUNC	go to state 22
+    SETA_FUNC_PARAMs	go to state 23
+    ATR 	go to state 24
+    R   	go to state 25
+    E   	go to state 26
+    M   	go to state 27
+    T   	go to state 28
+    R_NUM	go to state 29
+    F   	go to state 30
+    ARRAY	go to state 31
+    OBJ 	go to state 32
+    B_VAZIO	go to state 143
+    FUNCTION_RETURN	go to state 34
+
+
+
+state 126
+
+    CMD  ->  WHILE '(' R ')' . B   (rule 7)
+
+    NUM 	shift, and go to state 1
+    ID  	shift, and go to state 2
+    LET 	shift, and go to state 3
+    STR 	shift, and go to state 4
+    IF  	shift, and go to state 5
+    WHILE	shift, and go to state 6
+    FOR 	shift, and go to state 7
+    FUNCTION	shift, and go to state 8
+    RETURN	shift, and go to state 9
+    TRUE	shift, and go to state 10
+    FALSE	shift, and go to state 11
+    ABRE_PAR_SETA	shift, and go to state 12
+    '(' 	shift, and go to state 13
+    '{' 	shift, and go to state 140
+    '[' 	shift, and go to state 15
+    '-' 	shift, and go to state 16
+
+    CMD 	go to state 141
+    B   	go to state 144
+    FUNC	go to state 19
+    PROP	go to state 20
+    PROP_NAME	go to state 21
+    SETA_FUNC	go to state 22
+    SETA_FUNC_PARAMs	go to state 23
+    ATR 	go to state 24
+    R   	go to state 25
+    E   	go to state 26
+    M   	go to state 27
+    T   	go to state 28
+    R_NUM	go to state 29
+    F   	go to state 30
+    ARRAY	go to state 31
+    OBJ 	go to state 32
+    B_VAZIO	go to state 143
+    FUNCTION_RETURN	go to state 34
+
+
+
+state 127
+
+    CMD  ->  FOR '(' CMD R . ';' ATR ')' B   (rule 8)
+
+    ';' 	shift, and go to state 145
+
+
+
+state 128
+
+    CMD  ->  FUNCTION ID '(' FUNC_DECL_PARAMs . ')' B   (rule 10)
+    FUNC_DECL_PARAMs  ->  FUNC_DECL_PARAMs . ',' ID   (rule 12)
+
+    ',' 	shift, and go to state 129
+    ')' 	shift, and go to state 146
+
+
+
+state 129
+
+    FUNC_DECL_PARAMs  ->  FUNC_DECL_PARAMs ',' . ID   (rule 12)
+
+    ID  	shift, and go to state 147
+
+
+
+state 130
+
+    FUNCTION_RETURN  ->  FUNCTION '(' FUNC_DECL_PARAMs ')' . B   (rule 83)
+
+    NUM 	shift, and go to state 1
+    ID  	shift, and go to state 2
+    LET 	shift, and go to state 3
+    STR 	shift, and go to state 4
+    IF  	shift, and go to state 5
+    WHILE	shift, and go to state 6
+    FOR 	shift, and go to state 7
+    FUNCTION	shift, and go to state 8
+    RETURN	shift, and go to state 9
+    TRUE	shift, and go to state 10
+    FALSE	shift, and go to state 11
+    ABRE_PAR_SETA	shift, and go to state 12
+    '(' 	shift, and go to state 13
+    '{' 	shift, and go to state 140
+    '[' 	shift, and go to state 15
+    '-' 	shift, and go to state 16
+
+    CMD 	go to state 141
+    B   	go to state 148
+    FUNC	go to state 19
+    PROP	go to state 20
+    PROP_NAME	go to state 21
+    SETA_FUNC	go to state 22
+    SETA_FUNC_PARAMs	go to state 23
+    ATR 	go to state 24
+    R   	go to state 25
+    E   	go to state 26
+    M   	go to state 27
+    T   	go to state 28
+    R_NUM	go to state 29
+    F   	go to state 30
+    ARRAY	go to state 31
+    OBJ 	go to state 32
+    B_VAZIO	go to state 143
+    FUNCTION_RETURN	go to state 34
+
+
+
+state 131
+
+    ID_SETA_PARAMs  ->  ID_SETA_PARAMs ',' ID .   (rule 38)
+
+    $default	reduce using rule 38 (ID_SETA_PARAMs)
+
+
+
+state 132
+
+    OBJ_DECL  ->  ID ':' ATR .   (rule 81)
+
+    $default	reduce using rule 81 (OBJ_DECL)
+
+
+
+state 133
+
+    OBJ_DECL  ->  OBJ_DECL ',' ID . ':' ATR   (rule 80)
+
+    ':' 	shift, and go to state 149
+
+
+
+state 134
+
+    ARRAY_N  ->  ARRAY_N ',' ATR .   (rule 77)
+
+    $default	reduce using rule 77 (ARRAY_N)
+
+
+
+state 135
+
+    FUNC  ->  PROP '(' FUNC_PARAMs ')' .   (rule 26)
+
+    $default	reduce using rule 26 (FUNC)
+
+
+
+state 136
+
+    PROP  ->  PROP_NAME '[' ATR ']' .   (rule 30)
+
+    $default	reduce using rule 30 (PROP)
+
+
+
+state 137
+
+    FUNC  ->  ID . '(' FUNC_PARAMs ')'   (rule 25)
+    PROP_NAME  ->  ID .   (rule 32)
+    SETA_FUNC_PARAMs  ->  ID .   (rule 36)
+    ATR  ->  ID . '=' ATR   (rule 42)
+    F  ->  ID .   (rule 64)
+    OBJ_DECL  ->  ID . ':' ATR   (rule 81)
+
+    '(' 	shift, and go to state 35
+    '=' 	shift, and go to state 36
+    ':' 	shift, and go to state 97
+
+    SETA	reduce using rule 36 (SETA_FUNC_PARAMs)
+    '[' 	reduce using rule 32 (PROP_NAME)
+    $default	reduce using rule 64 (F)
+
+
+
+state 138
+
+    B_SETA  ->  '{' CMDs . '}'   (rule 40)
+
+    '}' 	shift, and go to state 150
+
+
+
+state 139
+
+    FUNC_PARAMs  ->  ATR ',' FUNC_PARAMs .   (rule 27)
+
+    $default	reduce using rule 27 (FUNC_PARAMs)
+
+
+
+state 140
+
+    B  ->  '{' . CMDs '}'   (rule 15)
+    OBJ  ->  '{' . OBJ_DECL '}'   (rule 79)
+    B_VAZIO  ->  '{' . '}'   (rule 82)
+
+    NUM 	shift, and go to state 1
+    ID  	shift, and go to state 137
+    LET 	shift, and go to state 3
+    STR 	shift, and go to state 4
+    IF  	shift, and go to state 5
+    WHILE	shift, and go to state 6
+    FOR 	shift, and go to state 7
+    FUNCTION	shift, and go to state 8
+    RETURN	shift, and go to state 9
+    TRUE	shift, and go to state 10
+    FALSE	shift, and go to state 11
+    ABRE_PAR_SETA	shift, and go to state 12
+    '(' 	shift, and go to state 13
+    '{' 	shift, and go to state 14
+    '}' 	shift, and go to state 53
+    '[' 	shift, and go to state 15
+    '-' 	shift, and go to state 16
+
+    '}' 	[reduce using rule 3 (CMDs)]
+    $default	reduce using rule 3 (CMDs)
+
+    CMDs	go to state 151
+    CMD 	go to state 18
+    FUNC	go to state 19
+    PROP	go to state 20
+    PROP_NAME	go to state 21
+    SETA_FUNC	go to state 22
+    SETA_FUNC_PARAMs	go to state 23
+    ATR 	go to state 24
+    R   	go to state 25
+    E   	go to state 26
+    M   	go to state 27
+    T   	go to state 28
+    R_NUM	go to state 29
+    F   	go to state 30
+    ARRAY	go to state 31
+    OBJ 	go to state 32
+    OBJ_DECL	go to state 54
+    B_VAZIO	go to state 33
+    FUNCTION_RETURN	go to state 34
+
+
+
+state 141
+
+    B  ->  CMD .   (rule 16)
+
+    $default	reduce using rule 16 (B)
+
+
+
+state 142
+
+    CMD  ->  IF '(' R ')' B . C   (rule 6)
+
+    ELSE	shift, and go to state 152
+    ELSE_IF	shift, and go to state 153
+
+    ELSE	[reduce using rule 20 (C)]
+    ELSE_IF	[reduce using rule 20 (C)]
+    $default	reduce using rule 20 (C)
+
+    C   	go to state 154
+
+
+
+state 143
+
+    B  ->  B_VAZIO .   (rule 17)
+    F  ->  B_VAZIO .   (rule 70)
+
+    MAIG	reduce using rule 70 (F)
+    MEIG	reduce using rule 70 (F)
+    IG  	reduce using rule 70 (F)
+    DIF 	reduce using rule 70 (F)
+    ASM 	reduce using rule 70 (F)
+    ';' 	reduce using rule 17 (B)
+    ';' 	[reduce using rule 70 (F)]
+    $default	reduce using rule 17 (B)
+
+
+
+state 144
+
+    CMD  ->  WHILE '(' R ')' B .   (rule 7)
+
+    $default	reduce using rule 7 (CMD)
+
+
+
+state 145
+
+    CMD  ->  FOR '(' CMD R ';' . ATR ')' B   (rule 8)
+
+    NUM 	shift, and go to state 1
+    ID  	shift, and go to state 2
+    STR 	shift, and go to state 4
+    FUNCTION	shift, and go to state 45
+    TRUE	shift, and go to state 10
+    FALSE	shift, and go to state 11
+    ABRE_PAR_SETA	shift, and go to state 12
+    '(' 	shift, and go to state 13
+    '{' 	shift, and go to state 14
+    '[' 	shift, and go to state 15
+    '-' 	shift, and go to state 16
+
+    FUNC	go to state 19
+    PROP	go to state 20
+    PROP_NAME	go to state 21
+    SETA_FUNC	go to state 22
+    SETA_FUNC_PARAMs	go to state 23
+    ATR 	go to state 155
+    R   	go to state 25
+    E   	go to state 47
+    M   	go to state 27
+    T   	go to state 28
+    R_NUM	go to state 29
+    F   	go to state 30
+    ARRAY	go to state 31
+    OBJ 	go to state 32
+    B_VAZIO	go to state 33
+    FUNCTION_RETURN	go to state 34
+
+
+
+state 146
+
+    CMD  ->  FUNCTION ID '(' FUNC_DECL_PARAMs ')' . B   (rule 10)
+
+    NUM 	shift, and go to state 1
+    ID  	shift, and go to state 2
+    LET 	shift, and go to state 3
+    STR 	shift, and go to state 4
+    IF  	shift, and go to state 5
+    WHILE	shift, and go to state 6
+    FOR 	shift, and go to state 7
+    FUNCTION	shift, and go to state 8
+    RETURN	shift, and go to state 9
+    TRUE	shift, and go to state 10
+    FALSE	shift, and go to state 11
+    ABRE_PAR_SETA	shift, and go to state 12
+    '(' 	shift, and go to state 13
+    '{' 	shift, and go to state 140
+    '[' 	shift, and go to state 15
+    '-' 	shift, and go to state 16
+
+    CMD 	go to state 141
+    B   	go to state 156
+    FUNC	go to state 19
+    PROP	go to state 20
+    PROP_NAME	go to state 21
+    SETA_FUNC	go to state 22
+    SETA_FUNC_PARAMs	go to state 23
+    ATR 	go to state 24
+    R   	go to state 25
+    E   	go to state 26
+    M   	go to state 27
+    T   	go to state 28
+    R_NUM	go to state 29
+    F   	go to state 30
+    ARRAY	go to state 31
+    OBJ 	go to state 32
+    B_VAZIO	go to state 143
+    FUNCTION_RETURN	go to state 34
+
+
+
+state 147
+
+    FUNC_DECL_PARAMs  ->  FUNC_DECL_PARAMs ',' ID .   (rule 12)
+
+    $default	reduce using rule 12 (FUNC_DECL_PARAMs)
+
+
+
+state 148
+
+    FUNCTION_RETURN  ->  FUNCTION '(' FUNC_DECL_PARAMs ')' B .   (rule 83)
+
+    $default	reduce using rule 83 (FUNCTION_RETURN)
+
+
+
+state 149
+
+    OBJ_DECL  ->  OBJ_DECL ',' ID ':' . ATR   (rule 80)
+
+    NUM 	shift, and go to state 1
+    ID  	shift, and go to state 2
+    STR 	shift, and go to state 4
+    FUNCTION	shift, and go to state 45
+    TRUE	shift, and go to state 10
+    FALSE	shift, and go to state 11
+    ABRE_PAR_SETA	shift, and go to state 12
+    '(' 	shift, and go to state 13
+    '{' 	shift, and go to state 14
+    '[' 	shift, and go to state 15
+    '-' 	shift, and go to state 16
+
+    FUNC	go to state 19
+    PROP	go to state 20
+    PROP_NAME	go to state 21
+    SETA_FUNC	go to state 22
+    SETA_FUNC_PARAMs	go to state 23
+    ATR 	go to state 157
+    R   	go to state 25
+    E   	go to state 47
+    M   	go to state 27
+    T   	go to state 28
+    R_NUM	go to state 29
+    F   	go to state 30
+    ARRAY	go to state 31
+    OBJ 	go to state 32
+    B_VAZIO	go to state 33
+    FUNCTION_RETURN	go to state 34
+
+
+
+state 150
+
+    B_SETA  ->  '{' CMDs '}' .   (rule 40)
+
+    $default	reduce using rule 40 (B_SETA)
+
+
+
+state 151
+
+    B  ->  '{' CMDs . '}'   (rule 15)
+
+    '}' 	shift, and go to state 158
+
+
+
+state 152
+
+    C  ->  ELSE . B   (rule 19)
+
+    NUM 	shift, and go to state 1
+    ID  	shift, and go to state 2
+    LET 	shift, and go to state 3
+    STR 	shift, and go to state 4
+    IF  	shift, and go to state 5
+    WHILE	shift, and go to state 6
+    FOR 	shift, and go to state 7
+    FUNCTION	shift, and go to state 8
+    RETURN	shift, and go to state 9
+    TRUE	shift, and go to state 10
+    FALSE	shift, and go to state 11
+    ABRE_PAR_SETA	shift, and go to state 12
+    '(' 	shift, and go to state 13
+    '{' 	shift, and go to state 140
+    '[' 	shift, and go to state 15
+    '-' 	shift, and go to state 16
+
+    CMD 	go to state 141
+    B   	go to state 159
+    FUNC	go to state 19
+    PROP	go to state 20
+    PROP_NAME	go to state 21
+    SETA_FUNC	go to state 22
+    SETA_FUNC_PARAMs	go to state 23
+    ATR 	go to state 24
+    R   	go to state 25
+    E   	go to state 26
+    M   	go to state 27
+    T   	go to state 28
+    R_NUM	go to state 29
+    F   	go to state 30
+    ARRAY	go to state 31
+    OBJ 	go to state 32
+    B_VAZIO	go to state 143
+    FUNCTION_RETURN	go to state 34
+
+
+
+state 153
+
+    C  ->  ELSE_IF . '(' R ')' B C   (rule 18)
+
+    '(' 	shift, and go to state 160
+
+
+
+state 154
+
+    CMD  ->  IF '(' R ')' B C .   (rule 6)
+
+    $default	reduce using rule 6 (CMD)
+
+
+
+state 155
+
+    CMD  ->  FOR '(' CMD R ';' ATR . ')' B   (rule 8)
+
+    ')' 	shift, and go to state 161
+
+
+
+state 156
+
+    CMD  ->  FUNCTION ID '(' FUNC_DECL_PARAMs ')' B .   (rule 10)
+
+    $default	reduce using rule 10 (CMD)
+
+
+
+state 157
+
+    OBJ_DECL  ->  OBJ_DECL ',' ID ':' ATR .   (rule 80)
+
+    $default	reduce using rule 80 (OBJ_DECL)
+
+
+
+state 158
+
+    B  ->  '{' CMDs '}' .   (rule 15)
+
+    $default	reduce using rule 15 (B)
+
+
+
+state 159
+
+    C  ->  ELSE B .   (rule 19)
+
+    $default	reduce using rule 19 (C)
+
+
+
+state 160
+
+    C  ->  ELSE_IF '(' . R ')' B C   (rule 18)
+
+    NUM 	shift, and go to state 1
+    ID  	shift, and go to state 84
+    STR 	shift, and go to state 4
+    TRUE	shift, and go to state 10
+    FALSE	shift, and go to state 11
+    '(' 	shift, and go to state 85
+    '{' 	shift, and go to state 14
+    '[' 	shift, and go to state 15
+    '-' 	shift, and go to state 16
+
+    FUNC	go to state 19
+    PROP	go to state 86
+    PROP_NAME	go to state 21
+    R   	go to state 162
+    E   	go to state 47
+    M   	go to state 27
+    T   	go to state 28
+    R_NUM	go to state 29
+    F   	go to state 30
+    ARRAY	go to state 31
+    OBJ 	go to state 32
+    B_VAZIO	go to state 33
+
+
+
+state 161
+
+    CMD  ->  FOR '(' CMD R ';' ATR ')' . B   (rule 8)
+
+    NUM 	shift, and go to state 1
+    ID  	shift, and go to state 2
+    LET 	shift, and go to state 3
+    STR 	shift, and go to state 4
+    IF  	shift, and go to state 5
+    WHILE	shift, and go to state 6
+    FOR 	shift, and go to state 7
+    FUNCTION	shift, and go to state 8
+    RETURN	shift, and go to state 9
+    TRUE	shift, and go to state 10
+    FALSE	shift, and go to state 11
+    ABRE_PAR_SETA	shift, and go to state 12
+    '(' 	shift, and go to state 13
+    '{' 	shift, and go to state 140
+    '[' 	shift, and go to state 15
+    '-' 	shift, and go to state 16
+
+    CMD 	go to state 141
+    B   	go to state 163
+    FUNC	go to state 19
+    PROP	go to state 20
+    PROP_NAME	go to state 21
+    SETA_FUNC	go to state 22
+    SETA_FUNC_PARAMs	go to state 23
+    ATR 	go to state 24
+    R   	go to state 25
+    E   	go to state 26
+    M   	go to state 27
+    T   	go to state 28
+    R_NUM	go to state 29
+    F   	go to state 30
+    ARRAY	go to state 31
+    OBJ 	go to state 32
+    B_VAZIO	go to state 143
+    FUNCTION_RETURN	go to state 34
+
+
+
+state 162
+
+    C  ->  ELSE_IF '(' R . ')' B C   (rule 18)
+
+    ')' 	shift, and go to state 164
+
+
+
+state 163
+
+    CMD  ->  FOR '(' CMD R ';' ATR ')' B .   (rule 8)
+
+    $default	reduce using rule 8 (CMD)
+
+
+
+state 164
+
+    C  ->  ELSE_IF '(' R ')' . B C   (rule 18)
+
+    NUM 	shift, and go to state 1
+    ID  	shift, and go to state 2
+    LET 	shift, and go to state 3
+    STR 	shift, and go to state 4
+    IF  	shift, and go to state 5
+    WHILE	shift, and go to state 6
+    FOR 	shift, and go to state 7
+    FUNCTION	shift, and go to state 8
+    RETURN	shift, and go to state 9
+    TRUE	shift, and go to state 10
+    FALSE	shift, and go to state 11
+    ABRE_PAR_SETA	shift, and go to state 12
+    '(' 	shift, and go to state 13
+    '{' 	shift, and go to state 140
+    '[' 	shift, and go to state 15
+    '-' 	shift, and go to state 16
+
+    CMD 	go to state 141
+    B   	go to state 165
+    FUNC	go to state 19
+    PROP	go to state 20
+    PROP_NAME	go to state 21
+    SETA_FUNC	go to state 22
+    SETA_FUNC_PARAMs	go to state 23
+    ATR 	go to state 24
+    R   	go to state 25
+    E   	go to state 26
+    M   	go to state 27
+    T   	go to state 28
+    R_NUM	go to state 29
+    F   	go to state 30
+    ARRAY	go to state 31
+    OBJ 	go to state 32
+    B_VAZIO	go to state 143
+    FUNCTION_RETURN	go to state 34
+
+
+
+state 165
+
+    C  ->  ELSE_IF '(' R ')' B . C   (rule 18)
+
+    ELSE	shift, and go to state 152
+    ELSE_IF	shift, and go to state 153
+
+    ELSE	[reduce using rule 20 (C)]
+    ELSE_IF	[reduce using rule 20 (C)]
+    $default	reduce using rule 20 (C)
+
+    C   	go to state 166
+
+
+
+state 166
+
+    C  ->  ELSE_IF '(' R ')' B C .   (rule 18)
+
+    $default	reduce using rule 18 (C)
+
+
+
+state 167
+
+    $   	go to state 168
+
+
+
+state 168
+
+    $   	go to state 169
+
+
+
+state 169
+
+    $default	accept
