@@ -45,39 +45,36 @@ int array_decl_counter = 0;
 
 %token NUM ID LET STR IF WHILE FOR ELSE ELSE_IF MAIG MEIG IG DIF ASM FUNCTION RETURN SETA TRUE FALSE
 
-%right ','
-
 %start S
 
 %%
 S : CMDs { $$.c = $1.c + "." + funcoes; imprime( resolve_enderecos($$.c) ); }
   ;
 
-CMDs : CMD CMDs { $$.c = $1.c + $2.c; } 
+CMDs : CMD CMDs { $$.c = $1.c + $2.c; }
      | { $$.c = novo; }
      ;
 
-CMD : ATR ';'{ $$.c = $1.c + "^"; }
-    | LET DECLVARs ';' 
-    { $$ = $2; }
+CMD : ATR ';'		{ $$.c = $1.c + "^"; }
+    | LET DECLVARs ';' 	{ $$ = $2; }
+    | E ASM ';'	 	{ $$.c = $1.c + $2.c + "^"; }
+    | RETURN ATR ';' 	{ $$.c = $2.c + "'&retorno'" + "@" + "~"; } 
     | IF '(' R ')' B  C
-    { string endif = gera_label( "end_if" );	   
-     $$.c = $3.c + "!" + endif + "?" + $5.c + (":" + endif) + $6.c; }
+      { string endif = gera_label( "end_if" );	   
+        $$.c = $3.c + "!" + endif + "?" + $5.c + (":" + endif) + $6.c; }
     | WHILE '(' R ')' B
-    { string endwhile = gera_label("end_while"); 
-      string startwhile = gera_label("start_while");
-      $$.c = $3.c + "!" + endwhile + "?" + (":" + startwhile) + $5.c + $3.c + startwhile + "?" + (":" + endwhile); }
+      { string endwhile = gera_label("end_while"); 
+      	string startwhile = gera_label("start_while");
+      	$$.c = $3.c + "!" + endwhile + "?" + (":" + startwhile) + $5.c + $3.c + startwhile + "?" + (":" + endwhile); }
     | FOR '(' CMD  R ';' ATR ')' B
-    { string endfor = gera_label("end_for"); 
-      string startfor = gera_label("start_for");
-      $$.c = $3.c + $4.c + "!" + endfor + "?" + (":" + startfor) + $8.c + $6.c + "^" + $4.c + startfor + "?" + (":" + endfor); }
-    | E ASM ';' { $$.c = $1.c + $2.c + "^"; }
+      { string endfor = gera_label("end_for"); 
+      	string startfor = gera_label("start_for");
+      	$$.c = $3.c + $4.c + "!" + endfor + "?" + (":" + startfor) + $8.c + $6.c + "^" + $4.c + startfor + "?" + (":" + endfor); }
     | FUNCTION ID '(' FUNC_DECL_PARAMs ')' B 
-    { string endfunc = gera_label("end_func");
-      $$.c = $2.c + "&" + $2.c + "{}" + "=" + "'&funcao'" + endfunc + "[=]" + "^";
-      param_decl_counter = 0; 
-      funcoes = funcoes + (":" + endfunc) + $4.c + $6.c + "undefined" + "@" + "'&retorno'" + "@" + "~"; }
-    | RETURN ATR ';' { $$.c = $2.c + "'&retorno'" + "@" + "~"; } 
+      { string endfunc = gera_label("end_func");
+      	$$.c = $2.c + "&" + $2.c + "{}" + "=" + "'&funcao'" + endfunc + "[=]" + "^";
+      	param_decl_counter = 0; 
+      	funcoes = funcoes + (":" + endfunc) + $4.c + $6.c + "undefined" + "@" + "'&retorno'" + "@" + "~"; }
     ;
 
 FUNC_DECL_PARAMs: FUNC_DECL_PARAMs ',' ID { $$.c = $1.c + $3.c + "&" + $3.c + "arguments" + "@" + to_string(param_decl_counter++) + "[@]" + "=" + "^"; }
@@ -87,7 +84,7 @@ FUNC_DECL_PARAMs: FUNC_DECL_PARAMs ',' ID { $$.c = $1.c + $3.c + "&" + $3.c + "a
 
 B : '{' CMDs '}' { $$.c = $2.c; }
   | CMD	         { $$.c = $1.c; }
-  | B_VAZIO  	 { $$.c = $1.c; }
+ // | B_VAZIO  	 { $$.c = $1.c; }
   ;
 
 C : ELSE_IF '(' R ')' B C
@@ -143,20 +140,21 @@ PROP_NAME: ID { $$.c = $1.c + "@"; }
 	 ;
 
 
-SETA_FUNC:  SETA_FUNC_PARAMs SETA B_SETA
+SETA_FUNC: SETA_FUNC_PARAMs B_SETA
      	   { string endsetafunc = gera_label("end_setafunc");
            $$.c = novo + "{}" + "'&funcao'" + endsetafunc + "[<=]";
            seta_param_counter = 0; 
-           funcoes = funcoes + (":" + endsetafunc) + $1.c + $3.c + "undefined" + "@" + "'&retorno'" + "@" + "~"; }
+           funcoes = funcoes + (":" + endsetafunc) + $1.c + $2.c + "undefined" + "@" + "'&retorno'" + "@" + "~"; }
 	;
 
-SETA_FUNC_PARAMs: ID_SETA_PARAMs { $$.c = $1.c; }
-                | '(' ')' { $$.c = novo; }
+SETA_FUNC_PARAMs: ID_SETA_PARAMs 	 { $$.c = $1.c; }
+                | '(' ')' 		 { $$.c = novo; }
 		;
 
-ID_SETA_PARAMs: '(' ID_SETA_PARAMs ',' ID ')' { $$.c = $2.c + $4.c + "&" + $4.c + "arguments" + "@" + to_string(seta_param_counter++) + "[@]" + "=" + "^"; }
-	      | ID { $$.c = $1.c + "&" + $1.c + "arguments" + "@" + to_string(seta_param_counter++) + "[@]" + "=" + "^"; }
-	      ;	
+ID_SETA_PARAMs: '(' ID_SETA_PARAMs ID ')' SETA  { $$.c = $2.c + $4.c + "&" + $4.c + "arguments" + "@" + to_string(seta_param_counter++) + "[@]" + "=" + "^"; }
+	     | ID SETA 			        { $$.c = $1.c + "&" + $1.c + "arguments" + "@" + to_string(seta_param_counter++) + "[@]" + "=" + "^"; }
+	     | ID ','				{ $$.c = $1.c + "&" + $1.c + "arguments" + "@" + to_string(seta_param_counter++) + "[@]" + "=" + "^"; }		
+	     ;	
 
 B_SETA : '{' CMDs '}' { $$.c = $2.c; }
        | ATR { $$.c = $1.c + "'&retorno'" + "@" + "~"; }
@@ -207,7 +205,7 @@ F : ID          { $$.c = $1.c + "@"; }
   | FUNC	{ param_counter = 0; $$.c = $1.c + "$"; }
   | R_NUM       { $$.c = $1.c; }
   | STR         { $$.c = $1.c; }
-  | '(' E ')'   { $$.c = $2.c; }
+  | '(' ATR ')' { $$.c = $2.c; }
   | B_VAZIO     { $$.c = $1.c + "{}"; }
   | '[' ']'     { $$.c = novo + "[]"; }
   | SETA_FUNC	{ $$.c = $1.c; }
@@ -225,6 +223,7 @@ ARRAY: '[' ARRAY_N ']' { $$.c = novo + "[]" + $2.c; }
 ARRAY_N: ARRAY_N ',' ATR { $$.c = $1.c + to_string(array_decl_counter++) + $3.c + "[<=]"; }
        | ATR { $$.c = novo + to_string(array_decl_counter++) + $1.c + "[<=]"; }
        ;
+
 OBJ: '{' OBJ_DECL '}' { $$.c = novo + "{}" + $2.c; }
    ;
 
@@ -248,6 +247,7 @@ FUNCTION_RETURN: FUNCTION '(' FUNC_DECL_PARAMs ')' B
 void yyerror( const char* st ) {
    puts( st ); 
    printf( "Proximo a: %s\n", yytext );
+   cout << "Linha: " << linha << " | Coluna: " << coluna << endl;
    exit( 1 );
 }
 
