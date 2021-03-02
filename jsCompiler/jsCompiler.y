@@ -43,7 +43,7 @@ int seta_param_counter = 0;
 int array_decl_counter = 0;
 %}
 
-%token NUM ID LET STR IF WHILE FOR ELSE ELSE_IF MAIG MEIG IG DIF ASM FUNCTION RETURN SETA TRUE FALSE
+%token NUM ID LET STR IF WHILE FOR ELSE ELSE_IF MAIG MEIG IG DIF ASM FUNCTION RETURN SETA TRUE FALSE ABRE_PAR_SETA
 
 %right ','
 
@@ -143,20 +143,21 @@ PROP_NAME: ID { $$.c = $1.c + "@"; }
 	 ;
 
 
-SETA_FUNC:  SETA_FUNC_PARAMs SETA B_SETA
+SETA_FUNC: SETA_FUNC_PARAMs SETA B_SETA
      	   { string endsetafunc = gera_label("end_setafunc");
            $$.c = novo + "{}" + "'&funcao'" + endsetafunc + "[<=]";
            seta_param_counter = 0; 
            funcoes = funcoes + (":" + endsetafunc) + $1.c + $3.c + "undefined" + "@" + "'&retorno'" + "@" + "~"; }
-	;
+	 ;
 
-SETA_FUNC_PARAMs: ID_SETA_PARAMs { $$.c = $1.c; }
+SETA_FUNC_PARAMs: ABRE_PAR_SETA ID_SETA_PARAMs ')' { $$.c = $2.c; }
+		| ID  { $$.c = $1.c + "&" + $1.c + "arguments" + "@" + to_string(seta_param_counter++) + "[@]" + "=" + "^"; }
                 | '(' ')' { $$.c = novo; }
 		;
 
-ID_SETA_PARAMs: '(' ID_SETA_PARAMs ',' ID ')' { $$.c = $2.c + $4.c + "&" + $4.c + "arguments" + "@" + to_string(seta_param_counter++) + "[@]" + "=" + "^"; }
-	      | ID { $$.c = $1.c + "&" + $1.c + "arguments" + "@" + to_string(seta_param_counter++) + "[@]" + "=" + "^"; }
-	      ;	
+ID_SETA_PARAMs: ID_SETA_PARAMs ',' ID  { $$.c = $1.c + $3.c + "&" + $3.c + "arguments" + "@" + to_string(seta_param_counter++) + "[@]" + "=" + "^"; }
+	      | ID  { $$.c = $1.c + "&" + $1.c + "arguments" + "@" + to_string(seta_param_counter++) + "[@]" + "=" + "^"; }
+	      ;
 
 B_SETA : '{' CMDs '}' { $$.c = $2.c; }
        | ATR { $$.c = $1.c + "'&retorno'" + "@" + "~"; }
@@ -173,6 +174,8 @@ ATR : ID '=' ATR
       //} 
 }
     | PROP '=' ATR { $$.c = $1.c + $3.c + "[=]"; }
+    | SETA_FUNC    { $$.c = $1.c; }
+    | FUNCTION_RETURN { $$.c = $1.c; }
     | R
     ;
 
@@ -210,10 +213,8 @@ F : ID          { $$.c = $1.c + "@"; }
   | '(' ATR ')' { $$.c = $2.c; }
   | B_VAZIO     { $$.c = $1.c + "{}"; }
   | '[' ']'     { $$.c = novo + "[]"; }
-  | SETA_FUNC	{ $$.c = $1.c; }
   | ARRAY	{ array_decl_counter = 0; $$.c = $1.c; }
   | OBJ		{ $$.c = $1.c; }
-  | FUNCTION_RETURN { $$.c = $1.c; }
   | TRUE	{ $$.c = $1.c; }
   | FALSE	{ $$.c = $1.c; }
   ;

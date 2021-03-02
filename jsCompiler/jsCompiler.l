@@ -5,6 +5,7 @@ ID      {LETRA}({LETRA}|{DIGITO})*
 STR 	(\"([^"\n]|\\\"|\"\")*\")|('([^'\n]|''|\\')*')
 TRUE	[Tt][Rr][Uu][Ee]
 FALSE	[Ff][Aa][Ll][Ss][Ee]
+ARGS	\s*{ID}\s*(","\s*{ID}\s*)*")"\s*"=>" 
 %%
 
 "\t" 	   { coluna += 4; }
@@ -12,6 +13,9 @@ FALSE	[Ff][Aa][Ll][Ss][Ee]
 " "	   { coluna++; }
 
 "\n"	   { linha++; coluna = 1; }
+
+"("/{ARGS} { yylval.c = novo + yytext;
+	     return ABRE_PAR_SETA; }
              
 {DOUBLE}   { yylval.c = novo + yytext; 
              return NUM; }
