@@ -16,10 +16,10 @@ rule 8    CMD -> FOR '(' CMD R ';' ATR ')' B
 rule 9    CMD -> E ASM ';'
 rule 10   CMD -> FUNCTION ID '(' FUNC_DECL_PARAMs ')' B
 rule 11   CMD -> RETURN ATR ';'
-rule 12   FUNC_DECL_PARAMs -> FUNC_DECL_PARAMs ',' ID
+rule 12   FUNC_DECL_PARAMs -> ID ',' FUNC_DECL_PARAMs
 rule 13   FUNC_DECL_PARAMs -> ID
 rule 14   FUNC_DECL_PARAMs -> ID '=' R
-rule 15   FUNC_DECL_PARAMs -> FUNC_DECL_PARAMs ',' ID '=' R
+rule 15   FUNC_DECL_PARAMs -> ID '=' R ',' FUNC_DECL_PARAMs
 rule 16   FUNC_DECL_PARAMs ->		/* empty */
 rule 17   B -> '{' CMDs '}'
 rule 18   B -> CMD
@@ -1722,10 +1722,13 @@ state 90
 
 state 91
 
+    FUNC_DECL_PARAMs  ->  ID . ',' FUNC_DECL_PARAMs   (rule 12)
     FUNC_DECL_PARAMs  ->  ID .   (rule 13)
     FUNC_DECL_PARAMs  ->  ID . '=' R   (rule 14)
+    FUNC_DECL_PARAMs  ->  ID . '=' R ',' FUNC_DECL_PARAMs   (rule 15)
 
-    '=' 	shift, and go to state 129
+    ',' 	shift, and go to state 129
+    '=' 	shift, and go to state 130
 
     $default	reduce using rule 13 (FUNC_DECL_PARAMs)
 
@@ -1733,11 +1736,8 @@ state 91
 
 state 92
 
-    FUNC_DECL_PARAMs  ->  FUNC_DECL_PARAMs . ',' ID   (rule 12)
-    FUNC_DECL_PARAMs  ->  FUNC_DECL_PARAMs . ',' ID '=' R   (rule 15)
     FUNCTION_RETURN  ->  FUNCTION '(' FUNC_DECL_PARAMs . ')' B   (rule 85)
 
-    ',' 	shift, and go to state 130
     ')' 	shift, and go to state 131
 
 
@@ -2259,17 +2259,27 @@ state 127
 state 128
 
     CMD  ->  FUNCTION ID '(' FUNC_DECL_PARAMs . ')' B   (rule 10)
-    FUNC_DECL_PARAMs  ->  FUNC_DECL_PARAMs . ',' ID   (rule 12)
-    FUNC_DECL_PARAMs  ->  FUNC_DECL_PARAMs . ',' ID '=' R   (rule 15)
 
-    ',' 	shift, and go to state 130
     ')' 	shift, and go to state 147
 
 
 
 state 129
 
+    FUNC_DECL_PARAMs  ->  ID ',' . FUNC_DECL_PARAMs   (rule 12)
+
+    ID  	shift, and go to state 91
+
+    $default	reduce using rule 16 (FUNC_DECL_PARAMs)
+
+    FUNC_DECL_PARAMs	go to state 148
+
+
+
+state 130
+
     FUNC_DECL_PARAMs  ->  ID '=' . R   (rule 14)
+    FUNC_DECL_PARAMs  ->  ID '=' . R ',' FUNC_DECL_PARAMs   (rule 15)
 
     NUM 	shift, and go to state 1
     ID  	shift, and go to state 84
@@ -2284,7 +2294,7 @@ state 129
     FUNC	go to state 19
     PROP	go to state 86
     PROP_NAME	go to state 21
-    R   	go to state 148
+    R   	go to state 149
     E   	go to state 47
     M   	go to state 27
     T   	go to state 28
@@ -2293,15 +2303,6 @@ state 129
     ARRAY	go to state 31
     OBJ 	go to state 32
     B_VAZIO	go to state 33
-
-
-
-state 130
-
-    FUNC_DECL_PARAMs  ->  FUNC_DECL_PARAMs ',' . ID   (rule 12)
-    FUNC_DECL_PARAMs  ->  FUNC_DECL_PARAMs ',' . ID '=' R   (rule 15)
-
-    ID  	shift, and go to state 149
 
 
 
@@ -2605,20 +2606,20 @@ state 147
 
 state 148
 
-    FUNC_DECL_PARAMs  ->  ID '=' R .   (rule 14)
+    FUNC_DECL_PARAMs  ->  ID ',' FUNC_DECL_PARAMs .   (rule 12)
 
-    $default	reduce using rule 14 (FUNC_DECL_PARAMs)
+    $default	reduce using rule 12 (FUNC_DECL_PARAMs)
 
 
 
 state 149
 
-    FUNC_DECL_PARAMs  ->  FUNC_DECL_PARAMs ',' ID .   (rule 12)
-    FUNC_DECL_PARAMs  ->  FUNC_DECL_PARAMs ',' ID . '=' R   (rule 15)
+    FUNC_DECL_PARAMs  ->  ID '=' R .   (rule 14)
+    FUNC_DECL_PARAMs  ->  ID '=' R . ',' FUNC_DECL_PARAMs   (rule 15)
 
-    '=' 	shift, and go to state 159
+    ',' 	shift, and go to state 159
 
-    $default	reduce using rule 12 (FUNC_DECL_PARAMs)
+    $default	reduce using rule 14 (FUNC_DECL_PARAMs)
 
 
 
@@ -2757,30 +2758,13 @@ state 158
 
 state 159
 
-    FUNC_DECL_PARAMs  ->  FUNC_DECL_PARAMs ',' ID '=' . R   (rule 15)
+    FUNC_DECL_PARAMs  ->  ID '=' R ',' . FUNC_DECL_PARAMs   (rule 15)
 
-    NUM 	shift, and go to state 1
-    ID  	shift, and go to state 84
-    STR 	shift, and go to state 4
-    TRUE	shift, and go to state 10
-    FALSE	shift, and go to state 11
-    '(' 	shift, and go to state 85
-    '{' 	shift, and go to state 14
-    '[' 	shift, and go to state 15
-    '-' 	shift, and go to state 16
+    ID  	shift, and go to state 91
 
-    FUNC	go to state 19
-    PROP	go to state 86
-    PROP_NAME	go to state 21
-    R   	go to state 165
-    E   	go to state 47
-    M   	go to state 27
-    T   	go to state 28
-    R_NUM	go to state 29
-    F   	go to state 30
-    ARRAY	go to state 31
-    OBJ 	go to state 32
-    B_VAZIO	go to state 33
+    $default	reduce using rule 16 (FUNC_DECL_PARAMs)
+
+    FUNC_DECL_PARAMs	go to state 165
 
 
 
@@ -2881,7 +2865,7 @@ state 164
 
 state 165
 
-    FUNC_DECL_PARAMs  ->  FUNC_DECL_PARAMs ',' ID '=' R .   (rule 15)
+    FUNC_DECL_PARAMs  ->  ID '=' R ',' FUNC_DECL_PARAMs .   (rule 15)
 
     $default	reduce using rule 15 (FUNC_DECL_PARAMs)
 
