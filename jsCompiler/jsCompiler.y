@@ -144,19 +144,19 @@ PROP_NAME: ID { $$.c = $1.c + "@"; }
 
 
 SETA_FUNC: SETA_FUNC_PARAMs SETA B_SETA
-     	   { string endsetafunc = gera_label("end_setafunc");
+     	   { string endsetafunc = gera_label("end_setafunc"); 
              $$.c = novo + "{}" + "'&funcao'" + endsetafunc + "[<=]";
 	     seta_param_counter = 0;
              funcoes = funcoes + (":" + endsetafunc) + $1.c + $3.c + "undefined" + "@" + "'&retorno'" + "@" + "~"; }
 	 ;
 
 SETA_FUNC_PARAMs: ABRE_PAR_SETA SETA_PARAMs ')' { $$.c = $2.c; }
-		| ID  { $$.c = $1.c + "&" + $1.c + "arguments" + "@" + to_string(seta_param_counter++) + "[@]" + "=" + "^"; }
+		| ID  { $$.c = $1.c + "&" + $1.c + "arguments" + "@" + ":arguments:" + "[@]" + "=" + "^"; }
                 | '(' ')' { $$.c = novo; }
 		;
 
-SETA_PARAMs: SETA_PARAMs ',' ID  { $$.c = $1.c + $3.c + "&" + $3.c + "arguments" + "@" + to_string(seta_param_counter++) + "[@]" + "=" + "^"; }
-	      | ID { $$.c = $1.c + "&" + $1.c + "arguments" + "@" + to_string(seta_param_counter++) + "[@]" + "=" + "^"; }
+SETA_PARAMs: SETA_PARAMs ',' ID  { $$.c = $1.c + $3.c + "&" + $3.c + "arguments" + "@" + ":arguments:" + "[@]" + "=" + "^"; }
+	      | ID { $$.c = $1.c + "&" + $1.c + "arguments" + "@" + ":arguments:" + "[@]" + "=" + "^";  }
 	      ;
 
 B_SETA : '{' CMDs '}' { $$.c = $2.c; }
@@ -174,7 +174,7 @@ ATR : ID '=' ATR
       //} 
 }
     | PROP '=' ATR 	{ $$.c = $1.c + $3.c + "[=]"; }
-    | SETA_FUNC   { $$.c = $1.c; }
+    | SETA_FUNC   { $$.c = $1.c;}
     | FUNCTION_RETURN {$$.c = $1.c; }
     | R
     ;
@@ -329,11 +329,26 @@ string gera_label( string prefixo ) {
 vector<string> resolve_enderecos( vector<string> entrada ) {
   map<string,int> label;
   vector<string> saida;
+  int indice_args = 0;
+
   for( int i = 0; i < entrada.size(); i++ ) 
-    if( entrada[i][0] == ':' ) 
+    if( entrada[i][0] == ':' ) {
+      if( entrada[i].substr(1,9) == "arguments" ) {
+        if( entrada[i][10] == '_' ) 
+          saida.push_back( std::to_string(indice_args-1) );
+        else {
+          saida.push_back( std::to_string(indice_args) );
+          ++indice_args;
+        }
+      } else {
         label[entrada[i].substr(1)] = saida.size();
-    else
+      }
+    } else if (entrada[i] == "'&retorno'") {
+      indice_args = 0;
       saida.push_back( entrada[i] );
+    } else {
+      saida.push_back( entrada[i] );
+    }      
   
   for( int i = 0; i < saida.size(); i++ ) 
     if( label.count( saida[i] ) > 0 )
