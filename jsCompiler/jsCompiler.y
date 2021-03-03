@@ -27,7 +27,7 @@ string gera_label( string prefixo );
 vector<string> resolve_enderecos( vector<string> entrada );
 vector<string> tokeniza( string s );
 string trim( string s, string c );
-vector<string> trata_param_default( vector<string> id, vector<string> default_param, string param );
+vector<string> trata_param_default( vector<string> id, vector<string> default_param );
 void imprime( vector<string> s);
 void imprimeErro( vector<string> s);
 
@@ -75,15 +75,14 @@ CMD : ATR ';'{ $$.c = $1.c + "^"; }
     | FUNCTION ID '(' FUNC_DECL_PARAMs ')' B 
     { string endfunc = gera_label("end_func");
       $$.c = $2.c + "&" + $2.c + "{}" + "=" + "'&funcao'" + endfunc + "[=]" + "^";
-      param_decl_counter = 0;
       funcoes = funcoes + (":" + endfunc) + $4.c + $6.c + "undefined" + "@" + "'&retorno'" + "@" + "~"; }
     | RETURN ATR ';' { $$.c = $2.c + "'&retorno'" + "@" + "~"; }  
     ;
 
-FUNC_DECL_PARAMs: FUNC_DECL_PARAMs ',' ID { $$.c = $1.c + $3.c + "&" + $3.c + "arguments" + "@" + to_string(param_decl_counter++) + "[@]" + "=" + "^"; }
-                | ID { $$.c = $1.c + "&" + $1.c + "arguments" + "@" + to_string(param_decl_counter++) + "[@]" + "=" + "^"; }
-                | ID '=' R { $$.c = trata_param_default( $1.c, $3.c, to_string(param_decl_counter++) ); }
-                | FUNC_DECL_PARAMs ',' ID '=' ATR { $$.c = trata_param_default( $3.c, $5.c, to_string(param_decl_counter++) ) + $1.c; }
+FUNC_DECL_PARAMs: ID ',' FUNC_DECL_PARAMs { $$.c = $1.c + "&" + $1.c + "arguments" + "@" + ":arguments:" + "[@]" + "=" + "^" + $3.c; }
+                | ID { $$.c = $1.c + "&" + $1.c + "arguments" + "@" + ":arguments:" + "[@]" + "=" + "^"; }
+                | ID '=' ATR { $$.c = trata_param_default( $1.c, $3.c ); }
+                | ID '=' ATR ',' FUNC_DECL_PARAMs { $$.c = trata_param_default( $1.c, $3.c ) + $5.c; }
                 | { $$.c = novo; }
                 ;
 
@@ -148,7 +147,7 @@ PROP_NAME: ID { $$.c = $1.c + "@"; }
 SETA_FUNC: SETA_FUNC_PARAMs SETA B_SETA
      	   { string endsetafunc = gera_label("end_setafunc"); 
              $$.c = novo + "{}" + "'&funcao'" + endsetafunc + "[<=]";
-             funcoes = funcoes + (":" + endsetafunc) + $1.c + $3.c + "undefined" + "@" + "'&retorno'" + "@" + "~"; }
+             funcoes = funcoes + (":" + endsetafunc) + $1.c + $3.c; }
 	 ;
 
 SETA_FUNC_PARAMs: ABRE_PAR_SETA SETA_PARAMs ')' { $$.c = $2.c; }
@@ -160,7 +159,7 @@ SETA_PARAMs: SETA_PARAMs ',' ID  { $$.c = $1.c + $3.c + "&" + $3.c + "arguments"
 	      | ID { $$.c = $1.c + "&" + $1.c + "arguments" + "@" + ":arguments:" + "[@]" + "=" + "^";  }
 	      ;
 
-B_SETA : '{' CMDs '}' { $$.c = $2.c; }
+B_SETA : '{' CMDs '}' { $$.c = $2.c + "undefined" + "@" + "'&retorno'" + "@" + "~"; }
        | ATR { $$.c = $1.c + "'&retorno'" + "@" + "~"; }
        ;
 
@@ -239,8 +238,7 @@ B_VAZIO: '{' '}' { $$.c = novo; }
 
 FUNCTION_RETURN: FUNCTION '(' FUNC_DECL_PARAMs ')' B 
     	       { string endfunc = gera_label("end_func");
-      		 $$.c = novo + "{}" + "'&funcao'" + endfunc + "[<=]"; 
-		 param_decl_counter = 0;
+      		 $$.c = novo + "{}" + "'&funcao'" + endfunc + "[<=]";
       		 funcoes = funcoes + (":" + endfunc) + $3.c + $5.c + "undefined" + "@" + "'&retorno'" + "@" + "~"; } 
 	       ;
 %%
@@ -308,13 +306,13 @@ string trim( string s, string c ) {
   return s;
 }
 
-vector<string> trata_param_default( vector<string> id, vector<string> default_param, string param ) {
+vector<string> trata_param_default( vector<string> id, vector<string> default_param ) {
   vector<string> ret{ "undefined" };
   string then = gera_label( "then" );
   string end_if = gera_label( "end_if" );
 
-  ret = ret + "@" + "arguments" + "@" + param + "[@]" + "==" + then + "?" 
-  + id + "&" + id + "arguments" + "@" + param + "[@]" + "=" + "^" + end_if + "#"
+  ret = ret + "@" + "arguments" + "@" + ":arguments:" + "[@]" + "==" + then + "?" 
+  + id + "&" + id + "arguments" + "@" + ":arguments_:"+ "[@]" + "=" + "^" + end_if + "#"
   + (":" + then) + id + "&" + id + default_param + "=" + "^" + (":" + end_if); 
 
   return ret;
