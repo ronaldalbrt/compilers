@@ -61,8 +61,10 @@ CMD : ATR ';'{ $$.c = $1.c + "^"; }
     | LET DECLVARs ';' 
     { $$ = $2; }
     | IF '(' R ')' B  C
-    { string endif = gera_label( "end_if" );	   
-     $$.c = $3.c + "!" + endif + "?" + $5.c + (":" + endif) + $6.c; }
+    { string endif = gera_label( "end_if" );
+      string then = gera_label("then");
+
+     $$.c = $3.c + then + "?" + $6.c + endif + "#" + (":" + then) + $5.c + (":" + endif); }
     | WHILE '(' R ')' B
     { string endwhile = gera_label("end_while"); 
       string startwhile = gera_label("start_while");
