@@ -75,7 +75,7 @@ CMD : ATR ';'{ $$.c = $1.c + "^"; }
     | FUNCTION ID '(' FUNC_DECL_PARAMs ')' B 
     { string endfunc = gera_label("end_func");
       $$.c = $2.c + "&" + $2.c + "{}" + "=" + "'&funcao'" + endfunc + "[=]" + "^";
-      param_decl_counter = 0; 
+      param_decl_counter = 0;
       funcoes = funcoes + (":" + endfunc) + $4.c + $6.c + "undefined" + "@" + "'&retorno'" + "@" + "~"; }
     | RETURN ATR ';' { $$.c = $2.c + "'&retorno'" + "@" + "~"; }  
     ;
@@ -145,9 +145,9 @@ PROP_NAME: ID { $$.c = $1.c + "@"; }
 
 SETA_FUNC: SETA_FUNC_PARAMs SETA B_SETA
      	   { string endsetafunc = gera_label("end_setafunc");
-           $$.c = novo + "{}" + "'&funcao'" + endsetafunc + "[<=]";
-           seta_param_counter = 0; 
-           funcoes = funcoes + (":" + endsetafunc) + $1.c + $3.c + "undefined" + "@" + "'&retorno'" + "@" + "~"; }
+             $$.c = novo + "{}" + "'&funcao'" + endsetafunc + "[<=]";
+	     seta_param_counter = 0;
+             funcoes = funcoes + (":" + endsetafunc) + $1.c + $3.c + "undefined" + "@" + "'&retorno'" + "@" + "~"; }
 	 ;
 
 SETA_FUNC_PARAMs: ABRE_PAR_SETA SETA_PARAMs ')' { $$.c = $2.c; }
