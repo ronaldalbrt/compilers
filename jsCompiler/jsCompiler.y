@@ -77,7 +77,7 @@ CMD : ATR ';'{ $$.c = $1.c + "^"; }
       $$.c = $2.c + "&" + $2.c + "{}" + "=" + "'&funcao'" + endfunc + "[=]" + "^";
       param_decl_counter = 0; 
       funcoes = funcoes + (":" + endfunc) + $4.c + $6.c + "undefined" + "@" + "'&retorno'" + "@" + "~"; }
-    | RETURN ATR ';' { $$.c = $2.c + "'&retorno'" + "@" + "~"; } 
+    | RETURN ATR ';' { $$.c = $2.c + "'&retorno'" + "@" + "~"; }  
     ;
 
 FUNC_DECL_PARAMs: FUNC_DECL_PARAMs ',' ID { $$.c = $1.c + $3.c + "&" + $3.c + "arguments" + "@" + to_string(param_decl_counter++) + "[@]" + "=" + "^"; }
@@ -101,7 +101,7 @@ DECLVARs : DECLVAR ',' DECLVARs { $$.c = $1.c + $3.c; }
 	 | DECLVAR 		{ $$ = $1; }
          ;
 
-DECLVAR : ID '=' R	
+DECLVAR : ID '=' ATR	
 	{ //string var = $1.c[0];
 	  //if( variaveis_declaradas.find(var) == variaveis_declaradas.end() ){
 		 $$.c = $1.c + "&" + $1.c + $3.c + "=" + "^";
@@ -150,13 +150,13 @@ SETA_FUNC: SETA_FUNC_PARAMs SETA B_SETA
            funcoes = funcoes + (":" + endsetafunc) + $1.c + $3.c + "undefined" + "@" + "'&retorno'" + "@" + "~"; }
 	 ;
 
-SETA_FUNC_PARAMs: ABRE_PAR_SETA ID_SETA_PARAMs ')' { $$.c = $2.c; }
+SETA_FUNC_PARAMs: ABRE_PAR_SETA SETA_PARAMs ')' { $$.c = $2.c; }
 		| ID  { $$.c = $1.c + "&" + $1.c + "arguments" + "@" + to_string(seta_param_counter++) + "[@]" + "=" + "^"; }
                 | '(' ')' { $$.c = novo; }
 		;
 
-ID_SETA_PARAMs: ID_SETA_PARAMs ',' ID  { $$.c = $1.c + $3.c + "&" + $3.c + "arguments" + "@" + to_string(seta_param_counter++) + "[@]" + "=" + "^"; }
-	      | ID  { $$.c = $1.c + "&" + $1.c + "arguments" + "@" + to_string(seta_param_counter++) + "[@]" + "=" + "^"; }
+SETA_PARAMs: SETA_PARAMs ',' ID  { $$.c = $1.c + $3.c + "&" + $3.c + "arguments" + "@" + to_string(seta_param_counter++) + "[@]" + "=" + "^"; }
+	      | ID { $$.c = $1.c + "&" + $1.c + "arguments" + "@" + to_string(seta_param_counter++) + "[@]" + "=" + "^"; }
 	      ;
 
 B_SETA : '{' CMDs '}' { $$.c = $2.c; }
@@ -173,9 +173,9 @@ ATR : ID '=' ATR
 	//exit(1);
       //} 
 }
-    | PROP '=' ATR { $$.c = $1.c + $3.c + "[=]"; }
-    | SETA_FUNC    { $$.c = $1.c; }
-    | FUNCTION_RETURN { $$.c = $1.c; }
+    | PROP '=' ATR 	{ $$.c = $1.c + $3.c + "[=]"; }
+    | SETA_FUNC   { $$.c = $1.c; }
+    | FUNCTION_RETURN {$$.c = $1.c; }
     | R
     ;
 
@@ -210,7 +210,7 @@ F : ID          { $$.c = $1.c + "@"; }
   | FUNC	{ param_counter = 0; $$.c = $1.c + "$"; }
   | R_NUM       { $$.c = $1.c; }
   | STR         { $$.c = $1.c; }
-  | '(' ATR ')' { $$.c = $2.c; }
+  | '(' ATR ')'   { $$.c = $2.c; }
   | B_VAZIO     { $$.c = $1.c + "{}"; }
   | '[' ']'     { $$.c = novo + "[]"; }
   | ARRAY	{ array_decl_counter = 0; $$.c = $1.c; }

@@ -1,11 +1,13 @@
 DIGITO  [0-9]
+DELIM   [\t\n ]
 LETRA   [A-Za-z_]
 DOUBLE  {DIGITO}+("."{DIGITO}+)?
 ID      {LETRA}({LETRA}|{DIGITO})*
 STR 	(\"([^"\n]|\\\"|\"\")*\")|('([^'\n]|''|\\')*')
 TRUE	[Tt][Rr][Uu][Ee]
 FALSE	[Ff][Aa][Ll][Ss][Ee]
-ARGS	\s*{ID}\s*(\,\s*{ID}\s*)*\)\s*\=\> 
+ARG     ({DELIM})*{ID}({DELIM})*
+ARGS_ARROW {ARG}(","{ARG})*")"({DELIM})*"=>"
 %%
 
 "\t" 	   { coluna += 4; }
@@ -14,8 +16,8 @@ ARGS	\s*{ID}\s*(\,\s*{ID}\s*)*\)\s*\=\>
 
 "\n"	   { linha++; coluna = 1; }
 
-"("/{ARGS} { yylval.c = novo + yytext;
-	     return ABRE_PAR_SETA; }
+"("/{ARGS_ARROW} { yylval.c = novo + "(";
+	           return ABRE_PAR_SETA; }
              
 {DOUBLE}   { yylval.c = novo + yytext; 
              return NUM; }
@@ -27,6 +29,7 @@ ARGS	\s*{ID}\s*(\,\s*{ID}\s*)*\)\s*\=\>
                 yylval.c = tokeniza( lexema );
                 coluna += strlen( yytext ); 
                 return ASM; }
+
 {TRUE}	   { yylval.c = novo + "true"; 
 	     return TRUE; }
 
